@@ -68,7 +68,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 // ─── CONFIGURATION ────────────────────────────────────────────────────────────
 // Paste your deployed Apps Script URL here after setup
-var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7-_9AYzCIuyz73r4EFDpsmgTY7scGVARNtZnDG-XddQSh4PROebSGoaWgrD9iC-DPzw/exec";
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLLoKGKaIy60uZvQ8cV6O9XgfkaZLEQ6QTibbxQCQhgrvGMrrypJ2QFNRfY0yqCIY2pw/exec";
 
 // ─── 2026 FIFA WORLD CUP DATA ────────────────────────────────────────────────
 var GROUPS = {
@@ -1246,7 +1246,7 @@ function App() {
               name: data.name,
               pin: pin,
               isAdmin: data.isAdmin
-            };
+            }; // name returned from server (already normalized)
             setUser(u);
             // Load league state + user picks
             _context.n = 3;
@@ -1604,7 +1604,7 @@ function LoginScreen(_ref0) {
     return true;
   }
   function submit() {
-    if (validate()) onLogin(name.trim(), pin);
+    if (validate()) onLogin(name.trim().toLowerCase(), pin);
   }
   return /*#__PURE__*/React.createElement(Shell, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5553,7 +5553,7 @@ function AdminPanel(_ref29) {
     }, "Test Clock - Fixture Lock Simulation"),
     React.createElement("p", {
       style: { color: C.muted, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }
-    }, "Override the current time to test whether fixtures lock correctly at kickoff. Set a time just BEFORE a match to confirm it is open, then just AFTER to confirm it locks. Clear to restore real time."),
+    }, "Override the current time to test whether fixtures lock correctly at kickoff."),
     React.createElement("div", {
       style: Object.assign({}, S.card, { padding: "20px 24px", borderColor: C.red, background: "#FFF8F8" })
     },
@@ -5603,7 +5603,7 @@ function AdminPanel(_ref29) {
     },
       React.createElement("p", null,
         React.createElement("strong", null, "First match: "),
-        "Mexico vs South Africa - Thu Jun 11, 2026 at 10:00 AM CDT"
+        "Mexico vs South Africa - Thu Jun 11 at 10:00 AM CDT"
       ),
       React.createElement("p", { style: { marginTop: 8 } },
         React.createElement("strong", null, "Steps: "),

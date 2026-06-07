@@ -1,0 +1,5599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>World Cup 2026 Pick-Em</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #F2F4F6; }
+    body { color: #111827; font-family: 'Barlow', sans-serif; }
+    #root { min-height: 100vh; }
+    input, select, button { font-family: inherit; }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+    input::placeholder { color: #9CA3AF; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #E2E6EA; }
+    ::-webkit-scrollbar-thumb { background: #9AA3AE; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+    select option { background: #FFFFFF; color: #111827; }
+    button:focus-visible { outline: 2px solid #1A3A5C; outline-offset: 2px; }
+    input:focus { border-color: #1A3A5C !important; box-shadow: 0 0 0 3px rgba(26,58,92,0.15) !important; outline: none; }
+    select:focus { outline: 2px solid #1A3A5C; outline-offset: 1px; }
+    * { -webkit-font-smoothing: antialiased; }
+    table { border-collapse: collapse; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+  <script>
+"use strict";
+
+// TEST MODE - set TEST_TIME_OVERRIDE to simulate a specific time for lock testing
+var TEST_TIME_OVERRIDE = null;
+function getNow() { return TEST_TIME_OVERRIDE ? new Date(TEST_TIME_OVERRIDE) : new Date(); }
+
+var useState    = React.useState;
+var useEffect   = React.useEffect;
+var useCallback = React.useCallback;
+var useMemo     = React.useMemo;
+var useRef      = React.useRef;
+
+"use strict";
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+// ─── CONFIGURATION ────────────────────────────────────────────────────────────
+// Paste your deployed Apps Script URL here after setup
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+
+// ─── 2026 FIFA WORLD CUP DATA ────────────────────────────────────────────────
+var GROUPS = {
+  A: ["Mexico", "South Korea", "South Africa", "Czechia"],
+  B: ["Canada", "Switzerland", "Qatar", "Bosnia and Herzegovina"],
+  C: ["Brazil", "Morocco", "Haiti", "Scotland"],
+  D: ["USA", "Paraguay", "Australia", "Türkiye"],
+  E: ["Germany", "Ivory Coast", "Ecuador", "Curaçao"],
+  F: ["Netherlands", "Japan", "Sweden", "Tunisia"],
+  G: ["Belgium", "Egypt", "Iran", "New Zealand"],
+  H: ["Spain", "Saudi Arabia", "Uruguay", "Cape Verde"],
+  I: ["France", "Senegal", "Norway", "Iraq"],
+  J: ["Argentina", "Algeria", "Austria", "Jordan"],
+  K: ["Portugal", "Colombia", "Uzbekistan", "DR Congo"],
+  L: ["England", "Croatia", "Ghana", "Panama"]
+};
+var FLAGS = {
+  Mexico: "🇲🇽",
+  "South Korea": "🇰🇷",
+  "South Africa": "🇿🇦",
+  Czechia: "🇨🇿",
+  Canada: "🇨🇦",
+  Switzerland: "🇨🇭",
+  Qatar: "🇶🇦",
+  "Bosnia and Herzegovina": "🇧🇦",
+  Brazil: "🇧🇷",
+  Morocco: "🇲🇦",
+  Haiti: "🇭🇹",
+  Scotland: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  USA: "🇺🇸",
+  Paraguay: "🇵🇾",
+  Australia: "🇦🇺",
+  "Türkiye": "🇹🇷",
+  Germany: "🇩🇪",
+  "Ivory Coast": "🇨🇮",
+  Ecuador: "🇪🇨",
+  "Curaçao": "🇨🇼",
+  Netherlands: "🇳🇱",
+  Japan: "🇯🇵",
+  Sweden: "🇸🇪",
+  Tunisia: "🇹🇳",
+  Belgium: "🇧🇪",
+  Egypt: "🇪🇬",
+  Iran: "🇮🇷",
+  "New Zealand": "🇳🇿",
+  Spain: "🇪🇸",
+  "Saudi Arabia": "🇸🇦",
+  Uruguay: "🇺🇾",
+  "Cape Verde": "🇨🇻",
+  France: "🇫🇷",
+  Senegal: "🇸🇳",
+  Norway: "🇳🇴",
+  Iraq: "🇮🇶",
+  Argentina: "🇦🇷",
+  Algeria: "🇩🇿",
+  Austria: "🇦🇹",
+  Jordan: "🇯🇴",
+  Portugal: "🇵🇹",
+  Colombia: "🇨🇴",
+  Uzbekistan: "🇺🇿",
+  "DR Congo": "🇨🇩",
+  England: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+  Croatia: "🇭🇷",
+  Ghana: "🇬🇭",
+  Panama: "🇵🇦",
+  TBD: "⬜"
+};
+var GROUP_SCHEDULE = {
+  A: [{
+    home: "Mexico",
+    away: "South Africa",
+    kickoff: "2026-06-11T15:00:00-04:00",
+    venue: "Mexico City"
+  }, {
+    home: "South Korea",
+    away: "Czechia",
+    kickoff: "2026-06-11T22:00:00-04:00",
+    venue: "Guadalajara"
+  }, {
+    home: "Czechia",
+    away: "South Africa",
+    kickoff: "2026-06-18T12:00:00-04:00",
+    venue: "Atlanta"
+  }, {
+    home: "Mexico",
+    away: "South Korea",
+    kickoff: "2026-06-18T21:00:00-04:00",
+    venue: "Guadalajara"
+  }, {
+    home: "Mexico",
+    away: "Czechia",
+    kickoff: "2026-06-24T21:00:00-04:00",
+    venue: "Mexico City"
+  }, {
+    home: "South Korea",
+    away: "South Africa",
+    kickoff: "2026-06-24T21:00:00-04:00",
+    venue: "Monterrey"
+  }],
+  B: [{
+    home: "Canada",
+    away: "Bosnia and Herzegovina",
+    kickoff: "2026-06-12T15:00:00-04:00",
+    venue: "Toronto"
+  }, {
+    home: "Qatar",
+    away: "Switzerland",
+    kickoff: "2026-06-13T15:00:00-04:00",
+    venue: "San Francisco"
+  }, {
+    home: "Switzerland",
+    away: "Bosnia and Herzegovina",
+    kickoff: "2026-06-18T15:00:00-04:00",
+    venue: "Los Angeles"
+  }, {
+    home: "Canada",
+    away: "Qatar",
+    kickoff: "2026-06-18T18:00:00-04:00",
+    venue: "Vancouver"
+  }, {
+    home: "Switzerland",
+    away: "Canada",
+    kickoff: "2026-06-24T15:00:00-04:00",
+    venue: "Vancouver"
+  }, {
+    home: "Bosnia and Herzegovina",
+    away: "Qatar",
+    kickoff: "2026-06-24T15:00:00-04:00",
+    venue: "Seattle"
+  }],
+  C: [{
+    home: "Brazil",
+    away: "Morocco",
+    kickoff: "2026-06-13T18:00:00-04:00",
+    venue: "New York/NJ"
+  }, {
+    home: "Haiti",
+    away: "Scotland",
+    kickoff: "2026-06-13T21:00:00-04:00",
+    venue: "Boston"
+  }, {
+    home: "Scotland",
+    away: "Morocco",
+    kickoff: "2026-06-19T15:00:00-04:00",
+    venue: "Boston"
+  }, {
+    home: "Brazil",
+    away: "Haiti",
+    kickoff: "2026-06-19T21:00:00-04:00",
+    venue: "Philadelphia"
+  }, {
+    home: "Brazil",
+    away: "Scotland",
+    kickoff: "2026-06-24T18:00:00-04:00",
+    venue: "Miami"
+  }, {
+    home: "Morocco",
+    away: "Haiti",
+    kickoff: "2026-06-24T18:00:00-04:00",
+    venue: "Atlanta"
+  }],
+  D: [{
+    home: "USA",
+    away: "Paraguay",
+    kickoff: "2026-06-12T21:00:00-04:00",
+    venue: "Los Angeles"
+  }, {
+    home: "Australia",
+    away: "Türkiye",
+    kickoff: "2026-06-14T00:00:00-04:00",
+    venue: "Vancouver"
+  }, {
+    home: "USA",
+    away: "Australia",
+    kickoff: "2026-06-19T15:00:00-04:00",
+    venue: "Seattle"
+  }, {
+    home: "Türkiye",
+    away: "Paraguay",
+    kickoff: "2026-06-20T00:00:00-04:00",
+    venue: "San Francisco"
+  }, {
+    home: "USA",
+    away: "Türkiye",
+    kickoff: "2026-06-25T22:00:00-04:00",
+    venue: "Los Angeles"
+  }, {
+    home: "Paraguay",
+    away: "Australia",
+    kickoff: "2026-06-25T22:00:00-04:00",
+    venue: "San Francisco"
+  }],
+  E: [{
+    home: "Germany",
+    away: "Curaçao",
+    kickoff: "2026-06-14T13:00:00-04:00",
+    venue: "Houston"
+  }, {
+    home: "Ivory Coast",
+    away: "Ecuador",
+    kickoff: "2026-06-14T19:00:00-04:00",
+    venue: "Philadelphia"
+  }, {
+    home: "Germany",
+    away: "Ivory Coast",
+    kickoff: "2026-06-20T16:00:00-04:00",
+    venue: "Toronto"
+  }, {
+    home: "Ecuador",
+    away: "Curaçao",
+    kickoff: "2026-06-20T20:00:00-04:00",
+    venue: "Kansas City"
+  }, {
+    home: "Ecuador",
+    away: "Germany",
+    kickoff: "2026-06-25T16:00:00-04:00",
+    venue: "New York/NJ"
+  }, {
+    home: "Curaçao",
+    away: "Ivory Coast",
+    kickoff: "2026-06-25T16:00:00-04:00",
+    venue: "Philadelphia"
+  }],
+  F: [{
+    home: "Netherlands",
+    away: "Japan",
+    kickoff: "2026-06-14T16:00:00-04:00",
+    venue: "Dallas"
+  }, {
+    home: "Tunisia",
+    away: "Sweden",
+    kickoff: "2026-06-14T22:00:00-04:00",
+    venue: "Monterrey"
+  }, {
+    home: "Netherlands",
+    away: "Sweden",
+    kickoff: "2026-06-20T13:00:00-04:00",
+    venue: "Houston"
+  }, {
+    home: "Tunisia",
+    away: "Japan",
+    kickoff: "2026-06-21T00:00:00-04:00",
+    venue: "Monterrey"
+  }, {
+    home: "Tunisia",
+    away: "Netherlands",
+    kickoff: "2026-06-25T19:00:00-04:00",
+    venue: "Kansas City"
+  }, {
+    home: "Japan",
+    away: "Sweden",
+    kickoff: "2026-06-25T19:00:00-04:00",
+    venue: "Dallas"
+  }],
+  G: [{
+    home: "Belgium",
+    away: "Egypt",
+    kickoff: "2026-06-15T15:00:00-04:00",
+    venue: "Seattle"
+  }, {
+    home: "Iran",
+    away: "New Zealand",
+    kickoff: "2026-06-15T21:00:00-04:00",
+    venue: "Los Angeles"
+  }, {
+    home: "Belgium",
+    away: "Iran",
+    kickoff: "2026-06-21T15:00:00-04:00",
+    venue: "Los Angeles"
+  }, {
+    home: "New Zealand",
+    away: "Egypt",
+    kickoff: "2026-06-21T21:00:00-04:00",
+    venue: "Vancouver"
+  }, {
+    home: "New Zealand",
+    away: "Belgium",
+    kickoff: "2026-06-26T23:00:00-04:00",
+    venue: "Vancouver"
+  }, {
+    home: "Egypt",
+    away: "Iran",
+    kickoff: "2026-06-26T23:00:00-04:00",
+    venue: "Seattle"
+  }],
+  H: [{
+    home: "Spain",
+    away: "Cape Verde",
+    kickoff: "2026-06-15T12:00:00-04:00",
+    venue: "Atlanta"
+  }, {
+    home: "Saudi Arabia",
+    away: "Uruguay",
+    kickoff: "2026-06-15T18:00:00-04:00",
+    venue: "Miami"
+  }, {
+    home: "Spain",
+    away: "Saudi Arabia",
+    kickoff: "2026-06-21T12:00:00-04:00",
+    venue: "Atlanta"
+  }, {
+    home: "Uruguay",
+    away: "Cape Verde",
+    kickoff: "2026-06-21T18:00:00-04:00",
+    venue: "Miami"
+  }, {
+    home: "Uruguay",
+    away: "Spain",
+    kickoff: "2026-06-26T20:00:00-04:00",
+    venue: "Guadalajara"
+  }, {
+    home: "Cape Verde",
+    away: "Saudi Arabia",
+    kickoff: "2026-06-26T20:00:00-04:00",
+    venue: "Houston"
+  }],
+  I: [{
+    home: "France",
+    away: "Senegal",
+    kickoff: "2026-06-16T15:00:00-04:00",
+    venue: "New York/NJ"
+  }, {
+    home: "Iraq",
+    away: "Norway",
+    kickoff: "2026-06-16T18:00:00-04:00",
+    venue: "Boston"
+  }, {
+    home: "France",
+    away: "Iraq",
+    kickoff: "2026-06-22T17:00:00-04:00",
+    venue: "Philadelphia"
+  }, {
+    home: "Norway",
+    away: "Senegal",
+    kickoff: "2026-06-22T20:00:00-04:00",
+    venue: "New York/NJ"
+  }, {
+    home: "Norway",
+    away: "France",
+    kickoff: "2026-06-26T15:00:00-04:00",
+    venue: "Boston"
+  }, {
+    home: "Senegal",
+    away: "Iraq",
+    kickoff: "2026-06-26T15:00:00-04:00",
+    venue: "Toronto"
+  }],
+  J: [{
+    home: "Argentina",
+    away: "Algeria",
+    kickoff: "2026-06-16T21:00:00-04:00",
+    venue: "Kansas City"
+  }, {
+    home: "Austria",
+    away: "Jordan",
+    kickoff: "2026-06-17T00:00:00-04:00",
+    venue: "San Francisco"
+  }, {
+    home: "Argentina",
+    away: "Austria",
+    kickoff: "2026-06-22T13:00:00-04:00",
+    venue: "Dallas"
+  }, {
+    home: "Jordan",
+    away: "Algeria",
+    kickoff: "2026-06-22T23:00:00-04:00",
+    venue: "San Francisco"
+  }, {
+    home: "Argentina",
+    away: "Jordan",
+    kickoff: "2026-06-27T00:00:00-04:00",
+    venue: "Dallas"
+  }, {
+    home: "Algeria",
+    away: "Austria",
+    kickoff: "2026-06-27T00:00:00-04:00",
+    venue: "Kansas City"
+  }],
+  K: [{
+    home: "Portugal",
+    away: "DR Congo",
+    kickoff: "2026-06-17T13:00:00-04:00",
+    venue: "Houston"
+  }, {
+    home: "Uzbekistan",
+    away: "Colombia",
+    kickoff: "2026-06-17T22:00:00-04:00",
+    venue: "Mexico City"
+  }, {
+    home: "Portugal",
+    away: "Uzbekistan",
+    kickoff: "2026-06-23T13:00:00-04:00",
+    venue: "Houston"
+  }, {
+    home: "Colombia",
+    away: "DR Congo",
+    kickoff: "2026-06-23T22:00:00-04:00",
+    venue: "Guadalajara"
+  }, {
+    home: "Colombia",
+    away: "Portugal",
+    kickoff: "2026-06-27T20:00:00-04:00",
+    venue: "Kansas City"
+  }, {
+    home: "DR Congo",
+    away: "Uzbekistan",
+    kickoff: "2026-06-27T20:00:00-04:00",
+    venue: "Dallas"
+  }],
+  L: [{
+    home: "England",
+    away: "Croatia",
+    kickoff: "2026-06-17T16:00:00-04:00",
+    venue: "Dallas"
+  }, {
+    home: "Ghana",
+    away: "Panama",
+    kickoff: "2026-06-17T19:00:00-04:00",
+    venue: "Toronto"
+  }, {
+    home: "England",
+    away: "Ghana",
+    kickoff: "2026-06-23T16:00:00-04:00",
+    venue: "Boston"
+  }, {
+    home: "Panama",
+    away: "Croatia",
+    kickoff: "2026-06-23T19:00:00-04:00",
+    venue: "Toronto"
+  }, {
+    home: "Panama",
+    away: "England",
+    kickoff: "2026-06-27T17:00:00-04:00",
+    venue: "New York/NJ"
+  }, {
+    home: "Croatia",
+    away: "Ghana",
+    kickoff: "2026-06-27T17:00:00-04:00",
+    venue: "Philadelphia"
+  }]
+};
+var R32_FIXED_SLOTS = [{
+  id: "r32-1",
+  label: "R32 Match 1",
+  s1: "1A",
+  s2: "2B"
+}, {
+  id: "r32-2",
+  label: "R32 Match 2",
+  s1: "1C",
+  s2: "2D"
+}, {
+  id: "r32-3",
+  label: "R32 Match 3",
+  s1: "1E",
+  s2: "2F"
+}, {
+  id: "r32-4",
+  label: "R32 Match 4",
+  s1: "1G",
+  s2: "2H"
+}, {
+  id: "r32-5",
+  label: "R32 Match 5",
+  s1: "1I",
+  s2: "2J"
+}, {
+  id: "r32-6",
+  label: "R32 Match 6",
+  s1: "1K",
+  s2: "2L"
+}, {
+  id: "r32-7",
+  label: "R32 Match 7",
+  s1: "1B",
+  s2: "2A"
+}, {
+  id: "r32-8",
+  label: "R32 Match 8",
+  s1: "1D",
+  s2: "2C"
+}, {
+  id: "r32-9",
+  label: "R32 Match 9",
+  s1: "1F",
+  s2: "2E"
+}, {
+  id: "r32-10",
+  label: "R32 Match 10",
+  s1: "1H",
+  s2: "2G"
+}, {
+  id: "r32-11",
+  label: "R32 Match 11",
+  s1: "1J",
+  s2: "2I"
+}, {
+  id: "r32-12",
+  label: "R32 Match 12",
+  s1: "1L",
+  s2: "2K"
+}, {
+  id: "r32-13",
+  label: "R32 Match 13",
+  s1: "3rd-TBD",
+  s2: "3rd-TBD",
+  thirdPlace: true
+}, {
+  id: "r32-14",
+  label: "R32 Match 14",
+  s1: "3rd-TBD",
+  s2: "3rd-TBD",
+  thirdPlace: true
+}, {
+  id: "r32-15",
+  label: "R32 Match 15",
+  s1: "3rd-TBD",
+  s2: "3rd-TBD",
+  thirdPlace: true
+}, {
+  id: "r32-16",
+  label: "R32 Match 16",
+  s1: "3rd-TBD",
+  s2: "3rd-TBD",
+  thirdPlace: true
+}];
+
+// ─── SCORING ──────────────────────────────────────────────────────────────────
+var POINTS = {
+  groupResult: 3,
+  groupScore: 1,
+  r32Result: 3,
+  r16Result: 6,
+  qfResult: 12,
+  sfResult: 24,
+  finalResult: 48,
+  knockoutScore: 1,
+  champion: 96
+};
+function getGroupMatches(grp) {
+  return (GROUP_SCHEDULE[grp] || []).slice().sort(function (a, b) {
+    return new Date(a.kickoff) - new Date(b.kickoff);
+  });
+}
+function isMatchLocked(kickoff) {
+  return getNow() >= new Date(kickoff);
+}
+function fmtKickoff(iso) {
+  var d = new Date(iso);
+  var date = d.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "America/Chicago"
+  });
+  var time = d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+    timeZone: "America/Chicago"
+  });
+  return {
+    date: date,
+    time: time
+  };
+}
+function emptyGroupPicks() {
+  var g = {};
+  Object.keys(GROUPS).forEach(function (grp) {
+    g[grp] = getGroupMatches(grp).map(function (m) {
+      return {
+        home: m.home,
+        away: m.away,
+        pick: null,
+        homeScore: null,
+        awayScore: null
+      };
+    });
+  });
+  return g;
+}
+function emptyKnockoutPicks() {
+  return {
+    r32: Array(16).fill(null).map(function () {
+      return {
+        pick: null,
+        homeScore: null,
+        awayScore: null
+      };
+    }),
+    r16: Array(8).fill(null).map(function () {
+      return {
+        pick: null,
+        homeScore: null,
+        awayScore: null
+      };
+    }),
+    qf: Array(4).fill(null).map(function () {
+      return {
+        pick: null,
+        homeScore: null,
+        awayScore: null
+      };
+    }),
+    sf: Array(2).fill(null).map(function () {
+      return {
+        pick: null,
+        homeScore: null,
+        awayScore: null
+      };
+    }),
+    "final": [{
+      pick: null,
+      homeScore: null,
+      awayScore: null
+    }],
+    champion: null
+  };
+}
+function emptyLeagueState() {
+  return {
+    phase: "group",
+    qualifiers: {},
+    officialGroupResults: {},
+    officialKnockoutResults: {
+      r32: Array(16).fill(null).map(function () {
+        return {
+          winner: null,
+          homeScore: null,
+          awayScore: null
+        };
+      }),
+      r16: Array(8).fill(null).map(function () {
+        return {
+          winner: null,
+          homeScore: null,
+          awayScore: null
+        };
+      }),
+      qf: Array(4).fill(null).map(function () {
+        return {
+          winner: null,
+          homeScore: null,
+          awayScore: null
+        };
+      }),
+      sf: Array(2).fill(null).map(function () {
+        return {
+          winner: null,
+          homeScore: null,
+          awayScore: null
+        };
+      }),
+      "final": [{
+        winner: null,
+        homeScore: null,
+        awayScore: null
+      }],
+      champion: null
+    },
+    leaderboard: []
+  };
+}
+function calcScore(groupPicks, knockoutPicks, league) {
+  var _league$officialKnock2;
+  var score = 0;
+  Object.entries(league.officialGroupResults || {}).forEach(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      grp = _ref2[0],
+      matches = _ref2[1];
+    var ug = (groupPicks === null || groupPicks === void 0 ? void 0 : groupPicks[grp]) || [];
+    matches.forEach(function (res, i) {
+      var up = ug[i];
+      if (!up || !res.result) return;
+      if (up.pick === res.result) score += POINTS.groupResult;
+      if (res.homeScore != null && up.homeScore != null && Number(up.homeScore) === Number(res.homeScore)) score += POINTS.groupScore;
+      if (res.awayScore != null && up.awayScore != null && Number(up.awayScore) === Number(res.awayScore)) score += POINTS.groupScore;
+    });
+  });
+  if (!knockoutPicks) return score;
+  var koP = {
+    r32: POINTS.r32Result,
+    r16: POINTS.r16Result,
+    qf: POINTS.qfResult,
+    sf: POINTS.sfResult,
+    "final": POINTS.finalResult
+  };
+  Object.entries(koP).forEach(function (_ref3) {
+    var _league$officialKnock;
+    var _ref4 = _slicedToArray(_ref3, 2),
+      round = _ref4[0],
+      pts = _ref4[1];
+    (((_league$officialKnock = league.officialKnockoutResults) === null || _league$officialKnock === void 0 ? void 0 : _league$officialKnock[round]) || []).forEach(function (res, i) {
+      var _knockoutPicks$round;
+      if (!res.winner) return;
+      var up = (_knockoutPicks$round = knockoutPicks[round]) === null || _knockoutPicks$round === void 0 ? void 0 : _knockoutPicks$round[i];
+      if (!up) return;
+      if (up.pick === res.winner) score += pts;
+      if (res.homeScore != null && up.homeScore != null && Number(up.homeScore) === Number(res.homeScore)) score += POINTS.knockoutScore;
+      if (res.awayScore != null && up.awayScore != null && Number(up.awayScore) === Number(res.awayScore)) score += POINTS.knockoutScore;
+    });
+  });
+  if ((_league$officialKnock2 = league.officialKnockoutResults) !== null && _league$officialKnock2 !== void 0 && _league$officialKnock2.champion && knockoutPicks.champion === league.officialKnockoutResults.champion) score += POINTS.champion;
+  return score;
+}
+
+// ─── GOOGLE SHEETS API LAYER ──────────────────────────────────────────────────
+// All calls go through the deployed Apps Script web app.
+// The script URL above must be replaced with your actual deployment URL.
+
+// Apps Script CORS workaround:
+// POST with text/plain avoids preflight; body is still JSON string.
+// Apps Script reads it via e.postData.contents on the server side.
+function api(payload) {
+  return fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(payload),
+    redirect: "follow"
+  })
+  .then(function(resp) {
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    return resp.text();
+  })
+  .then(function(text) {
+    var data;
+    try { data = JSON.parse(text); }
+    catch(e) { throw new Error("Bad response: " + text.slice(0, 200)); }
+    if (data.error) throw new Error(data.error);
+    return data;
+  });
+}
+
+var C = {
+  bg: "#F2F4F6",
+  panel: "#FFFFFF",
+  panelAlt: "#F8F9FA",
+  border: "#E2E6EA",
+  borderMid: "#CDD3DA",
+  borderDark: "#9AA3AE",
+  navy: "#1A3A5C",
+  navyDark: "#0F2540",
+  navyLight: "#2A5080",
+  text: "#111827",
+  textSub: "#4B5563",
+  muted: "#6B7280",
+  dim: "#9CA3AF",
+  blue: "#0057A8",
+  blueBg: "#EBF3FB",
+  green: "#16A34A",
+  greenBg: "#DCFCE7",
+  red: "#DC2626",
+  redBg: "#FEE2E2",
+  yellow: "#D97706",
+  yellowBg: "#FEF3C7",
+  gold: "#D97706",
+  goldBright: "#B45309",
+  goldDim: "#EBF3FB",
+  goldBtn: "#1A3A5C"
+};
+var S = {
+  card: {
+    background: C.panel,
+    border: "1px solid ".concat(C.border),
+    borderRadius: 8,
+    padding: "16px 20px",
+    marginBottom: 8,
+    boxShadow: "0 1px 3px rgba(0,0,0,0.06)"
+  },
+  goldBtn: {
+    padding: "10px 28px",
+    borderRadius: 6,
+    border: "none",
+    background: C.navy,
+    color: "#FFFFFF",
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontWeight: 800,
+    fontSize: 14,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    boxShadow: "0 2px 8px rgba(26,58,92,0.3)"
+  },
+  tabBtn: function tabBtn(a) {
+    return {
+      padding: "10px 20px",
+      border: "none",
+      borderBottom: a ? "3px solid ".concat(C.navy) : "3px solid transparent",
+      background: "transparent",
+      color: a ? C.navy : C.muted,
+      cursor: "pointer",
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      fontSize: 13,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      transition: "all 0.15s"
+    };
+  },
+  input: {
+    display: "block",
+    width: "100%",
+    padding: "12px 16px",
+    borderRadius: 6,
+    border: "1px solid ".concat(C.borderMid),
+    background: C.panel,
+    color: C.text,
+    fontSize: 15,
+    fontFamily: "'Barlow',sans-serif",
+    outline: "none",
+    boxSizing: "border-box"
+  }
+};
+
+// ISO country codes for flagcdn.com flag images
+var FLAG_CODES = {
+  Mexico: "mx",
+  "South Korea": "kr",
+  "South Africa": "za",
+  Czechia: "cz",
+  Canada: "ca",
+  Switzerland: "ch",
+  Qatar: "qa",
+  "Bosnia and Herzegovina": "ba",
+  Brazil: "br",
+  Morocco: "ma",
+  Haiti: "ht",
+  Scotland: "gb-sct",
+  USA: "us",
+  Paraguay: "py",
+  Australia: "au",
+  "Türkiye": "tr",
+  Germany: "de",
+  "Ivory Coast": "ci",
+  Ecuador: "ec",
+  "Curaçao": "cw",
+  Netherlands: "nl",
+  Japan: "jp",
+  Sweden: "se",
+  Tunisia: "tn",
+  Belgium: "be",
+  Egypt: "eg",
+  Iran: "ir",
+  "New Zealand": "nz",
+  Spain: "es",
+  "Saudi Arabia": "sa",
+  Uruguay: "uy",
+  "Cape Verde": "cv",
+  France: "fr",
+  Senegal: "sn",
+  Norway: "no",
+  Iraq: "iq",
+  Argentina: "ar",
+  Algeria: "dz",
+  Austria: "at",
+  Jordan: "jo",
+  Portugal: "pt",
+  Colombia: "co",
+  Uzbekistan: "uz",
+  "DR Congo": "cd",
+  England: "gb-eng",
+  Croatia: "hr",
+  Ghana: "gh",
+  Panama: "pa"
+};
+function Flag(_ref5) {
+  var team = _ref5.team,
+    _ref5$size = _ref5.size,
+    size = _ref5$size === void 0 ? 22 : _ref5$size;
+  var code = FLAG_CODES[team];
+  if (!code) return /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: size - 2,
+      lineHeight: 1,
+      flexShrink: 0
+    }
+  }, FLAGS[team] || "🏳️");
+  var h = Math.round(size * 0.67);
+  return /*#__PURE__*/React.createElement("img", {
+    src: "https://flagcdn.com/".concat(Math.round(size) * 2, "x").concat(h * 2, "/").concat(code, ".png"),
+    width: Math.round(size),
+    height: h,
+    alt: team,
+    style: {
+      display: "inline-block",
+      flexShrink: 0,
+      borderRadius: 2,
+      objectFit: "cover",
+      verticalAlign: "middle",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.2)"
+    },
+    onError: function onError(e) {
+      e.target.style.display = "none";
+    }
+  });
+}
+
+// ─── SHELL ────────────────────────────────────────────────────────────────────
+function Shell(_ref6) {
+  var children = _ref6.children,
+    header = _ref6.header;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("link", {
+    href: "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&display=swap",
+    rel: "stylesheet"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      color: C.text
+    }
+  }, header, children));
+}
+function Header(_ref7) {
+  var user = _ref7.user,
+    onSwitch = _ref7.onSwitch,
+    onTab = _ref7.onTab,
+    activeTab = _ref7.activeTab;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navy,
+      backdropFilter: "none",
+      borderBottom: "none",
+      height: 56,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "0 20px",
+      position: "sticky",
+      top: 0,
+      zIndex: 100
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 19,
+      fontWeight: 900,
+      letterSpacing: "0.06em",
+      color: "#FFFFFF",
+      textTransform: "uppercase",
+      whiteSpace: "nowrap"
+    }
+  }, "\uD83C\uDFC6 WC 2026 Pick-Em"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 13,
+      color: C.textSub
+    }
+  }, "\uD83D\uDC64 ", user === null || user === void 0 ? void 0 : user.name, (user === null || user === void 0 ? void 0 : user.isAdmin) && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#FCA5A5",
+      marginLeft: 6,
+      fontSize: 11,
+      fontWeight: 700
+    }
+  }, "ADMIN")), /*#__PURE__*/React.createElement("button", {
+    onClick: onSwitch,
+    style: _defineProperty({
+      background: "none",
+      border: "1px solid rgba(255,255,255,0.4)",
+      color: "rgba(255,255,255,0.85)",
+      borderRadius: 4,
+      padding: "4px 12px",
+      cursor: "pointer",
+      fontSize: 11
+    }, "background", "rgba(255,255,255,0.1)")
+  }, "Sign Out")));
+}
+function PhaseBanner(_ref9) {
+  var phase = _ref9.phase;
+  var cfg = {
+    group: {
+      bg: C.navy,
+      bc: C.navyDark,
+      icon: "⚽",
+      col: "#FFFFFF",
+      title: "Group Stage",
+      sub: "Enter the score for each match · Result auto-determined · 3 pts result + 1 pt each correct score"
+    },
+    knockout: {
+      bg: "#0F4C8A",
+      bc: "#0A3560",
+      icon: "🔥",
+      col: "#FFFFFF",
+      title: "Knockout Phase",
+      sub: "Group picks locked · Pick bracket winners round by round"
+    },
+    complete: {
+      bg: "#155724",
+      bc: "#0d3b18",
+      icon: "🏆",
+      col: "#FFFFFF",
+      title: "Tournament Complete",
+      sub: "Final scores are in — see the leaderboard"
+    }
+  }[phase] || {};
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: cfg.bg,
+      borderBottom: "1px solid ".concat(cfg.bc),
+      padding: "8px 24px",
+      display: "flex",
+      alignItems: "center",
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 17
+    }
+  }, cfg.icon), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 800,
+      fontSize: 13,
+      color: cfg.col,
+      letterSpacing: "0.09em",
+      textTransform: "uppercase"
+    }
+  }, cfg.title), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "rgba(255,255,255,0.85)",
+      fontWeight: 500
+    }
+  }, cfg.sub));
+}
+
+// ─── APP ROOT ─────────────────────────────────────────────────────────────────
+function App() {
+  var _useState = useState("login"),
+    _useState2 = _slicedToArray(_useState, 2),
+    screen = _useState2[0],
+    setScreen = _useState2[1]; // login | main | admin
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    user = _useState4[0],
+    setUser = _useState4[1]; // {name, pin, isAdmin}
+  var _useState5 = useState("fixtures"),
+    _useState6 = _slicedToArray(_useState5, 2),
+    tab = _useState6[0],
+    setTab = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    league = _useState8[0],
+    setLeague = _useState8[1];
+  var _useState9 = useState(null),
+    _useState0 = _slicedToArray(_useState9, 2),
+    groupPicks = _useState0[0],
+    setGroupPicks = _useState0[1];
+  var _useState1 = useState(null),
+    _useState10 = _slicedToArray(_useState1, 2),
+    knockoutPicks = _useState10[0],
+    setKnockoutPicks = _useState10[1];
+  var _useState11 = useState(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    saving = _useState12[0],
+    setSaving = _useState12[1];
+  var _useState13 = useState(false),
+    _useState14 = _slicedToArray(_useState13, 2),
+    loading = _useState14[0],
+    setLoading = _useState14[1];
+  var _useState15 = useState({
+      text: "",
+      type: "ok"
+    }),
+    _useState16 = _slicedToArray(_useState15, 2),
+    msg = _useState16[0],
+    setMsg = _useState16[1];
+  var _useState17 = useState(true),
+    _useState18 = _slicedToArray(_useState17, 2),
+    apiReady = _useState18[0],
+    setApiReady = _useState18[1]; // false when URL not configured
+
+  useEffect(function () {
+    if (APPS_SCRIPT_URL.includes("YOUR_DEPLOYMENT_ID")) setApiReady(false);
+  }, []);
+  function flash(text) {
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "ok";
+    setMsg({
+      text: text,
+      type: type
+    });
+    setTimeout(function () {
+      return setMsg({
+        text: "",
+        type: "ok"
+      });
+    }, 3500);
+  }
+  function handleLogin(_x2, _x3) {
+    return _handleLogin.apply(this, arguments);
+  }
+  function _handleLogin() {
+    _handleLogin = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(name, pin) {
+      var data, u, _yield$Promise$all, _yield$Promise$all2, leagueData, picksData, l, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            setLoading(true);
+            _context.p = 1;
+            _context.n = 2;
+            return api({
+              action: "login",
+              name: name,
+              pin: pin
+            });
+          case 2:
+            data = _context.v;
+            u = {
+              name: data.name,
+              pin: pin,
+              isAdmin: data.isAdmin
+            };
+            setUser(u);
+            // Load league state + user picks
+            _context.n = 3;
+            return Promise.all([api({
+              action: "getLeague"
+            }), api({
+              action: "getPicks",
+              name: name,
+              pin: pin
+            })]);
+          case 3:
+            _yield$Promise$all = _context.v;
+            _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
+            leagueData = _yield$Promise$all2[0];
+            picksData = _yield$Promise$all2[1];
+            l = leagueData.league || emptyLeagueState();
+            setLeague(l);
+            setGroupPicks(picksData.groupPicks || emptyGroupPicks());
+            setKnockoutPicks(picksData.knockoutPicks || emptyKnockoutPicks());
+            setTab(l.phase === "group" ? "fixtures" : "bracket");
+            setScreen("main");
+            _context.n = 5;
+            break;
+          case 4:
+            _context.p = 4;
+            _t = _context.v;
+            flash(_t.message || "Login failed", "err");
+          case 5:
+            _context.p = 5;
+            setLoading(false);
+            return _context.f(5);
+          case 6:
+            return _context.a(2);
+        }
+      }, _callee, null, [[1, 4, 5, 6]]);
+    }));
+    return _handleLogin.apply(this, arguments);
+  }
+  function handleSave() {
+    return _handleSave.apply(this, arguments);
+  }
+  function _handleSave() {
+    _handleSave = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var leagueData, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            setSaving(true);
+            _context2.p = 1;
+            _context2.n = 2;
+            return api({
+              action: "savePicks",
+              name: user.name,
+              pin: user.pin,
+              groupPicks: groupPicks,
+              knockoutPicks: knockoutPicks
+            });
+          case 2:
+            _context2.n = 3;
+            return api({
+              action: "getLeague"
+            });
+          case 3:
+            leagueData = _context2.v;
+            setLeague(leagueData.league || league);
+            flash("Picks saved ✓");
+            _context2.n = 5;
+            break;
+          case 4:
+            _context2.p = 4;
+            _t2 = _context2.v;
+            flash(_t2.message || "Save failed", "err");
+          case 5:
+            _context2.p = 5;
+            setSaving(false);
+            return _context2.f(5);
+          case 6:
+            return _context2.a(2);
+        }
+      }, _callee2, null, [[1, 4, 5, 6]]);
+    }));
+    return _handleSave.apply(this, arguments);
+  }
+  function refreshLeague() {
+    return _refreshLeague.apply(this, arguments);
+  }
+  function _refreshLeague() {
+    _refreshLeague = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      var data;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _context3.n = 1;
+            return api({
+              action: "getLeague"
+            });
+          case 1:
+            data = _context3.v;
+            setLeague(data.league || emptyLeagueState());
+          case 2:
+            return _context3.a(2);
+        }
+      }, _callee3);
+    }));
+    return _refreshLeague.apply(this, arguments);
+  }
+  var phase = (league === null || league === void 0 ? void 0 : league.phase) || "group";
+  var groupsLocked = phase !== "group";
+
+  // ── NOT CONFIGURED SCREEN ──
+  if (!apiReady) return /*#__PURE__*/React.createElement(Shell, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      padding: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 500,
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 48,
+      marginBottom: 16
+    }
+  }, "\u2699\uFE0F"), /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 26,
+      color: C.navy,
+      margin: "0 0 16px",
+      fontWeight: 900
+    }
+  }, "Apps Script URL Not Configured"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 14,
+      lineHeight: 1.7,
+      marginBottom: 20
+    }
+  }, "Open the ", /*#__PURE__*/React.createElement("code", {
+    style: {
+      color: C.gold,
+      background: C.yellowBg,
+      padding: "2px 6px",
+      borderRadius: 4
+    }
+  }, "worldcup-pickem.jsx"), " file and replace ", /*#__PURE__*/React.createElement("code", {
+    style: {
+      color: C.blue,
+      background: C.blueBg,
+      padding: "2px 6px",
+      borderRadius: 4
+    }
+  }, "YOUR_DEPLOYMENT_ID"), " at the top with your deployed Google Apps Script URL."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.dim,
+      fontSize: 13
+    }
+  }, "See the setup guide in ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "worldcup-setup.md"), " for step-by-step instructions."))));
+  if (screen === "login") return /*#__PURE__*/React.createElement(LoginScreen, {
+    onLogin: handleLogin,
+    loading: loading,
+    msg: msg
+  });
+  if (screen === "admin") return /*#__PURE__*/React.createElement(AdminPanel, {
+    user: user,
+    league: league,
+    setLeague: setLeague,
+    onExit: function onExit() {
+      return setScreen("main");
+    }
+  });
+  return /*#__PURE__*/React.createElement(Shell, {
+    header: /*#__PURE__*/React.createElement(Header, {
+      user: user,
+      onSwitch: function onSwitch() {
+        setScreen("login");
+        setUser(null);
+      },
+      onTab: setTab,
+      activeTab: tab
+    })
+  }, /*#__PURE__*/React.createElement(PhaseBanner, {
+    phase: phase
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 960,
+      margin: "0 auto",
+      padding: "22px 16px 100px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      borderBottom: "1px solid ".concat(C.border),
+      marginBottom: 24,
+      overflowX: "auto",
+      gap: 0,
+      background: C.panel,
+      padding: "0 8px"
+    }
+  }, phase === "group" && /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "fixtures"),
+    onClick: function onClick() {
+      return setTab("fixtures");
+    }
+  }, "All Fixtures"), phase === "group" && /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "groups"),
+    onClick: function onClick() {
+      return setTab("groups");
+    }
+  }, "By Group"), /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "standings"),
+    onClick: function onClick() {
+      return setTab("standings");
+    }
+  }, "Standings"), /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "bracket"),
+    onClick: function onClick() {
+      return setTab("bracket");
+    }
+  }, "Knockout", phase === "group" && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      marginLeft: 4,
+      color: C.muted,
+      fontStyle: "italic"
+    }
+  }, "preview")), /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "leaderboard"),
+    onClick: function onClick() {
+      refreshLeague();
+      setTab("leaderboard");
+    }
+  }, "Leaderboard"), phase !== "group" && /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "groups"),
+    onClick: function onClick() {
+      return setTab("groups");
+    }
+  }, "Group Picks"), (user === null || user === void 0 ? void 0 : user.isAdmin) && /*#__PURE__*/React.createElement("button", {
+    style: _objectSpread(_objectSpread({}, S.tabBtn(false)), {}, {
+      color: "#991B1B",
+      marginLeft: "auto",
+      background: "none",
+      border: "none"
+    }),
+    onClick: function onClick() {
+      return setScreen("admin");
+    }
+  }, "\u2699 Admin")), tab === "fixtures" && groupPicks && /*#__PURE__*/React.createElement(FixturesTab, {
+    groupPicks: groupPicks,
+    setGroupPicks: setGroupPicks,
+    adminLocked: groupsLocked
+  }), tab === "groups" && groupPicks && /*#__PURE__*/React.createElement(GroupTab, {
+    groupPicks: groupPicks,
+    setGroupPicks: setGroupPicks,
+    adminLocked: groupsLocked
+  }), tab === "standings" && /*#__PURE__*/React.createElement(UserStandingsTab, {
+    league: league
+  }), tab === "bracket" && /*#__PURE__*/React.createElement(BracketTab, {
+    knockoutPicks: knockoutPicks || emptyKnockoutPicks(),
+    setKnockoutPicks: setKnockoutPicks,
+    league: league
+  }), tab === "leaderboard" && /*#__PURE__*/React.createElement(LeaderboardTab, {
+    league: league,
+    username: user === null || user === void 0 ? void 0 : user.name
+  })), tab !== "leaderboard" && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      background: C.panel,
+      backdropFilter: "none",
+      borderTop: "1px solid ".concat(C.border),
+      boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
+      padding: "13px 22px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      zIndex: 50
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      color: C.muted,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      letterSpacing: "0.04em"
+    }
+  }, groupsLocked && (tab === "groups" || tab === "fixtures") ? "Group picks are locked — view only" : tab === "standings" ? "Live standings from official results" : "Saves to Google Sheets · visible on leaderboard immediately"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      alignItems: "center"
+    }
+  }, msg.text && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: msg.type === "err" ? C.red : C.green,
+      fontSize: 13,
+      fontWeight: 600
+    }
+  }, msg.text), !(groupsLocked && (tab === "groups" || tab === "fixtures")) && tab !== "standings" && /*#__PURE__*/React.createElement("button", {
+    onClick: handleSave,
+    disabled: saving,
+    style: S.goldBtn
+  }, saving ? "Saving…" : tab === "bracket" ? "Save Bracket Picks" : "Save Picks"))));
+}
+
+// ─── LOGIN SCREEN ─────────────────────────────────────────────────────────────
+function LoginScreen(_ref0) {
+  var onLogin = _ref0.onLogin,
+    loading = _ref0.loading,
+    msg = _ref0.msg;
+  var _useState19 = useState(""),
+    _useState20 = _slicedToArray(_useState19, 2),
+    name = _useState20[0],
+    setName = _useState20[1];
+  var _useState21 = useState(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    pin = _useState22[0],
+    setPin = _useState22[1];
+  var _useState23 = useState(false),
+    _useState24 = _slicedToArray(_useState23, 2),
+    isNew = _useState24[0],
+    setIsNew = _useState24[1];
+  var _useState25 = useState(""),
+    _useState26 = _slicedToArray(_useState25, 2),
+    pinConfirm = _useState26[0],
+    setPinConfirm = _useState26[1];
+  var _useState27 = useState(""),
+    _useState28 = _slicedToArray(_useState27, 2),
+    err = _useState28[0],
+    setErr = _useState28[1];
+  function validate() {
+    if (!name.trim()) {
+      setErr("Enter your name");
+      return false;
+    }
+    if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+      setErr("PIN must be exactly 4 digits");
+      return false;
+    }
+    if (isNew && pin !== pinConfirm) {
+      setErr("PINs don't match");
+      return false;
+    }
+    setErr("");
+    return true;
+  }
+  function submit() {
+    if (validate()) onLogin(name.trim(), pin);
+  }
+  return /*#__PURE__*/React.createElement(Shell, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      padding: "0 16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      maxWidth: 420,
+      width: "100%"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 60,
+      marginBottom: 4
+    }
+  }, "\uD83C\uDFC6"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 46,
+      fontWeight: 900,
+      letterSpacing: "0.04em",
+      color: C.navy,
+      margin: "0 0 2px",
+      textTransform: "uppercase"
+    }
+  }, "World Cup 2026"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 15,
+      fontWeight: 600,
+      color: C.muted,
+      letterSpacing: "0.15em",
+      textTransform: "uppercase",
+      margin: "0 0 32px"
+    }
+  }, "Pick-Em League \xB7 48 Teams"), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: "28px 30px",
+      borderColor: C.borderMid,
+      background: C.panel,
+      boxShadow: "0 4px 24px rgba(0,0,0,0.1)"
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 0,
+      marginBottom: 20,
+      borderRadius: 6,
+      overflow: "hidden",
+      border: "1px solid ".concat(C.borderMid)
+    }
+  }, ["Returning", "New Player"].map(function (label, i) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        setIsNew(i === 1);
+        setErr("");
+      },
+      style: {
+        flex: 1,
+        padding: "9px",
+        border: "none",
+        cursor: "pointer",
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 700,
+        fontSize: 13,
+        letterSpacing: "0.07em",
+        textTransform: "uppercase",
+        background: isNew === (i === 1) ? C.navy : "#F3F4F6",
+        color: isNew === (i === 1) ? "#FFFFFF" : C.muted,
+        transition: "all 0.2s"
+      }
+    }, label);
+  })), /*#__PURE__*/React.createElement("input", {
+    style: _objectSpread(_objectSpread({}, S.input), {}, {
+      marginBottom: 12
+    }),
+    value: name,
+    onChange: function onChange(e) {
+      return setName(e.target.value);
+    },
+    placeholder: "Your name\u2026",
+    onKeyDown: function onKeyDown(e) {
+      return e.key === "Enter" && submit();
+    }
+  }), /*#__PURE__*/React.createElement("input", {
+    style: _objectSpread(_objectSpread({}, S.input), {}, {
+      marginBottom: isNew ? 12 : 0
+    }),
+    type: "password",
+    value: pin,
+    onChange: function onChange(e) {
+      return setPin(e.target.value.replace(/\D/g, "").slice(0, 4));
+    },
+    placeholder: "4-digit PIN",
+    maxLength: 4,
+    onKeyDown: function onKeyDown(e) {
+      return e.key === "Enter" && submit();
+    }
+  }), isNew && /*#__PURE__*/React.createElement("input", {
+    style: S.input,
+    type: "password",
+    value: pinConfirm,
+    onChange: function onChange(e) {
+      return setPinConfirm(e.target.value.replace(/\D/g, "").slice(0, 4));
+    },
+    placeholder: "Confirm PIN",
+    maxLength: 4,
+    onKeyDown: function onKeyDown(e) {
+      return e.key === "Enter" && submit();
+    }
+  }), (err || msg.text) && /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: err ? C.red : msg.type === "err" ? C.red : "#16A34A",
+      fontSize: 13,
+      margin: "10px 0 0",
+      fontWeight: 600
+    }
+  }, err || msg.text), /*#__PURE__*/React.createElement("button", {
+    onClick: submit,
+    disabled: loading,
+    style: _objectSpread(_objectSpread({}, S.goldBtn), {}, {
+      width: "100%",
+      marginTop: 16,
+      padding: "13px",
+      opacity: loading ? 0.7 : 1
+    })
+  }, loading ? "Connecting…" : isNew ? "Create Account & Enter →" : "Enter League →"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 12,
+      marginTop: 14,
+      lineHeight: 1.6
+    }
+  }, isNew ? "Choose a 4-digit PIN — you'll use it every time you log in. Keep it safe, there's no recovery." : "Use the same name and PIN you registered with.")))));
+}
+
+// ─── GROUP STAGE SHARED UTILITIES ─────────────────────────────────────────────
+function matchComplete(m) {
+  return m.homeScore !== null && m.awayScore !== null;
+}
+function getAllMatchesSorted() {
+  var all = [];
+  Object.keys(GROUPS).forEach(function (grp) {
+    getGroupMatches(grp).forEach(function (m, i) {
+      all.push(_objectSpread(_objectSpread({}, m), {}, {
+        grp: grp,
+        idx: i
+      }));
+    });
+  });
+  all.sort(function (a, b) {
+    return new Date(a.kickoff) - new Date(b.kickoff);
+  });
+  return all;
+}
+function makePickSetters(setGroupPicks, adminLocked, nowRef) {
+  function matchIsLocked(kickoff) {
+    return nowRef() >= new Date(kickoff);
+  }
+  function setPick(grp, i, field, val, kickoff) {
+    if (adminLocked || matchIsLocked(kickoff)) return;
+    setGroupPicks(function (prev) {
+      var g = _objectSpread({}, prev);
+      g[grp] = g[grp].map(function (m, mi) {
+        return mi === i ? _objectSpread(_objectSpread({}, m), {}, _defineProperty({}, field, val)) : m;
+      });
+      return g;
+    });
+  }
+  function setScore(grp, i, field, rawVal, kickoff) {
+    if (adminLocked || matchIsLocked(kickoff)) return;
+    var val = rawVal === "" ? null : Math.max(0, parseInt(rawVal) || 0);
+    setGroupPicks(function (prev) {
+      var g = _objectSpread({}, prev);
+      var match = _objectSpread(_objectSpread({}, g[grp][i]), {}, _defineProperty({}, field, val));
+      if (match.homeScore !== null && match.awayScore !== null) {
+        if (match.homeScore > match.awayScore) match.pick = "home";else if (match.awayScore > match.homeScore) match.pick = "away";else match.pick = "draw";
+      }
+      g[grp] = g[grp].map(function (m, mi) {
+        return mi === i ? match : m;
+      });
+      return g;
+    });
+  }
+  function resetPick(grp, i) {
+    setGroupPicks(function (prev) {
+      var g = _objectSpread({}, prev);
+      g[grp] = g[grp].map(function (m, mi) {
+        return mi === i ? _objectSpread(_objectSpread({}, m), {}, {
+          pick: null,
+          homeScore: null,
+          awayScore: null
+        }) : m;
+      });
+      return g;
+    });
+  }
+  return {
+    matchIsLocked: matchIsLocked,
+    setPick: setPick,
+    setScore: setScore,
+    resetPick: resetPick
+  };
+}
+
+// ─── SHARED MATCH PICK CARD ───────────────────────────────────────────────────
+function MatchPickCard(_ref1) {
+  var match = _ref1.match,
+    grp = _ref1.grp,
+    idx = _ref1.idx,
+    mp = _ref1.mp,
+    adminLocked = _ref1.adminLocked,
+    matchLocked = _ref1.matchLocked,
+    onPick = _ref1.onPick,
+    onScore = _ref1.onScore,
+    onReset = _ref1.onReset,
+    _ref1$showGroup = _ref1.showGroup,
+    showGroup = _ref1$showGroup === void 0 ? false : _ref1$showGroup;
+  var _fmtKickoff = fmtKickoff(match.kickoff),
+    date = _fmtKickoff.date,
+    time = _fmtKickoff.time;
+  var pick = (mp === null || mp === void 0 ? void 0 : mp.pick) || null;
+  var complete = matchComplete(mp || {});
+  var hasAnyPick = pick !== null || (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null || (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null;
+  var rc = function rc(v) {
+    return v === "home" ? C.green : v === "draw" ? "#D97706" : C.blue;
+  };
+  var cardBorder = matchLocked ? "1px solid ".concat(C.border) : complete ? "2px solid ".concat(C.green) : "1px solid ".concat(C.borderMid);
+  var cardBg = matchLocked ? C.panelAlt : complete ? "#F0FDF4" : C.panel;
+  // Score input style — always show visible gray border
+  var si = {
+    width: 48,
+    padding: "7px 0",
+    borderRadius: 6,
+    border: "2px solid ".concat(C.borderMid),
+    // always-visible gray outline
+    background: C.panel,
+    fontSize: 20,
+    fontWeight: 800,
+    fontFamily: "'Barlow Condensed',sans-serif",
+    textAlign: "center",
+    outline: "none",
+    appearance: "textfield",
+    WebkitAppearance: "none",
+    MozAppearance: "textfield",
+    cursor: matchLocked ? "default" : "text",
+    transition: "border-color 0.15s"
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: 10,
+      marginBottom: 10,
+      overflow: "hidden",
+      border: cardBorder,
+      background: cardBg,
+      boxShadow: "0 1px 4px rgba(0,0,0,0.06)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "6px 14px",
+      background: matchLocked ? C.panelAlt : "#F8FAFC",
+      borderBottom: "1px solid ".concat(C.border)
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      flexWrap: "wrap",
+      flex: 1,
+      minWidth: 0
+    }
+  }, showGroup && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 10,
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: matchLocked ? C.dim : C.navy,
+      background: matchLocked ? C.panelAlt : C.blueBg,
+      border: "1px solid ".concat(matchLocked ? C.border : C.blue),
+      borderRadius: 4,
+      padding: "1px 7px",
+      flexShrink: 0
+    }
+  }, "Grp ", grp), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 600,
+      color: matchLocked ? C.dim : C.text
+    }
+  }, date), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: matchLocked ? C.dim : C.muted
+    }
+  }, time), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.dim,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontStyle: "italic",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, "\xB7 ", match.venue)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      flexShrink: 0
+    }
+  }, !matchLocked && hasAnyPick && onReset && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onReset(grp, idx);
+    },
+    title: "Clear this pick",
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.borderMid),
+      borderRadius: 4,
+      padding: "2px 8px",
+      cursor: "pointer",
+      fontSize: 10,
+      color: C.muted,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      lineHeight: 1.5,
+      transition: "all 0.15s"
+    },
+    onMouseOver: function onMouseOver(e) {
+      e.target.style.borderColor = C.red;
+      e.target.style.color = C.red;
+    },
+    onMouseOut: function onMouseOut(e) {
+      e.target.style.borderColor = C.borderMid;
+      e.target.style.color = C.muted;
+    }
+  }, "\u2715 Reset"), matchLocked ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: C.red,
+      background: C.redBg,
+      padding: "2px 8px",
+      borderRadius: 4
+    }
+  }, "\uD83D\uDD12 Locked") : /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: C.green,
+      background: C.greenBg,
+      padding: "2px 8px",
+      borderRadius: 4
+    }
+  }, "Open"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      padding: "12px 14px",
+      gap: 8,
+      opacity: matchLocked ? 0.65 : 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement(Flag, {
+    team: match.home,
+    size: 22
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 15,
+      fontWeight: 700,
+      color: pick === "home" ? C.green : C.text,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, match.home)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    min: "0",
+    max: "20",
+    value: (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? mp.homeScore : "",
+    disabled: matchLocked,
+    onChange: function onChange(e) {
+      return onScore(grp, idx, "homeScore", e.target.value, match.kickoff);
+    },
+    style: _objectSpread(_objectSpread({}, si), {}, {
+      borderColor: (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? C.navy : C.borderMid,
+      color: (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? C.navy : C.dim,
+      opacity: matchLocked ? 0.6 : 1
+    })
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.borderDark,
+      fontSize: 20,
+      fontWeight: 300,
+      fontFamily: "'Barlow',sans-serif",
+      lineHeight: 1
+    }
+  }, "\u2013"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    min: "0",
+    max: "20",
+    value: (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? mp.awayScore : "",
+    disabled: matchLocked,
+    onChange: function onChange(e) {
+      return onScore(grp, idx, "awayScore", e.target.value, match.kickoff);
+    },
+    style: _objectSpread(_objectSpread({}, si), {}, {
+      borderColor: (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? C.navy : C.borderMid,
+      color: (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? C.navy : C.dim,
+      opacity: matchLocked ? 0.6 : 1
+    })
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      justifyContent: "flex-end",
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 15,
+      fontWeight: 700,
+      color: pick === "away" ? C.blue : C.text,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      textAlign: "right"
+    }
+  }, match.away), /*#__PURE__*/React.createElement(Flag, {
+    team: match.away,
+    size: 22
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "8px 14px 10px",
+      borderTop: "1px solid ".concat(C.border),
+      background: C.panelAlt,
+      opacity: matchLocked ? 0.6 : 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 10,
+      color: C.muted,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      fontWeight: 700
+    }
+  }, "Result"), pick ? function () {
+    var col = pick === "home" ? C.green : pick === "draw" ? C.yellow : C.blue;
+    var lbl = pick === "home" ? "".concat(match.home, " wins") : pick === "away" ? "".concat(match.away, " wins") : "Draw";
+    return /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 12,
+        fontWeight: 800,
+        letterSpacing: "0.06em",
+        color: col,
+        background: "".concat(col, "18"),
+        padding: "4px 14px",
+        borderRadius: 6,
+        border: "2px solid ".concat(col)
+      }
+    }, lbl);
+  }() : /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.dim,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontStyle: "italic"
+    }
+  }, matchLocked ? "—" : (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null || (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? "Enter both scores" : "Enter scores above"), matchLocked ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: C.dim,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontStyle: "italic"
+    }
+  }, "locked") : complete ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.green,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      background: C.greenBg,
+      padding: "2px 8px",
+      borderRadius: 4
+    }
+  }, "\u2713 Done") : /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.dim,
+      fontFamily: "'Barlow Condensed',sans-serif"
+    }
+  }, (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null && (mp === null || mp === void 0 ? void 0 : mp.awayScore) == null ? "Enter away score" : (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null && (mp === null || mp === void 0 ? void 0 : mp.homeScore) == null ? "Enter home score" : "")));
+}
+
+// ─── FIXTURES TAB ─────────────────────────────────────────────────────────────
+function FixturesTab(_ref10) {
+  var groupPicks = _ref10.groupPicks,
+    setGroupPicks = _ref10.setGroupPicks,
+    adminLocked = _ref10.adminLocked;
+  var _useState29 = useState(function () {
+      return getNow();
+    }),
+    _useState30 = _slicedToArray(_useState29, 2),
+    now = _useState30[0],
+    setNow = _useState30[1];
+  useEffect(function () {
+    var id = setInterval(function () {
+      return setNow(getNow());
+    }, 30000);
+    return function () {
+      return clearInterval(id);
+    };
+  }, []);
+  var _makePickSetters = makePickSetters(setGroupPicks, adminLocked, function () {
+      return now;
+    }),
+    matchIsLocked = _makePickSetters.matchIsLocked,
+    setPick = _makePickSetters.setPick,
+    setScore = _makePickSetters.setScore,
+    resetPick = _makePickSetters.resetPick;
+  var allMatches = getAllMatchesSorted();
+  var openMatches = allMatches.filter(function (m) {
+    return !matchIsLocked(m.kickoff);
+  });
+  var donePicks = openMatches.filter(function (m) {
+    var _groupPicks$m$grp;
+    return matchComplete((groupPicks === null || groupPicks === void 0 ? void 0 : (_groupPicks$m$grp = groupPicks[m.grp]) === null || _groupPicks$m$grp === void 0 ? void 0 : _groupPicks$m$grp[m.idx]) || {});
+  }).length;
+  var lockedCount = allMatches.filter(function (m) {
+    return matchIsLocked(m.kickoff);
+  }).length;
+  var byDate = {};
+  allMatches.forEach(function (m) {
+    var _fmtKickoff2 = fmtKickoff(m.kickoff),
+      date = _fmtKickoff2.date;
+    if (!byDate[date]) byDate[date] = {
+      date: date,
+      ms: []
+    };
+    byDate[date].ms.push(m);
+  });
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: _defineProperty({
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 24,
+      fontWeight: 900,
+      color: C.navy,
+      letterSpacing: "0.02em",
+      margin: "0 0 4px",
+      textTransform: "none"
+    }, "fontWeight", 900)
+  }, "All Fixtures"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      margin: "0 0 8px"
+    }
+  }, "All 72 group stage matches \xB7 earliest first", !adminLocked && " · picks sync with By Group view"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      padding: "8px 14px",
+      background: C.panel,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 8,
+      marginTop: 10,
+      boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      height: 4,
+      background: "#2e3650",
+      borderRadius: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: openMatches.length > 0 ? "".concat(Math.round(donePicks / openMatches.length * 100), "%") : "100%",
+      height: "100%",
+      borderRadius: 2,
+      transition: "width 0.4s",
+      background: donePicks === openMatches.length && openMatches.length > 0 ? C.green : C.blue
+    }
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 12,
+      color: C.muted,
+      flexShrink: 0
+    }
+  }, donePicks, "/", openMatches.length, " picks \xB7 ", lockedCount, " locked"))), Object.values(byDate).map(function (_ref12) {
+    var date = _ref12.date,
+      ms = _ref12.ms;
+    return /*#__PURE__*/React.createElement("div", {
+      key: date
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: 8,
+        marginTop: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 1,
+        background: C.border
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: _defineProperty(_defineProperty({
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 12,
+        fontWeight: 800,
+        color: C.textSub,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        flexShrink: 0
+      }, "fontSize", 13), "fontWeight", 700)
+    }, date), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 1,
+        background: C.border
+      }
+    })), ms.map(function (m) {
+      var _groupPicks$m$grp2;
+      return /*#__PURE__*/React.createElement(MatchPickCard, {
+        key: "".concat(m.grp, "-").concat(m.idx),
+        match: m,
+        grp: m.grp,
+        idx: m.idx,
+        mp: (groupPicks === null || groupPicks === void 0 ? void 0 : (_groupPicks$m$grp2 = groupPicks[m.grp]) === null || _groupPicks$m$grp2 === void 0 ? void 0 : _groupPicks$m$grp2[m.idx]) || {
+          pick: null,
+          homeScore: null,
+          awayScore: null
+        },
+        adminLocked: adminLocked,
+        matchLocked: adminLocked || matchIsLocked(m.kickoff),
+        onPick: setPick,
+        onScore: setScore,
+        onReset: resetPick,
+        showGroup: true
+      });
+    }));
+  }));
+}
+
+// ─── GROUP TAB ────────────────────────────────────────────────────────────────
+function GroupTab(_ref14) {
+  var groupPicks = _ref14.groupPicks,
+    setGroupPicks = _ref14.setGroupPicks,
+    adminLocked = _ref14.adminLocked;
+  var _useState31 = useState("A"),
+    _useState32 = _slicedToArray(_useState31, 2),
+    open = _useState32[0],
+    setOpen = _useState32[1];
+  var _useState33 = useState(function () {
+      return getNow();
+    }),
+    _useState34 = _slicedToArray(_useState33, 2),
+    now = _useState34[0],
+    setNow = _useState34[1];
+  useEffect(function () {
+    var id = setInterval(function () {
+      return setNow(getNow());
+    }, 30000);
+    return function () {
+      return clearInterval(id);
+    };
+  }, []);
+  var _makePickSetters2 = makePickSetters(setGroupPicks, adminLocked, function () {
+      return now;
+    }),
+    matchIsLocked = _makePickSetters2.matchIsLocked,
+    setPick = _makePickSetters2.setPick,
+    setScore = _makePickSetters2.setScore,
+    resetPick = _makePickSetters2.resetPick;
+  function progress(grp) {
+    var scheduled = getGroupMatches(grp);
+    var pickable = scheduled.filter(function (m) {
+      return !matchIsLocked(m.kickoff);
+    }).length;
+    var picks = (groupPicks === null || groupPicks === void 0 ? void 0 : groupPicks[grp]) || [];
+    var done = picks.filter(function (m, i) {
+      var _scheduled$i;
+      return matchComplete(m) && !matchIsLocked(((_scheduled$i = scheduled[i]) === null || _scheduled$i === void 0 ? void 0 : _scheduled$i.kickoff) || "");
+    }).length;
+    var lockedCount = scheduled.filter(function (m) {
+      return matchIsLocked(m.kickoff);
+    }).length;
+    return {
+      done: done,
+      pickable: pickable,
+      lockedCount: lockedCount,
+      pct: pickable > 0 ? Math.round(done / pickable * 100) : 100
+    };
+  }
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: _defineProperty({
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 24,
+      fontWeight: 900,
+      color: C.navy,
+      letterSpacing: "0.02em",
+      margin: "0 0 4px 0",
+      textTransform: "none"
+    }, "fontWeight", 900)
+  }, adminLocked ? "Group Stage — Locked" : "Group Stage"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      margin: "0 0 16px"
+    }
+  }, adminLocked ? "Viewing saved picks — group stage is complete." : "Picks sync with All Fixtures tab. Each game locks at kickoff."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(6,1fr)",
+      gap: 6,
+      marginBottom: 18
+    }
+  }, ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map(function (g) {
+    var _progress = progress(g),
+      done = _progress.done,
+      pickable = _progress.pickable,
+      lockedCount = _progress.lockedCount,
+      pct = _progress.pct;
+    var allDone = pickable > 0 && done === pickable;
+    return /*#__PURE__*/React.createElement("button", {
+      key: g,
+      onClick: function onClick() {
+        return setOpen(g);
+      },
+      style: {
+        padding: "8px 4px",
+        borderRadius: 10,
+        cursor: "pointer",
+        border: open === g ? "2px solid ".concat(C.navy) : "1px solid ".concat(C.border),
+        background: open === g ? "rgba(91,156,246,0.1)" : C.panel,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 800,
+        fontSize: 13,
+        letterSpacing: "0.06em",
+        color: open === g ? C.blue : C.muted,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("span", null, "Grp ", g), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "90%",
+        height: 3,
+        background: C.border,
+        borderRadius: 2
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "".concat(pct, "%"),
+        height: "100%",
+        background: allDone ? C.green : C.blue,
+        borderRadius: 2,
+        transition: "width 0.3s"
+      }
+    })), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: allDone ? C.green : C.muted,
+        fontWeight: 700
+      }
+    }, lockedCount > 0 ? "".concat(lockedCount, "\uD83D\uDD12 ") : "", done, "/", pickable));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: "14px 16px",
+      background: C.panel
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 18,
+      fontWeight: 900,
+      color: C.blue,
+      margin: 0,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Group ", open), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      marginTop: 5,
+      flexWrap: "wrap"
+    }
+  }, GROUPS[open].map(function (t) {
+    return /*#__PURE__*/React.createElement("span", {
+      key: t,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        fontSize: 13,
+        color: C.muted,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 600
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: t,
+      size: 13
+    }), t);
+  }))), adminLocked && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.red,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      letterSpacing: "0.07em",
+      border: "1px solid rgba(240,101,101,0.3)",
+      padding: "3px 10px",
+      borderRadius: 6
+    }
+  }, "LOCKED")), getGroupMatches(open).map(function (match, i) {
+    var _groupPicks$open;
+    return /*#__PURE__*/React.createElement(MatchPickCard, {
+      key: i,
+      match: match,
+      grp: open,
+      idx: i,
+      mp: (groupPicks === null || groupPicks === void 0 ? void 0 : (_groupPicks$open = groupPicks[open]) === null || _groupPicks$open === void 0 ? void 0 : _groupPicks$open[i]) || {
+        pick: null,
+        homeScore: null,
+        awayScore: null
+      },
+      adminLocked: adminLocked,
+      matchLocked: adminLocked || matchIsLocked(match.kickoff),
+      onPick: setPick,
+      onScore: setScore,
+      onReset: resetPick,
+      showGroup: false
+    });
+  })));
+}
+
+// ─── BRACKET TAB ──────────────────────────────────────────────────────────────
+function BracketMatchCard(_ref16) {
+  var label = _ref16.label,
+    sublabel = _ref16.sublabel,
+    team1 = _ref16.team1,
+    team2 = _ref16.team2,
+    pick = _ref16.pick,
+    onPick = _ref16.onPick,
+    _ref16$preview = _ref16.preview,
+    preview = _ref16$preview === void 0 ? false : _ref16$preview,
+    homeScore = _ref16.homeScore,
+    awayScore = _ref16.awayScore,
+    onScore = _ref16.onScore;
+  var si = {
+    width: 34,
+    padding: "4px 0",
+    borderRadius: 6,
+    border: "1px solid ".concat(C.borderMid),
+    background: C.panel,
+    color: C.text,
+    fontSize: 15,
+    fontWeight: 800,
+    fontFamily: "'Barlow Condensed',sans-serif",
+    textAlign: "center",
+    outline: "none",
+    appearance: "textfield",
+    WebkitAppearance: "none",
+    MozAppearance: "textfield",
+    cursor: preview ? "default" : "text",
+    opacity: preview ? 0.3 : 1
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.panel,
+      border: pick ? "1px solid rgba(240,180,41,0.35)" : preview ? "1px solid rgba(255,255,255,0.04)" : C.border,
+      borderRadius: 10,
+      padding: "10px 12px",
+      width: "100%",
+      boxSizing: "border-box"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: preview ? "#3a4a65" : C.dim,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      marginBottom: 6,
+      lineHeight: 1.4
+    }
+  }, label, sublabel && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.dim,
+      display: "block"
+    }
+  }, sublabel)), [{
+    team: team1,
+    side: "home"
+  }, {
+    team: team2,
+    side: "away"
+  }].map(function (_ref17, ti) {
+    var team = _ref17.team,
+      side = _ref17.side;
+    var isPick = pick === team;
+    var empty = !team;
+    var sc = side === "home" ? homeScore : awayScore;
+    return /*#__PURE__*/React.createElement("div", {
+      key: ti,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        marginBottom: 4
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return !empty && !preview && onPick && onPick(team);
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        flex: 1,
+        padding: "5px 8px",
+        borderRadius: 7,
+        textAlign: "left",
+        border: isPick ? "2px solid ".concat(C.navy) : empty ? "1px solid ".concat(C.border) : "1px solid ".concat(C.borderMid),
+        background: isPick ? C.blueBg : empty ? C.panelAlt : C.panel,
+        color: empty ? C.dim : isPick ? C.navy : preview ? C.muted : C.text,
+        cursor: empty || preview ? "default" : "pointer",
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 700,
+        fontSize: 12,
+        transition: "all 0.15s",
+        minWidth: 0
+      }
+    }, empty ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        opacity: 0.3
+      }
+    }, "\u2B1C"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontStyle: "italic",
+        fontSize: 11,
+        color: C.dim
+      }
+    }, "TBD")) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Flag, {
+      team: team,
+      size: 12
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        flex: 1,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        fontSize: 11
+      }
+    }, team)), isPick && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.gold,
+        fontSize: 10
+      }
+    }, "\u2713")), !preview && !empty && onScore && /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      min: "0",
+      max: "20",
+      value: sc !== null && sc !== void 0 ? sc : "",
+      disabled: preview,
+      onChange: function onChange(e) {
+        return onScore(side, e.target.value, team1, team2);
+      },
+      style: _objectSpread(_objectSpread({}, si), {}, {
+        borderColor: sc != null ? C.navy : C.borderMid,
+        color: sc != null ? C.navy : C.muted
+      })
+    }));
+  }));
+}
+function RoundCol(_ref18) {
+  var label = _ref18.label,
+    pts = _ref18.pts,
+    children = _ref18.children;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      minWidth: 175,
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "6px 4px",
+      marginBottom: 8,
+      borderRadius: 6,
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid ".concat(C.border)
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 11,
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: C.muted
+    }
+  }, label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 10,
+      color: "rgba(255,255,255,0.7)"
+    }
+  }, pts, " pts / pick")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8,
+      flex: 1,
+      justifyContent: "space-around"
+    }
+  }, children));
+}
+function BracketTab(_ref19) {
+  var _knockoutPicks$final, _knockoutPicks$final$;
+  var knockoutPicks = _ref19.knockoutPicks,
+    setKnockoutPicks = _ref19.setKnockoutPicks,
+    league = _ref19.league;
+  var phase = (league === null || league === void 0 ? void 0 : league.phase) || "group";
+  var preview = phase === "group";
+
+  // All qualifiers are auto-calculated — no manual input needed.
+  // 1st/2nd: from group standings with full FIFA 2026 tie-breaker criteria.
+  // 3rd-place (slots 3P-1 through 3P-8): from the best-8 third-place ranking.
+  var ogr = (league === null || league === void 0 ? void 0 : league.officialGroupResults) || {};
+  var autoStandings = calcGroupStandings(ogr);
+  var thirds = calcThirdPlaceRanking(ogr); // sorted best→worst, top 8 qualify
+  var q = {};
+  Object.keys(GROUPS).forEach(function (grp) {
+    var st = autoStandings[grp] || [];
+    if (st[0] && st[0].played > 0) q["1" + grp] = st[0].team;
+    if (st[1] && st[1].played > 0) q["2" + grp] = st[1].team;
+  });
+  // Map top-8 3rd-place teams to R32 slots 3P-1 through 3P-8
+  thirds.slice(0, 8).forEach(function (t, i) {
+    q["3P-".concat(i + 1)] = t.team;
+  });
+  function resolveSlot(slot) {
+    return q[slot] || null;
+  }
+  function pickR32(i, team) {
+    setKnockoutPicks(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        r32: prev.r32.map(function (m, mi) {
+          return mi === i ? _objectSpread(_objectSpread({}, m), {}, {
+            pick: team
+          }) : m;
+        })
+      });
+    });
+  }
+  function pickRound(round, i, team) {
+    setKnockoutPicks(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, round, prev[round].map(function (m, mi) {
+        return mi === i ? _objectSpread(_objectSpread({}, m), {}, {
+          pick: team
+        }) : m;
+      })));
+    });
+  }
+  function scoreRound(round, i, side, rawVal, team1, team2) {
+    var val = rawVal === "" ? null : Math.max(0, parseInt(rawVal) || 0);
+    var field = side === "home" ? "homeScore" : "awayScore";
+    setKnockoutPicks(function (prev) {
+      var updated = prev[round].map(function (m, mi) {
+        if (mi !== i) return m;
+        var next = _objectSpread(_objectSpread({}, m), {}, _defineProperty({}, field, val));
+        // Auto-derive winner from scores when both are filled
+        var hs = side === "home" ? val : m.homeScore;
+        var as = side === "away" ? val : m.awayScore;
+        if (hs !== null && as !== null && team1 && team2) {
+          if (hs > as) next.pick = team1;else if (as > hs) next.pick = team2;
+          // Equal score in KO = no auto-pick (extra time/penalties decide)
+        }
+        return next;
+      });
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, round, updated));
+    });
+  }
+  function setChampion(t) {
+    setKnockoutPicks(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        champion: t
+      });
+    });
+  }
+  function adv(round, i) {
+    var _knockoutPicks$round2, _knockoutPicks$round3;
+    return (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$round2 = knockoutPicks[round]) === null || _knockoutPicks$round2 === void 0 ? void 0 : (_knockoutPicks$round3 = _knockoutPicks$round2[i]) === null || _knockoutPicks$round3 === void 0 ? void 0 : _knockoutPicks$round3.pick) || null;
+  }
+  function sc(round, i, side) {
+    var _knockoutPicks$round$, _knockoutPicks$round4, _knockoutPicks$round5;
+    return (_knockoutPicks$round$ = knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$round4 = knockoutPicks[round]) === null || _knockoutPicks$round4 === void 0 ? void 0 : (_knockoutPicks$round5 = _knockoutPicks$round4[i]) === null || _knockoutPicks$round5 === void 0 ? void 0 : _knockoutPicks$round5[side === "home" ? "homeScore" : "awayScore"]) !== null && _knockoutPicks$round$ !== void 0 ? _knockoutPicks$round$ : null;
+  }
+  var allQ = Object.values(q).filter(Boolean);
+  var allTeams = Object.values(GROUPS).flat();
+  var champOptions = preview ? allTeams : allQ;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: _defineProperty({
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 24,
+      fontWeight: 900,
+      color: C.navy,
+      letterSpacing: "0.02em",
+      margin: 0,
+      textTransform: "none"
+    }, "fontWeight", 900)
+  }, "Knockout Bracket"), preview && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 11,
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: C.navy,
+      background: C.blueBg,
+      border: "1px solid rgba(91,156,246,0.25)",
+      borderRadius: 6,
+      padding: "3px 10px"
+    }
+  }, "Preview \u2014 Group Stage In Progress")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      margin: "6px 0 0"
+    }
+  }, preview ? "Bracket structure shown below. Team slots fill once the group stage ends." : "Pick the winner of each match. Picks cascade through the bracket automatically."), !preview && /*#__PURE__*/React.createElement("div", {
+    style: _defineProperty({
+      display: "flex",
+      gap: 14,
+      flexWrap: "wrap",
+      marginTop: 8
+    }, "flexWrap", "wrap")
+  }, [["R32", "3"], ["R16", "6"], ["QF", "12"], ["SF", "24"], ["Final", "48"], ["Champion", "96"]].map(function (_ref22) {
+    var _ref23 = _slicedToArray(_ref22, 2),
+      r = _ref23[0],
+      p = _ref23[1];
+    return /*#__PURE__*/React.createElement("span", {
+      key: r,
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 12,
+        color: C.muted
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.navy,
+        fontWeight: 800
+      }
+    }, r), " ", p, "pts");
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: "auto",
+      paddingBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      minWidth: 1100,
+      alignItems: "stretch"
+    }
+  }, /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Round of 32",
+    pts: 3
+  }, R32_FIXED_SLOTS.slice(0, 8).map(function (slot, i) {
+    var _knockoutPicks$r, _knockoutPicks$r$i;
+    var t1 = resolveSlot(slot.s1);
+    var t2 = resolveSlot(slot.s2);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: slot.label,
+      sublabel: slot.thirdPlace ? "3rd-place" : slot.s1 + " v " + slot.s2,
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r = knockoutPicks.r32) === null || _knockoutPicks$r === void 0 ? void 0 : (_knockoutPicks$r$i = _knockoutPicks$r[i]) === null || _knockoutPicks$r$i === void 0 ? void 0 : _knockoutPicks$r$i.pick,
+      homeScore: sc("r32", i, "home"),
+      awayScore: sc("r32", i, "away"),
+      onPick: function onPick(t) {
+        return pickR32(i, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("r32", i, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Round of 16",
+    pts: 6
+  }, [0, 1, 2, 3].map(function (i) {
+    var _knockoutPicks$r2, _knockoutPicks$r2$i;
+    var t1 = preview ? null : adv("r32", i * 2);
+    var t2 = preview ? null : adv("r32", i * 2 + 1);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: "R16 Match ".concat(i + 1),
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r2 = knockoutPicks.r16) === null || _knockoutPicks$r2 === void 0 ? void 0 : (_knockoutPicks$r2$i = _knockoutPicks$r2[i]) === null || _knockoutPicks$r2$i === void 0 ? void 0 : _knockoutPicks$r2$i.pick,
+      homeScore: sc("r16", i, "home"),
+      awayScore: sc("r16", i, "away"),
+      onPick: function onPick(t) {
+        return pickRound("r16", i, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("r16", i, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Quarter-Finals",
+    pts: 12
+  }, [0, 1].map(function (i) {
+    var _knockoutPicks$qf, _knockoutPicks$qf$i;
+    var t1 = preview ? null : adv("r16", i * 2);
+    var t2 = preview ? null : adv("r16", i * 2 + 1);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: "QF ".concat(i + 1),
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$qf = knockoutPicks.qf) === null || _knockoutPicks$qf === void 0 ? void 0 : (_knockoutPicks$qf$i = _knockoutPicks$qf[i]) === null || _knockoutPicks$qf$i === void 0 ? void 0 : _knockoutPicks$qf$i.pick,
+      homeScore: sc("qf", i, "home"),
+      awayScore: sc("qf", i, "away"),
+      onPick: function onPick(t) {
+        return pickRound("qf", i, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("qf", i, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Semi-Finals",
+    pts: 24
+  }, [0].map(function (i) {
+    var _knockoutPicks$sf, _knockoutPicks$sf$;
+    var t1 = preview ? null : adv("qf", 0);
+    var t2 = preview ? null : adv("qf", 1);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: "SF 1",
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$sf = knockoutPicks.sf) === null || _knockoutPicks$sf === void 0 ? void 0 : (_knockoutPicks$sf$ = _knockoutPicks$sf[0]) === null || _knockoutPicks$sf$ === void 0 ? void 0 : _knockoutPicks$sf$.pick,
+      homeScore: sc("sf", 0, "home"),
+      awayScore: sc("sf", 0, "away"),
+      onPick: function onPick(t) {
+        return pickRound("sf", 0, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("sf", 0, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      minWidth: 190,
+      flex: 1.1,
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "6px 4px",
+      borderRadius: 6,
+      background: "rgba(240,180,41,0.08)",
+      border: "1px solid rgba(240,180,41,0.2)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 11,
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: C.gold
+    }
+  }, "Final"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 10,
+      color: "rgba(255,255,255,0.7)"
+    }
+  }, "48 pts / pick")), /*#__PURE__*/React.createElement(BracketMatchCard, {
+    label: "\uD83C\uDFC6 The Final \xB7 Jul 19",
+    sublabel: "MetLife Stadium, NJ",
+    team1: preview ? null : adv("sf", 0),
+    team2: preview ? null : adv("sf", 1),
+    preview: preview,
+    pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$final = knockoutPicks["final"]) === null || _knockoutPicks$final === void 0 ? void 0 : (_knockoutPicks$final$ = _knockoutPicks$final[0]) === null || _knockoutPicks$final$ === void 0 ? void 0 : _knockoutPicks$final$.pick,
+    homeScore: sc("final", 0, "home"),
+    awayScore: sc("final", 0, "away"),
+    onPick: function onPick(t) {
+      return pickRound("final", 0, t);
+    },
+    onScore: function onScore(side, v, t1, t2) {
+      return scoreRound("final", 0, side, v, t1, t2);
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "rgba(240,180,41,0.06)",
+      border: "1px solid rgba(240,180,41,0.22)",
+      borderRadius: 10,
+      padding: "10px 12px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 9,
+      fontWeight: 800,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: C.gold,
+      marginBottom: 6
+    }
+  }, "\uD83C\uDFC6 Champion \xB7 96 pts"), /*#__PURE__*/React.createElement("select", {
+    value: (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : knockoutPicks.champion) || "",
+    onChange: function onChange(e) {
+      return !preview && setChampion(e.target.value || null);
+    },
+    disabled: preview,
+    style: {
+      width: "100%",
+      padding: "7px 10px",
+      borderRadius: 8,
+      border: "1px solid rgba(240,180,41,0.3)",
+      background: "rgba(7,9,15,0.9)",
+      color: knockoutPicks !== null && knockoutPicks !== void 0 && knockoutPicks.champion ? C.navy : preview ? C.dim : C.muted,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      fontSize: 13,
+      outline: "none",
+      cursor: preview ? "default" : "pointer",
+      boxSizing: "border-box",
+      opacity: preview ? 0.4 : 1
+    }
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, preview ? "(Available after group stage)" : "Select champion…"), champOptions.map(function (t) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: t,
+      value: t
+    }, FLAGS[t] || "", " ", t);
+  })), (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : knockoutPicks.champion) && !preview && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 8,
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      padding: "7px 10px",
+      background: C.blueBg,
+      borderRadius: 6,
+      border: "1px solid ".concat(C.navy)
+    }
+  }, /*#__PURE__*/React.createElement(Flag, {
+    team: knockoutPicks.champion,
+    size: 20
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 800,
+      fontSize: 14,
+      color: C.navy
+    }
+  }, knockoutPicks.champion), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: C.muted,
+      marginLeft: "auto"
+    }
+  }, "96 pts")))), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Semi-Finals",
+    pts: 24
+  }, [0].map(function (i) {
+    var _knockoutPicks$sf2, _knockoutPicks$sf2$;
+    var t1 = preview ? null : adv("qf", 2);
+    var t2 = preview ? null : adv("qf", 3);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: "SF 2",
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$sf2 = knockoutPicks.sf) === null || _knockoutPicks$sf2 === void 0 ? void 0 : (_knockoutPicks$sf2$ = _knockoutPicks$sf2[1]) === null || _knockoutPicks$sf2$ === void 0 ? void 0 : _knockoutPicks$sf2$.pick,
+      homeScore: sc("sf", 1, "home"),
+      awayScore: sc("sf", 1, "away"),
+      onPick: function onPick(t) {
+        return pickRound("sf", 1, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("sf", 1, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Quarter-Finals",
+    pts: 12
+  }, [2, 3].map(function (i) {
+    var _knockoutPicks$qf2, _knockoutPicks$qf2$i;
+    var t1 = preview ? null : adv("r16", i * 2 - 4);
+    var t2 = preview ? null : adv("r16", i * 2 - 3);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: "QF ".concat(i + 1),
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$qf2 = knockoutPicks.qf) === null || _knockoutPicks$qf2 === void 0 ? void 0 : (_knockoutPicks$qf2$i = _knockoutPicks$qf2[i]) === null || _knockoutPicks$qf2$i === void 0 ? void 0 : _knockoutPicks$qf2$i.pick,
+      homeScore: sc("qf", i, "home"),
+      awayScore: sc("qf", i, "away"),
+      onPick: function onPick(t) {
+        return pickRound("qf", i, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("qf", i, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Round of 16",
+    pts: 6
+  }, [4, 5, 6, 7].map(function (i) {
+    var _knockoutPicks$r3, _knockoutPicks$r3$i;
+    var t1 = preview ? null : adv("r32", i * 2 - 8);
+    var t2 = preview ? null : adv("r32", i * 2 - 7);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: "R16 Match ".concat(i + 1),
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r3 = knockoutPicks.r16) === null || _knockoutPicks$r3 === void 0 ? void 0 : (_knockoutPicks$r3$i = _knockoutPicks$r3[i]) === null || _knockoutPicks$r3$i === void 0 ? void 0 : _knockoutPicks$r3$i.pick,
+      homeScore: sc("r16", i, "home"),
+      awayScore: sc("r16", i, "away"),
+      onPick: function onPick(t) {
+        return pickRound("r16", i, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("r16", i, side, v, t1, t2);
+      }
+    });
+  })), /*#__PURE__*/React.createElement(RoundCol, {
+    label: "Round of 32",
+    pts: 3
+  }, R32_FIXED_SLOTS.slice(8, 16).map(function (slot, rawI) {
+    var _knockoutPicks$r4, _knockoutPicks$r4$i;
+    var i = rawI + 8;
+    var t1 = resolveSlot(slot.s1);
+    var t2 = resolveSlot(slot.s2);
+    return /*#__PURE__*/React.createElement(BracketMatchCard, {
+      key: i,
+      label: slot.label,
+      sublabel: slot.thirdPlace ? "3rd-place" : slot.s1 + " v " + slot.s2,
+      team1: t1,
+      team2: t2,
+      preview: preview,
+      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r4 = knockoutPicks.r32) === null || _knockoutPicks$r4 === void 0 ? void 0 : (_knockoutPicks$r4$i = _knockoutPicks$r4[i]) === null || _knockoutPicks$r4$i === void 0 ? void 0 : _knockoutPicks$r4$i.pick,
+      homeScore: sc("r32", i, "home"),
+      awayScore: sc("r32", i, "away"),
+      onPick: function onPick(t) {
+        return pickR32(i, t);
+      },
+      onScore: function onScore(side, v, t1, t2) {
+        return scoreRound("r32", i, side, v, t1, t2);
+      }
+    });
+  })))), preview && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 20,
+      padding: "12px 16px",
+      borderRadius: 10,
+      background: C.blueBg,
+      border: "1px solid ".concat(C.blue)
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 13,
+      color: C.muted,
+      margin: 0
+    }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.blue
+    }
+  }, "How it works:"), " Once the group stage ends, the admin enters which teams qualified. The bracket slots fill automatically and you pick winners round by round.")));
+}
+
+// ─── THIRD-PLACE RANKING ─────────────────────────────────────────────────────
+// Ranks all 12 third-place teams to find the 8 best.
+// Criteria (no head-to-head — cross-group comparison):
+//   1. Most points in all group matches
+//   2. Best goal difference in all group matches
+//   3. Most goals scored in all group matches
+//   4. Fair-play score (not tracked → skipped)
+//   5. FIFA World Ranking (not tracked → alphabetical fallback)
+function calcThirdPlaceRanking(officialGroupResults) {
+  var standings = calcGroupStandings(officialGroupResults);
+  var thirds = [];
+  Object.keys(GROUPS).forEach(function (grp) {
+    var grpStandings = standings[grp] || [];
+    if (grpStandings.length >= 3) {
+      var t = _objectSpread(_objectSpread({}, grpStandings[2]), {}, {
+        position: 3
+      });
+      thirds.push(t);
+    }
+  });
+  // Sort by official criteria: pts → GD → GF → alphabetical
+  thirds.sort(function (a, b) {
+    return b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team);
+  });
+  return thirds; // all 12 third-place teams ranked; top 8 qualify
+}
+
+// ─── THIRD-PLACE RANKINGS TABLE ──────────────────────────────────────────────
+// Ranks all 12 third-place finishers; shows top 8 who qualify for the Round of 32.
+// Criteria: points → GD → GF → fair-play (skipped) → FIFA ranking (alphabetical).
+// NO head-to-head used — these are cross-group comparisons.
+function ThirdPlaceTable(_ref24) {
+  var officialGroupResults = _ref24.officialGroupResults;
+  var thirds = calcThirdPlaceRanking(officialGroupResults);
+  var hasAny = thirds.some(function (t) {
+    return t.played > 0;
+  });
+  if (!hasAny) return /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: "20px 24px",
+      textAlign: "center",
+      borderColor: C.border
+    })
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      fontStyle: "italic"
+    }
+  }, "3rd-place rankings will appear here once group stage results are entered."));
+  var th = {
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontSize: 11,
+    fontWeight: 800,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: C.muted,
+    padding: "8px 10px",
+    textAlign: "center",
+    borderBottom: "2px solid ".concat(C.border)
+  };
+  var td = {
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontSize: 13,
+    fontWeight: 600,
+    padding: "9px 10px",
+    textAlign: "center",
+    borderBottom: "1px solid ".concat(C.border)
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      marginBottom: 12,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 18,
+      fontWeight: 800,
+      color: C.navy,
+      margin: 0,
+      letterSpacing: "0.02em"
+    }
+  }, "Best 3rd-Place Teams"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 12,
+      color: C.muted
+    }
+  }, "Top 8 advance to the Round of 32")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.blueBg,
+      border: "1px solid ".concat(C.blue),
+      borderRadius: 8,
+      padding: "8px 14px",
+      marginBottom: 12,
+      fontSize: 12,
+      color: C.navy
+    }
+  }, /*#__PURE__*/React.createElement("strong", null, "Note:"), " 3rd-place teams are ranked across all 12 groups using only overall stats (no head-to-head). Criteria: Points \u2192 Goal Difference \u2192 Goals Scored \u2192 FIFA Ranking."), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: 0,
+      overflow: "hidden"
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: "auto"
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: "100%",
+      borderCollapse: "collapse",
+      minWidth: 520
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: C.panelAlt
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      padding: "8px 8px 8px 14px",
+      width: 36
+    })
+  }, "#"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      width: 60
+    })
+  }, "Grp"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      minWidth: 140
+    })
+  }, "Team"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Played"
+  }, "P"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Wins"
+  }, "W"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Draws"
+  }, "D"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Losses"
+  }, "L"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Goals For"
+  }, "GF"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Goals Against"
+  }, "GA"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Goal Difference"
+  }, "GD"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      color: C.navy,
+      fontWeight: 900
+    }),
+    title: "Points"
+  }, "Pts"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      minWidth: 70
+    })
+  }, "Status"))), /*#__PURE__*/React.createElement("tbody", null, thirds.map(function (row, idx) {
+    var qualifies = idx < 8;
+    var isCutoff = idx === 7;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: row.team,
+      style: {
+        background: qualifies ? "#EFF6FF" : C.panel,
+        borderLeft: qualifies ? "4px solid ".concat(C.blue) : "4px solid transparent",
+        borderBottom: isCutoff ? "2px dashed ".concat(C.navy) : "1px solid ".concat(C.border)
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "center",
+        fontWeight: 900,
+        fontSize: 15,
+        color: qualifies ? C.blue : C.dim,
+        paddingLeft: 10
+      })
+    }, idx + 1), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "center"
+      })
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 11,
+        fontWeight: 800,
+        color: C.navy,
+        background: C.blueBg,
+        padding: "1px 6px",
+        borderRadius: 4
+      }
+    }, row.grp)), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "left",
+        paddingLeft: 12
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: row.team,
+      size: 20
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 700,
+        color: C.text,
+        fontSize: 14
+      }
+    }, row.team))), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.textSub
+      })
+    }, row.played), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.green,
+        fontWeight: 700
+      })
+    }, row.w), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.muted
+      })
+    }, row.d), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.red
+      })
+    }, row.l), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.gf), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.ga), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        fontWeight: 700,
+        color: row.gd > 0 ? C.green : row.gd < 0 ? C.red : C.muted
+      })
+    }, row.gd > 0 ? "+" : "", row.gd), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        fontWeight: 900,
+        fontSize: 17,
+        color: C.navy
+      })
+    }, row.pts), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread({}, td)
+    }, qualifies ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 800,
+        color: C.blue,
+        background: C.blueBg,
+        padding: "2px 7px",
+        borderRadius: 4,
+        letterSpacing: "0.05em",
+        whiteSpace: "nowrap"
+      }
+    }, "\u2713 Qualify") : /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: C.dim,
+        fontStyle: "italic"
+      }
+    }, "Eliminated")));
+  })))), thirds.length < 12 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "10px 16px",
+      fontSize: 12,
+      color: C.muted,
+      fontStyle: "italic",
+      borderTop: "1px solid ".concat(C.border),
+      background: C.panelAlt
+    }
+  }, 12 - thirds.length, " group(s) have no results yet \u2014 remaining 3rd-place teams will appear as results are entered.")));
+}
+
+// ─── USER STANDINGS TAB ──────────────────────────────────────────────────────
+function UserStandingsTab(_ref25) {
+  var league = _ref25.league;
+  var _useState35 = useState("A"),
+    _useState36 = _slicedToArray(_useState35, 2),
+    openGrp = _useState36[0],
+    setOpenGrp = _useState36[1];
+  var standings = calcGroupStandings((league === null || league === void 0 ? void 0 : league.officialGroupResults) || {});
+  var th = {
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontSize: 11,
+    fontWeight: 800,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: C.muted,
+    padding: "8px 10px",
+    textAlign: "center",
+    borderBottom: "2px solid ".concat(C.border)
+  };
+  var td = {
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontSize: 13,
+    fontWeight: 600,
+    padding: "9px 10px",
+    textAlign: "center",
+    borderBottom: "1px solid ".concat(C.border)
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 24,
+      fontWeight: 900,
+      color: C.navy,
+      letterSpacing: "0.02em",
+      margin: "0 0 4px"
+    }
+  }, "Group Standings"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13
+    }
+  }, "Live standings based on official results. Top 2 from each group advance to the knockout stage.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 6,
+      marginBottom: 16
+    }
+  }, "ABCDEFGHIJKL".split("").map(function (g) {
+    var st = standings[g] || [];
+    var hasResults = st.some(function (t) {
+      return t.played > 0;
+    });
+    return /*#__PURE__*/React.createElement("button", {
+      key: g,
+      onClick: function onClick() {
+        return setOpenGrp(g);
+      },
+      style: {
+        padding: "6px 16px",
+        borderRadius: 8,
+        cursor: "pointer",
+        border: openGrp === g ? "2px solid ".concat(C.navy) : C.border,
+        background: openGrp === g ? C.navy : C.panel,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 800,
+        fontSize: 12,
+        letterSpacing: "0.07em",
+        color: openGrp === g ? "#FFFFFF" : C.muted,
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        transition: "all 0.15s"
+      }
+    }, "Grp ", g, hasResults && /*#__PURE__*/React.createElement("span", {
+      style: {
+        width: 6,
+        height: 6,
+        borderRadius: "50%",
+        background: openGrp === g ? "rgba(255,255,255,0.7)" : C.green,
+        display: "inline-block"
+      }
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: 0,
+      overflow: "hidden",
+      marginBottom: 20
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "12px 18px",
+      background: C.navy,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 17,
+      fontWeight: 900,
+      color: "#FFFFFF",
+      letterSpacing: "0.06em"
+    }
+  }, "GROUP ", openGrp), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap"
+    }
+  }, GROUPS[openGrp].map(function (t) {
+    return /*#__PURE__*/React.createElement("span", {
+      key: t,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        fontSize: 12,
+        color: "rgba(255,255,255,0.85)"
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: t,
+      size: 14
+    }), t);
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: "auto"
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: "100%",
+      borderCollapse: "collapse",
+      minWidth: 480
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: C.panelAlt
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      padding: "8px 8px 8px 14px",
+      width: 32
+    })
+  }, "#"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      minWidth: 140
+    })
+  }, "Team"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Played"
+  }, "P"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Wins"
+  }, "W"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Draws"
+  }, "D"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Losses"
+  }, "L"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Goals For"
+  }, "GF"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Goals Against"
+  }, "GA"), /*#__PURE__*/React.createElement("th", {
+    style: th,
+    title: "Goal Difference"
+  }, "GD"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      color: C.navy,
+      fontWeight: 900
+    }),
+    title: "Points"
+  }, "Pts"))), /*#__PURE__*/React.createElement("tbody", null, (standings[openGrp] || GROUPS[openGrp].map(function (t, idx) {
+    return {
+      team: t,
+      played: 0,
+      w: 0,
+      d: 0,
+      l: 0,
+      gf: 0,
+      ga: 0,
+      gd: 0,
+      pts: 0,
+      _idx: idx
+    };
+  })).map(function (row, idx) {
+    var advances = idx < 2 && row.played > 0;
+    var isFirst = idx === 0 && row.played > 0;
+    var isSecond = idx === 1 && row.played > 0;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: row.team,
+      style: {
+        background: isFirst ? "#F0FDF4" : isSecond ? "#EFF6FF" : C.panel,
+        borderLeft: advances ? "4px solid ".concat(isFirst ? C.green : C.blue) : "4px solid transparent"
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "center",
+        fontWeight: 900,
+        fontSize: 15,
+        color: isFirst ? C.green : isSecond ? C.blue : C.dim,
+        paddingLeft: 10
+      })
+    }, idx + 1), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "left",
+        paddingLeft: 12
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: row.team,
+      size: 20
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 700,
+        color: C.text,
+        fontSize: 14
+      }
+    }, row.team))), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.textSub
+      })
+    }, row.played), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.green,
+        fontWeight: 700
+      })
+    }, row.w), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.muted
+      })
+    }, row.d), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.red
+      })
+    }, row.l), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.gf), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.ga), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        fontWeight: 700,
+        color: row.gd > 0 ? C.green : row.gd < 0 ? C.red : C.muted
+      })
+    }, row.gd > 0 ? "+" : "", row.gd), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        fontWeight: 900,
+        fontSize: 17,
+        color: C.navy
+      })
+    }, row.pts));
+  })))), (standings[openGrp] || []).every(function (t) {
+    return t.played === 0;
+  }) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "24px",
+      textAlign: "center",
+      color: C.muted,
+      fontSize: 13,
+      fontStyle: "italic"
+    }
+  }, "No results entered yet for Group ", openGrp, " \u2014 check back once matches are played.")), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 18,
+      fontWeight: 800,
+      color: C.navy,
+      margin: "0 0 12px",
+      letterSpacing: "0.02em"
+    }
+  }, "All Groups Summary"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill,minmax(210px,1fr))",
+      gap: 8,
+      marginBottom: 32
+    }
+  }, Object.keys(GROUPS).map(function (g) {
+    var st = standings[g] || [];
+    var hasAny = st.some(function (t) {
+      return t.played > 0;
+    });
+    return /*#__PURE__*/React.createElement("div", {
+      key: g,
+      style: _objectSpread(_objectSpread({}, S.card), {}, {
+        padding: "10px 14px",
+        cursor: "pointer",
+        border: openGrp === g ? "2px solid ".concat(C.navy) : C.border
+      }),
+      onClick: function onClick() {
+        return setOpenGrp(g);
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 11,
+        fontWeight: 800,
+        color: C.navy,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        marginBottom: 8
+      }
+    }, "Group ", g), (hasAny ? st : GROUPS[g].map(function (t) {
+      return {
+        team: t,
+        pts: 0,
+        played: 0
+      };
+    })).map(function (row, idx) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: row.team || row,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          marginBottom: 5,
+          padding: "4px 8px",
+          borderRadius: 6,
+          background: idx === 0 && row.played > 0 ? "#F0FDF4" : idx === 1 && row.played > 0 ? "#EFF6FF" : "transparent"
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontFamily: "'Barlow Condensed',sans-serif",
+          fontSize: 10,
+          fontWeight: 800,
+          color: idx === 0 && row.played > 0 ? C.green : idx === 1 && row.played > 0 ? C.blue : C.dim,
+          width: 16,
+          flexShrink: 0,
+          textAlign: "center"
+        }
+      }, idx + 1), /*#__PURE__*/React.createElement(Flag, {
+        team: row.team,
+        size: 14
+      }), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 12,
+          fontWeight: 600,
+          color: C.text,
+          flex: 1,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap"
+        }
+      }, row.team), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontFamily: "'Barlow Condensed',sans-serif",
+          fontSize: 12,
+          fontWeight: 900,
+          color: C.navy,
+          flexShrink: 0
+        }
+      }, row.pts));
+    }));
+  })), /*#__PURE__*/React.createElement(ThirdPlaceTable, {
+    officialGroupResults: (league === null || league === void 0 ? void 0 : league.officialGroupResults) || {}
+  }));
+}
+
+// ─── LEADERBOARD ──────────────────────────────────────────────────────────────
+function LeaderboardTab(_ref26) {
+  var league = _ref26.league,
+    username = _ref26.username;
+  var lb = (league === null || league === void 0 ? void 0 : league.leaderboard) || [];
+  var medals = ["🥇", "🥈", "🥉"];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: _defineProperty({
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 24,
+      fontWeight: 900,
+      color: C.navy,
+      letterSpacing: "0.02em",
+      margin: "0 0 4px",
+      textTransform: "none"
+    }, "fontWeight", 900)
+  }, "League Standings"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textSub,
+      fontSize: 14,
+      marginBottom: 20
+    }
+  }, "Scores recalculated every time the admin updates official results"), lb.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      textAlign: "center",
+      padding: 48
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 36,
+      marginBottom: 10
+    }
+  }, "\u23F3"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted
+    }
+  }, "No picks saved yet \u2014 be the first!")) : lb.map(function (e, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: e.username,
+      style: _objectSpread(_objectSpread({}, S.card), {}, {
+        borderColor: e.username === username ? C.navy : C.border,
+        background: e.username === username ? C.blueBg : C.panel,
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        padding: "13px 18px"
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: i < 3 ? 24 : 15,
+        width: 30,
+        textAlign: "center",
+        flexShrink: 0
+      }
+    }, medals[i] || "#".concat(i + 1)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 17,
+        fontWeight: 800,
+        color: e.username === username ? C.navy : C.text,
+        letterSpacing: "0.01em",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      }
+    }, e.username, e.username === username && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: C.navy,
+        marginLeft: 8,
+        fontWeight: 700,
+        background: C.blueBg,
+        padding: "1px 6px",
+        borderRadius: 3
+      }
+    }, "\u2190 you")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.dim,
+        marginTop: 2
+      }
+    }, "Last saved ", new Date(e.saved).toLocaleString())), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 28,
+        fontWeight: 900,
+        color: i === 0 ? C.navy : C.text
+      }
+    }, e.score), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: C.muted,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        letterSpacing: "0.06em"
+      }
+    }, "/ 758 pts")));
+  }));
+}
+
+// ─── GROUP STANDINGS CALCULATOR ─────────────────────────────────────────────
+// Official FIFA 2026 World Cup tie-breaker criteria (Article 13):
+//
+// STEP 1 — among the tied teams only:
+//   a) Most points in head-to-head matches between the tied teams
+//   b) Superior goal difference in those head-to-head matches
+//   c) Most goals scored in those head-to-head matches
+//
+// STEP 2 — if still tied after Step 1 (overall, all group matches):
+//   d) Superior goal difference in all group matches
+//   e) Most goals scored in all group matches
+//   f) Highest fair-play score  (yellow/red cards — not tracked → skipped)
+//
+// STEP 3 — if still tied after Step 2:
+//   g) FIFA World Ranking  (not tracked → alphabetical fallback)
+//
+// Note: Step 1 is applied ONCE to the originally tied set and is NOT
+// recursively re-applied to any remaining sub-ties. If Step 1 cannot
+// fully separate the teams, Step 2 is applied to the teams still equal.
+function calcGroupStandings(officialGroupResults) {
+  var standings = {};
+  Object.keys(GROUPS).forEach(function (grp) {
+    // ── Build overall stats for every team in this group ─────────────────────
+    var stats = {};
+    GROUPS[grp].forEach(function (team) {
+      stats[team] = {
+        team: team,
+        grp: grp,
+        played: 0,
+        w: 0,
+        d: 0,
+        l: 0,
+        gf: 0,
+        ga: 0,
+        gd: 0,
+        pts: 0
+      };
+    });
+    var played = (officialGroupResults[grp] || []).filter(function (m) {
+      return m.result !== null && m.homeScore != null && m.awayScore != null;
+    });
+    played.forEach(function (m) {
+      var hs = Number(m.homeScore),
+        as = Number(m.awayScore);
+      var h = stats[m.home],
+        a = stats[m.away];
+      if (!h || !a) return;
+      h.played++;
+      a.played++;
+      h.gf += hs;
+      h.ga += as;
+      h.gd += hs - as;
+      a.gf += as;
+      a.ga += hs;
+      a.gd += as - hs;
+      if (m.result === "home") {
+        h.w++;
+        h.pts += 3;
+        a.l++;
+      } else if (m.result === "away") {
+        a.w++;
+        a.pts += 3;
+        h.l++;
+      } else {
+        h.d++;
+        h.pts += 1;
+        a.d++;
+        a.pts += 1;
+      }
+    });
+
+    // ── Head-to-head stats limited to matches among a specific set of teams ──
+    function h2hStats(teamSet) {
+      var h = {};
+      teamSet.forEach(function (t) {
+        h[t] = {
+          pts: 0,
+          gd: 0,
+          gf: 0
+        };
+      });
+      played.forEach(function (m) {
+        if (teamSet.indexOf(m.home) < 0 || teamSet.indexOf(m.away) < 0) return;
+        var hs = Number(m.homeScore),
+          as = Number(m.awayScore);
+        h[m.home].gf += hs;
+        h[m.home].gd += hs - as;
+        h[m.away].gf += as;
+        h[m.away].gd += as - hs;
+        if (m.result === "home") {
+          h[m.home].pts += 3;
+        } else if (m.result === "away") {
+          h[m.away].pts += 3;
+        } else {
+          h[m.home].pts += 1;
+          h[m.away].pts += 1;
+        }
+      });
+      return h;
+    }
+
+    // ── Compare two teams, returning negative / 0 / positive ─────────────────
+    // Applied within a bucket of equally-pointed teams.
+    // h2h = precomputed head-to-head stats for the whole original tied bucket.
+    function cmpTied(x, y, h2h) {
+      // STEP 1: head-to-head (applied once to the original tied set)
+      var hxpts = h2h[x].pts,
+        hypts = h2h[y].pts;
+      if (hxpts !== hypts) return hypts - hxpts; // a) H2H points
+      var hxgd = h2h[x].gd,
+        hygd = h2h[y].gd;
+      if (hxgd !== hygd) return hygd - hxgd; // b) H2H goal diff
+      var hxgf = h2h[x].gf,
+        hygf = h2h[y].gf;
+      if (hxgf !== hygf) return hygf - hxgf; // c) H2H goals scored
+      // STEP 2: overall stats
+      if (stats[x].gd !== stats[y].gd) return stats[y].gd - stats[x].gd; // d) overall GD
+      if (stats[x].gf !== stats[y].gf) return stats[y].gf - stats[x].gf; // e) overall GF
+      // f) fair-play: not tracked — skipped
+      // STEP 3: FIFA ranking not tracked — alphabetical fallback
+      return stats[x].team.localeCompare(stats[y].team);
+    }
+
+    // ── Sort all four teams ───────────────────────────────────────────────────
+    // First partition by points, then within each points-bucket apply the
+    // tie-breaker comparator (Step 1 H2H stats computed for that bucket).
+    var allTeams = Object.keys(stats);
+    var byPoints = [].concat(allTeams).sort(function (x, y) {
+      return stats[y].pts - stats[x].pts;
+    });
+
+    // Group into buckets of equal points
+    var ptBuckets = [];
+    byPoints.forEach(function (t) {
+      var last = ptBuckets[ptBuckets.length - 1];
+      if (last && stats[last[0]].pts === stats[t].pts) {
+        last.push(t);
+      } else {
+        ptBuckets.push([t]);
+      }
+    });
+    var ordered = [];
+    ptBuckets.forEach(function (bucket) {
+      if (bucket.length === 1) {
+        ordered.push(bucket[0]);
+      } else {
+        // Compute H2H stats once for this whole tied bucket
+        var h2h = h2hStats(bucket);
+        // Sort using the official tie-breaker chain
+        var sorted = _toConsumableArray(bucket).sort(function (x, y) {
+          return cmpTied(x, y, h2h);
+        });
+        sorted.forEach(function (t) {
+          return ordered.push(t);
+        });
+      }
+    });
+    standings[grp] = ordered.map(function (t) {
+      return stats[t];
+    });
+  });
+  return standings;
+}
+
+function AdminStandingsTab(_ref27) {
+  var local = _ref27.local,
+    setLocal = _ref27.setLocal,
+    aS = _ref27.aS,
+    allTeams = _ref27.allTeams;
+  var _useState37 = useState("A"),
+    _useState38 = _slicedToArray(_useState37, 2),
+    openGrp = _useState38[0],
+    setOpenGrp = _useState38[1];
+  var standings = calcGroupStandings(local.officialGroupResults || {});
+
+  // Auto-populate 1st and 2nd place qualifiers from standings
+  function applyStandingsToQualifiers() {
+    setLocal(function (prev) {
+      var q = _objectSpread({}, prev.qualifiers || {});
+      Object.keys(GROUPS).forEach(function (grp) {
+        var grpStandings = standings[grp] || [];
+        if (grpStandings[0]) q["1".concat(grp)] = grpStandings[0].team;
+        if (grpStandings[1]) q["2".concat(grp)] = grpStandings[1].team;
+      });
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        qualifiers: q
+      });
+    });
+  }
+  var th = {
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontSize: 11,
+    fontWeight: 800,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: C.muted,
+    padding: "8px 10px",
+    textAlign: "center",
+    borderBottom: "2px solid ".concat(C.border)
+  };
+  var td = {
+    fontFamily: "'Barlow Condensed',sans-serif",
+    fontSize: 13,
+    fontWeight: 600,
+    padding: "9px 10px",
+    textAlign: "center",
+    borderBottom: "1px solid ".concat(C.border)
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: 12,
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.red,
+      marginTop: 0,
+      fontSize: 18,
+      marginBottom: 4
+    }
+  }, "Group Standings"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13
+    }
+  }, "Calculated from official results. Top 2 from each group advance automatically.")), /*#__PURE__*/React.createElement("button", {
+    onClick: applyStandingsToQualifiers,
+    style: _objectSpread(_objectSpread({}, S.goldBtn), {}, {
+      background: C.navy,
+      padding: "9px 18px",
+      fontSize: 13
+    })
+  }, "\u2713 Apply 1st & 2nd to Qualifiers")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 6,
+      marginBottom: 16
+    }
+  }, "ABCDEFGHIJKL".split("").map(function (g) {
+    var st = standings[g] || [];
+    var hasResults = st.some(function (t) {
+      return t.played > 0;
+    });
+    return /*#__PURE__*/React.createElement("button", {
+      key: g,
+      onClick: function onClick() {
+        return setOpenGrp(g);
+      },
+      style: {
+        padding: "6px 14px",
+        borderRadius: 8,
+        cursor: "pointer",
+        border: openGrp === g ? "2px solid ".concat(C.navy) : C.border,
+        background: openGrp === g ? C.blueBg : C.panel,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 800,
+        fontSize: 12,
+        letterSpacing: "0.07em",
+        color: openGrp === g ? C.navy : C.muted,
+        display: "flex",
+        alignItems: "center",
+        gap: 5
+      }
+    }, "Grp ", g, hasResults && /*#__PURE__*/React.createElement("span", {
+      style: {
+        width: 6,
+        height: 6,
+        borderRadius: "50%",
+        background: C.green,
+        display: "inline-block"
+      }
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: 0,
+      overflow: "hidden"
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "12px 16px",
+      background: C.navy,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 16,
+      fontWeight: 900,
+      color: "#FFFFFF",
+      letterSpacing: "0.06em"
+    }
+  }, "GROUP ", openGrp), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, GROUPS[openGrp].map(function (t) {
+    return /*#__PURE__*/React.createElement("span", {
+      key: t,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        fontSize: 12,
+        color: "rgba(255,255,255,0.8)"
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: t,
+      size: 14
+    }), t);
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: "auto"
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: "100%",
+      borderCollapse: "collapse",
+      minWidth: 500
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: C.panelAlt
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      width: 40,
+      padding: "8px 6px 8px 12px"
+    })
+  }, "#"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      textAlign: "left",
+      minWidth: 140
+    })
+  }, "Team"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "P"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "W"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "D"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "L"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "GF"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "GA"), /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "GD"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      color: C.navy
+    })
+  }, "Pts"), /*#__PURE__*/React.createElement("th", {
+    style: _objectSpread(_objectSpread({}, th), {}, {
+      minWidth: 80
+    })
+  }, "Status"))), /*#__PURE__*/React.createElement("tbody", null, (standings[openGrp] || GROUPS[openGrp].map(function (t) {
+    return {
+      team: t,
+      played: 0,
+      w: 0,
+      d: 0,
+      l: 0,
+      gf: 0,
+      ga: 0,
+      gd: 0,
+      pts: 0
+    };
+  })).map(function (row, idx) {
+    var _local$qualifiers, _local$qualifiers2;
+    var isQ1 = idx === 0 && row.played > 0;
+    var isQ2 = idx === 1 && row.played > 0;
+    var rowBg = isQ1 ? "#F0FDF4" : isQ2 ? "#EBF3FB" : C.panel;
+    var autoQ1 = ((_local$qualifiers = local.qualifiers) === null || _local$qualifiers === void 0 ? void 0 : _local$qualifiers["1".concat(openGrp)]) === row.team;
+    var autoQ2 = ((_local$qualifiers2 = local.qualifiers) === null || _local$qualifiers2 === void 0 ? void 0 : _local$qualifiers2["2".concat(openGrp)]) === row.team;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: row.team,
+      style: {
+        background: rowBg
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "center",
+        fontWeight: 900,
+        color: isQ1 ? C.green : isQ2 ? C.blue : C.dim,
+        paddingLeft: 12
+      })
+    }, idx + 1), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        textAlign: "left",
+        paddingLeft: 12
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: row.team,
+      size: 18
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 700,
+        color: C.text
+      }
+    }, row.team))), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.played), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.green,
+        fontWeight: 700
+      })
+    }, row.w), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.muted
+      })
+    }, row.d), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        color: C.red
+      })
+    }, row.l), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.gf), /*#__PURE__*/React.createElement("td", {
+      style: td
+    }, row.ga), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        fontWeight: 700,
+        color: row.gd > 0 ? C.green : row.gd < 0 ? C.red : C.muted
+      })
+    }, row.gd > 0 ? "+" : "", row.gd), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread(_objectSpread({}, td), {}, {
+        fontWeight: 900,
+        fontSize: 16,
+        color: C.navy
+      })
+    }, row.pts), /*#__PURE__*/React.createElement("td", {
+      style: _objectSpread({}, td)
+    }, autoQ1 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 800,
+        color: C.green,
+        background: C.greenBg,
+        padding: "2px 7px",
+        borderRadius: 4,
+        letterSpacing: "0.06em"
+      }
+    }, "1st \u2713"), autoQ2 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 800,
+        color: C.blue,
+        background: C.blueBg,
+        padding: "2px 7px",
+        borderRadius: 4,
+        letterSpacing: "0.06em"
+      }
+    }, "2nd \u2713")));
+  })))), (standings[openGrp] || []).every(function (t) {
+    return t.played === 0;
+  }) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "20px",
+      textAlign: "center",
+      color: C.muted,
+      fontSize: 13,
+      fontStyle: "italic"
+    }
+  }, "No results entered yet for Group ", openGrp)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 20
+    }
+  }, /*#__PURE__*/React.createElement("h4", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 13,
+      fontWeight: 800,
+      letterSpacing: "0.08em",
+      color: C.muted,
+      textTransform: "uppercase",
+      margin: "0 0 10px"
+    }
+  }, "All Groups \u2014 Current Qualifiers"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))",
+      gap: 8
+    }
+  }, Object.keys(GROUPS).map(function (g) {
+    var _local$qualifiers3, _local$qualifiers4;
+    var st = standings[g] || [];
+    var first = st[0];
+    var second = st[1];
+    var q1 = (_local$qualifiers3 = local.qualifiers) === null || _local$qualifiers3 === void 0 ? void 0 : _local$qualifiers3["1".concat(g)];
+    var q2 = (_local$qualifiers4 = local.qualifiers) === null || _local$qualifiers4 === void 0 ? void 0 : _local$qualifiers4["2".concat(g)];
+    return /*#__PURE__*/React.createElement("div", {
+      key: g,
+      style: _objectSpread(_objectSpread({}, S.card), {}, {
+        padding: "10px 14px"
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 11,
+        fontWeight: 800,
+        color: C.navy,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        marginBottom: 8
+      }
+    }, "Group ", g), [{
+      label: "1st",
+      team: q1,
+      color: C.green,
+      bg: C.greenBg
+    }, {
+      label: "2nd",
+      team: q2,
+      color: C.blue,
+      bg: C.blueBg
+    }].map(function (_ref28) {
+      var label = _ref28.label,
+        team = _ref28.team,
+        color = _ref28.color,
+        bg = _ref28.bg;
+      return /*#__PURE__*/React.createElement("div", {
+        key: label,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          marginBottom: 5,
+          padding: "5px 8px",
+          borderRadius: 6,
+          background: team ? bg : C.panelAlt
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontFamily: "'Barlow Condensed',sans-serif",
+          fontSize: 10,
+          fontWeight: 800,
+          color: team ? color : C.dim,
+          width: 24,
+          flexShrink: 0
+        }
+      }, label), team ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Flag, {
+        team: team,
+        size: 14
+      }), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 12,
+          fontWeight: 700,
+          color: C.text
+        }
+      }, team)) : /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 11,
+          color: C.dim,
+          fontStyle: "italic"
+        }
+      }, "Not set"));
+    }));
+  })),
+  React.createElement("div", {style:{marginTop:24}},
+    React.createElement(ThirdPlaceTable, {
+      officialGroupResults: local.officialGroupResults || {}
+    })
+  )));
+}
+
+// ─── ADMIN PANEL ──────────────────────────────────────────────────────────────
+function AdminPanel(_ref29) {
+  var _local$officialKnocko, _local$officialKnocko2, _local$officialKnocko3, _local$officialKnocko4, _local$officialKnocko5, _local$officialKnocko6;
+  var user = _ref29.user,
+    league = _ref29.league,
+    setLeague = _ref29.setLeague,
+    onExit = _ref29.onExit;
+  var _useState39 = useState(function () {
+      return league || emptyLeagueState();
+    }),
+    _useState40 = _slicedToArray(_useState39, 2),
+    local = _useState40[0],
+    setLocal = _useState40[1];
+  var _useState41 = useState(false),
+    _useState42 = _slicedToArray(_useState41, 2),
+    saving = _useState42[0],
+    setSaving = _useState42[1];
+  var _useState43 = useState({
+      text: "",
+      type: "ok"
+    }),
+    _useState44 = _slicedToArray(_useState43, 2),
+    msg = _useState44[0],
+    setMsg = _useState44[1];
+  var _useState45 = useState("phase"),
+    _useState46 = _slicedToArray(_useState45, 2),
+    tab = _useState46[0],
+    setTab = _useState46[1];
+  var _useState47 = useState("A"),
+    _useState48 = _slicedToArray(_useState47, 2),
+    openGrp = _useState48[0],
+    setOpenGrp = _useState48[1];
+  var _useState49 = useState([]),
+    _useState50 = _slicedToArray(_useState49, 2),
+    allUsers = _useState50[0],
+    setAllUsers = _useState50[1];
+  var _useState51 = useState(false),
+    _useState52 = _slicedToArray(_useState51, 2),
+    loadingUsers = _useState52[0],
+    setLoadingUsers = _useState52[1];
+  var allTeams = Object.values(GROUPS).flat();
+  useEffect(function () {
+    fetchUsers();
+  }, []);
+  function fetchUsers() {
+    return _fetchUsers.apply(this, arguments);
+  }
+  function _fetchUsers() {
+    _fetchUsers = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+      var data, _t3;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            setLoadingUsers(true);
+            _context4.p = 1;
+            _context4.n = 2;
+            return api({
+              action: "adminGetUsers",
+              name: user.name,
+              pin: user.pin
+            });
+          case 2:
+            data = _context4.v;
+            setAllUsers(data.users || []);
+            _context4.n = 4;
+            break;
+          case 3:
+            _context4.p = 3;
+            _t3 = _context4.v;
+            console.error(_t3);
+          case 4:
+            _context4.p = 4;
+            setLoadingUsers(false);
+            return _context4.f(4);
+          case 5:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[1, 3, 4, 5]]);
+    }));
+    return _fetchUsers.apply(this, arguments);
+  }
+  function flash(text) {
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "ok";
+    setMsg({
+      text: text,
+      type: type
+    });
+    setTimeout(function () {
+      return setMsg({
+        text: "",
+        type: "ok"
+      });
+    }, 4000);
+  }
+  function handleSave() {
+    return _handleSave2.apply(this, arguments);
+  }
+  function _handleSave2() {
+    _handleSave2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+      var data, updated, _t4;
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.p = _context5.n) {
+          case 0:
+            setSaving(true);
+            _context5.p = 1;
+            _context5.n = 2;
+            return api({
+              action: "adminSave",
+              name: user.name,
+              pin: user.pin,
+              leagueState: local
+            });
+          case 2:
+            _context5.n = 3;
+            return api({
+              action: "getLeague"
+            });
+          case 3:
+            data = _context5.v;
+            updated = data.league || local;
+            setLocal(updated);
+            setLeague(updated);
+            flash("Saved & all scores recalculated ✓");
+            _context5.n = 5;
+            break;
+          case 4:
+            _context5.p = 4;
+            _t4 = _context5.v;
+            flash(_t4.message || "Save failed", "err");
+          case 5:
+            _context5.p = 5;
+            setSaving(false);
+            return _context5.f(5);
+          case 6:
+            return _context5.a(2);
+        }
+      }, _callee5, null, [[1, 4, 5, 6]]);
+    }));
+    return _handleSave2.apply(this, arguments);
+  }
+  function setPhase(p) {
+    setLocal(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        phase: p
+      });
+    });
+  }
+  function setQ(slot, team) {
+    setLocal(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        qualifiers: _objectSpread(_objectSpread({}, prev.qualifiers), {}, _defineProperty({}, slot, team || null))
+      });
+    });
+  }
+  function setGrpResult(grp, i, field, val) {
+    setLocal(function (prev) {
+      var og = _objectSpread({}, prev.officialGroupResults || {});
+      var base = getGroupMatches(grp).map(function (m) {
+        return {
+          home: m.home,
+          away: m.away,
+          result: null,
+          homeScore: null,
+          awayScore: null
+        };
+      });
+      var existing = og[grp] && og[grp].length === base.length ? og[grp].map(function (m) {
+        return _objectSpread({}, m);
+      }) : base.map(function (m) {
+        return _objectSpread({}, m);
+      });
+      if (field === "reset") {
+        og[grp] = existing.map(function (m, mi) {
+          return mi === i ? _objectSpread(_objectSpread({}, m), {}, {
+            result: null,
+            homeScore: null,
+            awayScore: null
+          }) : m;
+        });
+        return _objectSpread(_objectSpread({}, prev), {}, {
+          officialGroupResults: og
+        });
+      }
+      var updated = _objectSpread(_objectSpread({}, existing[i]), {}, _defineProperty({}, field, val));
+      if (field === "homeScore" || field === "awayScore") {
+        var hs = field === "homeScore" ? val : existing[i].homeScore;
+        var as = field === "awayScore" ? val : existing[i].awayScore;
+        if (hs !== null && as !== null) updated.result = hs > as ? "home" : as > hs ? "away" : "draw";
+      }
+      og[grp] = existing.map(function (m, mi) {
+        return mi === i ? updated : m;
+      });
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        officialGroupResults: og
+      });
+    });
+  }
+  function setKW(round, i, field, val) {
+    setLocal(function (prev) {
+      var _prev$officialKnockou;
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        officialKnockoutResults: _objectSpread(_objectSpread({}, prev.officialKnockoutResults), {}, _defineProperty({}, round, (((_prev$officialKnockou = prev.officialKnockoutResults) === null || _prev$officialKnockou === void 0 ? void 0 : _prev$officialKnockou[round]) || []).map(function (m, mi) {
+          return mi === i ? _objectSpread(_objectSpread({}, m), {}, _defineProperty({}, field, val)) : m;
+        })))
+      });
+    });
+  }
+  function setChamp(t) {
+    setLocal(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        officialKnockoutResults: _objectSpread(_objectSpread({}, prev.officialKnockoutResults), {}, {
+          champion: t || null
+        })
+      });
+    });
+  }
+  var qSlots = [];
+  "ABCDEFGHIJKL".split("").forEach(function (g) {
+    qSlots.push({
+      slot: "1".concat(g),
+      label: "1st \u2014 Group ".concat(g)
+    });
+    qSlots.push({
+      slot: "2".concat(g),
+      label: "2nd \u2014 Group ".concat(g)
+    });
+  });
+  for (var i = 1; i <= 8; i++) qSlots.push({
+    slot: "3P-".concat(i),
+    label: "3rd-place qualifier #".concat(i)
+  });
+  var aS = {
+    header: {
+      background: "#7B1D1D",
+      backdropFilter: "none",
+      borderBottom: "none",
+      height: 56,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "0 20px",
+      position: "sticky",
+      top: 0,
+      zIndex: 100
+    },
+    tab: function tab(a) {
+      return _objectSpread(_objectSpread({}, S.tabBtn(a)), {}, {
+        borderBottomColor: a ? C.red : "transparent",
+        color: a ? C.red : C.muted
+      });
+    },
+    sel: {
+      padding: "6px 10px",
+      borderRadius: 6,
+      border: "1px solid ".concat(C.borderMid),
+      background: C.panel,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 13,
+      outline: "none",
+      cursor: "pointer"
+    }
+  };
+  return /*#__PURE__*/React.createElement(Shell, null, /*#__PURE__*/React.createElement("div", {
+    style: aS.header
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 18,
+      fontWeight: 900,
+      letterSpacing: "0.06em",
+      color: "#FFFFFF",
+      textTransform: "uppercase"
+    }
+  }, "\uD83D\uDD10 Admin \u2014 WC 2026"), /*#__PURE__*/React.createElement("button", {
+    onClick: onExit,
+    style: _objectSpread(_objectSpread({}, S.goldBtn), {}, {
+      background: "rgba(255,255,255,0.2)",
+      color: "#FFFFFF",
+      boxShadow: "none",
+      fontSize: 12,
+      padding: "7px 18px",
+      border: "1px solid rgba(255,255,255,0.4)"
+    })
+  }, "\u2190 Back to App")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 960,
+      margin: "0 auto",
+      padding: "20px 16px 100px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.redBg,
+      border: "1px solid ".concat(C.red),
+      borderRadius: 10,
+      padding: "9px 16px",
+      marginBottom: 18,
+      fontSize: 13,
+      color: C.red
+    }
+  }, "\u26A0\uFE0F Admin mode \u2014 changes affect all users. Save after each section to recalculate scores."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      borderBottom: "1px solid ".concat(C.border),
+      marginBottom: 22,
+      overflowX: "auto"
+    }
+  }, [["phase", "Phase"], ["groupResults", "Group Results"], ["standings", "Group Standings"], ["qualifiers", "Qualifiers"], ["bracket", "Bracket"], ["users", "Users"], ["testclock", "Test Clock"]].map(function (_ref30) {
+    var _ref31 = _slicedToArray(_ref30, 2),
+      k = _ref31[0],
+      l = _ref31[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: k,
+      style: aS.tab(tab === k),
+      onClick: function onClick() {
+        return setTab(k);
+      }
+    }, l);
+  })), tab === "phase" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.red,
+      marginTop: 0,
+      fontSize: 18
+    }
+  }, "Tournament Phase"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      marginBottom: 18
+    }
+  }, "Current: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.gold
+    }
+  }, local.phase)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      flexWrap: "wrap",
+      marginBottom: 20
+    }
+  }, [{
+    p: "group",
+    label: "⚽ Group Stage",
+    desc: "Users pick group matches. Bracket is preview-only."
+  }, {
+    p: "knockout",
+    label: "🔥 Knockout Phase",
+    desc: "Groups lock. Bracket opens with real teams."
+  }, {
+    p: "complete",
+    label: "🏆 Complete",
+    desc: "Tournament over. Final standings locked."
+  }].map(function (_ref32) {
+    var p = _ref32.p,
+      label = _ref32.label,
+      desc = _ref32.desc;
+    return /*#__PURE__*/React.createElement("button", {
+      key: p,
+      onClick: function onClick() {
+        return setPhase(p);
+      },
+      style: {
+        padding: "14px 18px",
+        borderRadius: 12,
+        cursor: "pointer",
+        textAlign: "left",
+        width: 220,
+        border: local.phase === p ? "2px solid ".concat(C.navy) : C.border,
+        background: local.phase === p ? C.blueBg : C.panel,
+        fontFamily: "'Barlow Condensed',sans-serif"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 800,
+        color: local.phase === p ? C.navy : C.text,
+        letterSpacing: "0.06em",
+        marginBottom: 5
+      }
+    }, label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.muted,
+        lineHeight: 1.5
+      }
+    }, desc));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      background: C.blueBg,
+      borderColor: C.blue
+    })
+  }, /*#__PURE__*/React.createElement("h4", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.navy,
+      margin: "0 0 8px",
+      fontSize: 13,
+      letterSpacing: "0.06em"
+    }
+  }, "WORKFLOW"), /*#__PURE__*/React.createElement("ol", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      margin: 0,
+      paddingLeft: 20,
+      lineHeight: 2
+    }
+  }, /*#__PURE__*/React.createElement("li", null, "Keep phase as ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "Group Stage"), " while matches are being played"), /*#__PURE__*/React.createElement("li", null, "Enter group results in ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "Group Results"), " tab as they finish"), /*#__PURE__*/React.createElement("li", null, "Set who qualified in ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "Qualifiers"), " tab after all groups complete"), /*#__PURE__*/React.createElement("li", null, "Switch to ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "Knockout Phase"), " \u2014 bracket opens for users"), /*#__PURE__*/React.createElement("li", null, "Enter knockout results in ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "KO Results"), " as each match is played"), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.text
+    }
+  }, "Save after every update"), " \u2192 scores recalculate for all users")))), tab === "groupResults" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.red,
+      marginTop: 0,
+      fontSize: 18
+    }
+  }, "Official Group Results"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      marginBottom: 14
+    }
+  }, "Enter the final score \u2014 result is auto-derived from the score, or override manually."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 6,
+      marginBottom: 16
+    }
+  }, "ABCDEFGHIJKL".split("").map(function (g) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: g,
+      onClick: function onClick() {
+        return setOpenGrp(g);
+      },
+      style: {
+        padding: "6px 13px",
+        borderRadius: 9,
+        cursor: "pointer",
+        border: openGrp === g ? "1px solid rgba(240,101,101,0.5)" : C.border,
+        background: openGrp === g ? "rgba(240,101,101,0.09)" : C.panel,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 800,
+        fontSize: 12,
+        letterSpacing: "0.07em",
+        color: openGrp === g ? C.red : C.muted
+      }
+    }, "Grp ", g);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, S.card), {}, {
+      padding: "14px 16px"
+    })
+  }, /*#__PURE__*/React.createElement("h4", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 15,
+      color: C.red,
+      marginTop: 0,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Group ", openGrp), getGroupMatches(openGrp).map(function (match, i) {
+    var row = ((local.officialGroupResults || {})[openGrp] || [])[i] || {
+      result: null,
+      homeScore: null,
+      awayScore: null
+    };
+    var res = row.result;
+    var si = {
+      width: 52,
+      padding: "7px 0",
+      borderRadius: 6,
+      border: "2px solid ".concat(C.borderMid),
+      background: C.panel,
+      color: C.navy,
+      fontSize: 22,
+      fontWeight: 800,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      textAlign: "center",
+      outline: "none",
+      appearance: "textfield",
+      WebkitAppearance: "none",
+      MozAppearance: "textfield",
+      transition: "border-color 0.15s"
+    };
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        borderRadius: 10,
+        marginBottom: 10,
+        overflow: "hidden",
+        border: res ? "2px solid ".concat(C.green) : "1px solid ".concat(C.borderMid),
+        background: res ? "#F0FDF4" : C.panel,
+        boxShadow: "0 1px 4px rgba(0,0,0,0.05)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        padding: "11px 14px",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement(Flag, {
+      team: match.home,
+      size: 20
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 14,
+        fontWeight: 700,
+        color: res === "home" ? C.green : C.text,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      }
+    }, match.home)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      min: "0",
+      max: "20",
+      value: row.homeScore != null ? row.homeScore : "",
+      onChange: function onChange(e) {
+        return setGrpResult(openGrp, i, "homeScore", e.target.value === "" ? null : parseInt(e.target.value));
+      },
+      style: _objectSpread(_objectSpread({}, si), {}, {
+        borderColor: row.homeScore != null ? C.navy : C.borderMid,
+        color: row.homeScore != null ? C.navy : C.dim
+      })
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.borderDark,
+        fontSize: 20,
+        fontWeight: 300,
+        fontFamily: "'Barlow',sans-serif",
+        lineHeight: 1
+      }
+    }, "\u2013"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      min: "0",
+      max: "20",
+      value: row.awayScore != null ? row.awayScore : "",
+      onChange: function onChange(e) {
+        return setGrpResult(openGrp, i, "awayScore", e.target.value === "" ? null : parseInt(e.target.value));
+      },
+      style: _objectSpread(_objectSpread({}, si), {}, {
+        borderColor: row.awayScore != null ? C.navy : C.borderMid,
+        color: row.awayScore != null ? C.navy : C.dim
+      })
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        justifyContent: "flex-end",
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 14,
+        fontWeight: 700,
+        color: res === "away" ? C.green : C.text,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        textAlign: "right"
+      }
+    }, match.away), /*#__PURE__*/React.createElement(Flag, {
+      team: match.away,
+      size: 20
+    }))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "7px 14px 9px",
+        borderTop: "1px solid ".concat(C.border),
+        background: C.panelAlt
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 10,
+        color: C.muted,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        fontWeight: 700
+      }
+    }, "Result"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 5
+      }
+    }, ["home", "draw", "away"].map(function (v) {
+      return /*#__PURE__*/React.createElement("button", {
+        key: v,
+        onClick: function onClick() {
+          return setGrpResult(openGrp, i, "result", v);
+        },
+        style: {
+          padding: "4px 12px",
+          borderRadius: 6,
+          cursor: "pointer",
+          fontSize: 11,
+          fontWeight: 700,
+          fontFamily: "'Barlow Condensed',sans-serif",
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          border: res === v ? "2px solid ".concat(C.navy) : C.border,
+          background: res === v ? C.blueBg : C.panel,
+          color: res === v ? C.navy : C.muted
+        }
+      }, v === "home" ? match.home.split(" ")[0] : v === "away" ? match.away.split(" ")[0] : "Draw");
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, res && /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setGrpResult(openGrp, i, "reset", null);
+      },
+      style: {
+        background: "none",
+        border: "1px solid ".concat(C.borderMid),
+        borderRadius: 4,
+        padding: "2px 8px",
+        cursor: "pointer",
+        fontSize: 10,
+        color: C.muted,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 700,
+        letterSpacing: "0.06em",
+        textTransform: "uppercase"
+      },
+      onMouseOver: function onMouseOver(e) {
+        e.currentTarget.style.borderColor = C.red;
+        e.currentTarget.style.color = C.red;
+      },
+      onMouseOut: function onMouseOut(e) {
+        e.currentTarget.style.borderColor = C.borderMid;
+        e.currentTarget.style.color = C.muted;
+      }
+    }, "\u2715 Reset"), res ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: C.green,
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontWeight: 700,
+        background: C.greenBg,
+        padding: "2px 8px",
+        borderRadius: 4
+      }
+    }, "\u2713 Set") : /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: C.dim,
+        fontFamily: "'Barlow Condensed',sans-serif"
+      }
+    }, "Not set"))));
+  }))), tab === "standings" && /*#__PURE__*/React.createElement(AdminStandingsTab, {
+    local: local,
+    setLocal: setLocal,
+    aS: aS,
+    allTeams: allTeams
+  }), tab === "bracket" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.red,
+      marginTop: 0,
+      fontSize: 18,
+      marginBottom: 4
+    }
+  }, "Knockout Bracket"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      marginBottom: 4
+    }
+  }, "Enter scores for each match \u2014 the winner is auto-determined. Picks cascade through the bracket automatically."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.redBg,
+      border: "1px solid ".concat(C.red),
+      borderRadius: 6,
+      padding: "8px 14px",
+      marginBottom: 16,
+      fontSize: 12,
+      color: "#991B1B"
+    }
+  }, "\u26A0\uFE0F Editing here sets ", /*#__PURE__*/React.createElement("strong", null, "official results"), " \u2014 click Save to update all user scores."), /*#__PURE__*/React.createElement(BracketTab, {
+    knockoutPicks: {
+      r32: (((_local$officialKnocko = local.officialKnockoutResults) === null || _local$officialKnocko === void 0 ? void 0 : _local$officialKnocko.r32) || []).map(function (m) {
+        return {
+          pick: m.winner,
+          homeScore: m.homeScore,
+          awayScore: m.awayScore
+        };
+      }),
+      r16: (((_local$officialKnocko2 = local.officialKnockoutResults) === null || _local$officialKnocko2 === void 0 ? void 0 : _local$officialKnocko2.r16) || []).map(function (m) {
+        return {
+          pick: m.winner,
+          homeScore: m.homeScore,
+          awayScore: m.awayScore
+        };
+      }),
+      qf: (((_local$officialKnocko3 = local.officialKnockoutResults) === null || _local$officialKnocko3 === void 0 ? void 0 : _local$officialKnocko3.qf) || []).map(function (m) {
+        return {
+          pick: m.winner,
+          homeScore: m.homeScore,
+          awayScore: m.awayScore
+        };
+      }),
+      sf: (((_local$officialKnocko4 = local.officialKnockoutResults) === null || _local$officialKnocko4 === void 0 ? void 0 : _local$officialKnocko4.sf) || []).map(function (m) {
+        return {
+          pick: m.winner,
+          homeScore: m.homeScore,
+          awayScore: m.awayScore
+        };
+      }),
+      "final": (((_local$officialKnocko5 = local.officialKnockoutResults) === null || _local$officialKnocko5 === void 0 ? void 0 : _local$officialKnocko5["final"]) || []).map(function (m) {
+        return {
+          pick: m.winner,
+          homeScore: m.homeScore,
+          awayScore: m.awayScore
+        };
+      }),
+      champion: ((_local$officialKnocko6 = local.officialKnockoutResults) === null || _local$officialKnocko6 === void 0 ? void 0 : _local$officialKnocko6.champion) || null
+    },
+    setKnockoutPicks: function setKnockoutPicks(updaterOrObj) {
+      // Translate bracket picks format back into officialKnockoutResults format
+      setLocal(function (prev) {
+        var cur = prev.officialKnockoutResults || {};
+        var picks = typeof updaterOrObj === "function" ? updaterOrObj({
+          r32: (cur.r32 || []).map(function (m) {
+            return {
+              pick: m.winner,
+              homeScore: m.homeScore,
+              awayScore: m.awayScore
+            };
+          }),
+          r16: (cur.r16 || []).map(function (m) {
+            return {
+              pick: m.winner,
+              homeScore: m.homeScore,
+              awayScore: m.awayScore
+            };
+          }),
+          qf: (cur.qf || []).map(function (m) {
+            return {
+              pick: m.winner,
+              homeScore: m.homeScore,
+              awayScore: m.awayScore
+            };
+          }),
+          sf: (cur.sf || []).map(function (m) {
+            return {
+              pick: m.winner,
+              homeScore: m.homeScore,
+              awayScore: m.awayScore
+            };
+          }),
+          "final": (cur["final"] || []).map(function (m) {
+            return {
+              pick: m.winner,
+              homeScore: m.homeScore,
+              awayScore: m.awayScore
+            };
+          }),
+          champion: cur.champion || null
+        }) : updaterOrObj;
+        var toRes = function toRes(arr, orig) {
+          return (arr || []).map(function (p, i) {
+            var _i$homeScore, _i, _i$awayScore, _i2;
+            return {
+              winner: p.pick || null,
+              homeScore: p.homeScore != null ? p.homeScore : (_i$homeScore = (_i = (orig || [])[i]) === null || _i === void 0 ? void 0 : _i.homeScore) !== null && _i$homeScore !== void 0 ? _i$homeScore : null,
+              awayScore: p.awayScore != null ? p.awayScore : (_i$awayScore = (_i2 = (orig || [])[i]) === null || _i2 === void 0 ? void 0 : _i2.awayScore) !== null && _i$awayScore !== void 0 ? _i$awayScore : null
+            };
+          });
+        };
+        return _objectSpread(_objectSpread({}, prev), {}, {
+          officialKnockoutResults: {
+            r32: toRes(picks.r32, cur.r32),
+            r16: toRes(picks.r16, cur.r16),
+            qf: toRes(picks.qf, cur.qf),
+            sf: toRes(picks.sf, cur.sf),
+            "final": toRes(picks["final"], cur["final"]),
+            champion: picks.champion || null
+          }
+        });
+      });
+    },
+    league: {
+      phase: local.phase === "group" ? "group" : "knockout",
+      qualifiers: local.qualifiers || {}
+    }
+  })), tab === "qualifiers" && React.createElement("div", null,
+  React.createElement("div", {
+    style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 16 }
+  },
+    React.createElement("div", null,
+      React.createElement("h3", {
+        style: { fontFamily: "'Barlow Condensed',sans-serif", color: C.red, marginTop: 0, fontSize: 18, marginBottom: 4 }
+      }, "Confirm Qualifiers"),
+      React.createElement("p", {
+        style: { color: C.muted, fontSize: 13 }
+      }, "All 32 qualified teams are auto-calculated from standings and the best-8 third-place ranking. Review before advancing.")
+    )
+  ),
+  React.createElement("div", {
+    style: { background: C.blueBg, border: "1px solid " + C.blue, borderRadius: 8, padding: "10px 14px", marginBottom: 20, fontSize: 13, color: C.navy }
+  },
+    React.createElement("strong", null, "Ranking: "),
+    "1st & 2nd from group standings (H2H tiebreakers). 3rd-place: overall pts → GD → GF across all groups. Top 8 of 12 third-place teams advance."
+  ),
+  React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 8, marginBottom: 24 }
+  },
+    (function(){
+      var ogr = local.officialGroupResults || {};
+      var autoS = calcGroupStandings(ogr);
+      var thirds = calcThirdPlaceRanking(ogr);
+      var rows = [];
+      Object.keys(GROUPS).forEach(function(g) {
+        var st = autoS[g] || [];
+        ["1","2"].forEach(function(pos, pi) {
+          var team = st[pi] && st[pi].played > 0 ? st[pi].team : null;
+          var isFirst = pos==="1";
+          rows.push(React.createElement("div", {
+            key: pos+g,
+            style: Object.assign({}, S.card, { display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
+              borderLeft: "4px solid " + (isFirst?C.green:C.blue),
+              background: isFirst?"#F0FDF4":"#EFF6FF", marginBottom: 0 })
+          },
+            React.createElement("span", {
+              style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 10, fontWeight: 800,
+                color: isFirst?C.green:C.blue, width: 28, flexShrink: 0 }
+            }, isFirst?"1st":"2nd"),
+            React.createElement("span", {
+              style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 11, fontWeight: 700,
+                color: C.navy, width: 40, flexShrink: 0 }
+            }, "Grp "+g),
+            team
+              ? React.createElement("div", { style: { display:"flex", alignItems:"center", gap:8, flex:1 } },
+                  React.createElement(Flag, { team: team, size: 18 }),
+                  React.createElement("span", { style: { fontSize:13, fontWeight:700, color:C.text } }, team)
+                )
+              : React.createElement("span", { style: { fontSize:12, color:C.dim, fontStyle:"italic" } }, "No results yet")
+          ));
+        });
+      });
+      thirds.slice(0,8).forEach(function(t,i) {
+        rows.push(React.createElement("div", {
+          key: "3P-"+(i+1),
+          style: Object.assign({}, S.card, { display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
+            borderLeft: "4px solid #9333EA", background: "#FAF5FF", marginBottom: 0 })
+        },
+          React.createElement("span", {
+            style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 10, fontWeight: 800,
+              color: "#9333EA", width: 28, flexShrink: 0 }
+          }, "3rd"),
+          React.createElement("span", {
+            style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 11, fontWeight: 700,
+              color: "#9333EA", width: 40, flexShrink: 0 }
+          }, "Grp "+t.grp),
+          React.createElement("div", { style: { display:"flex", alignItems:"center", gap:8, flex:1 } },
+            React.createElement(Flag, { team: t.team, size: 18 }),
+            React.createElement("span", { style: { fontSize:13, fontWeight:700, color:C.text } }, t.team)
+          ),
+          React.createElement("span", {
+            style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 10, fontWeight: 700,
+              color: "#9333EA", background: "#EDE9FE", padding: "1px 6px", borderRadius: 4 }
+          }, "#"+(i+1)+" 3rd")
+        ));
+      });
+      return rows;
+    })()
+  ),
+  React.createElement("div", {
+    style: Object.assign({}, S.card, { background: "linear-gradient(135deg,#F0FDF4,#EFF6FF)", borderColor: C.green,
+      padding: "20px 24px", textAlign: "center", marginTop: 8 })
+  },
+    React.createElement("p", {
+      style: { color: C.textSub, fontSize: 14, marginBottom: 16 }
+    }, "All 32 teams confirmed? Switch the phase below to open the knockout bracket for users."),
+    React.createElement("div", { style: { display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" } },
+      React.createElement("button", {
+        onClick: function() { setLocal(function(prev){ return Object.assign({}, prev, { phase:"knockout" }); }); },
+        style: Object.assign({}, S.goldBtn, { background: C.navy, fontSize: 14, padding: "12px 28px" })
+      }, "🏆 Confirm & Advance to Knockout Phase"),
+      React.createElement("button", {
+        onClick: function() { setTab("standings"); },
+        style: Object.assign({}, S.goldBtn, { background: "rgba(26,58,92,0.1)", color: C.navy,
+          boxShadow: "none", border: "1px solid " + C.navy, fontSize: 14, padding: "12px 24px" })
+      }, "View Standings")
+    )
+  )
+), tab === "users" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.red,
+      marginTop: 0,
+      fontSize: 18
+    }
+  }, "All Users"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      marginBottom: 18
+    }
+  }, "All registered users. Data is stored in your Google Sheet \u2014 edit directly there for advanced changes."), loadingUsers ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      padding: 20
+    }
+  }, "Loading users\u2026") : allUsers.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: C.dim,
+      fontSize: 13
+    }
+  }, "No users yet.") : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gap: 8
+    }
+  }, allUsers.map(function (u) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: u.name,
+      style: _objectSpread(_objectSpread({}, S.card), {}, {
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        padding: "12px 16px"
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 16,
+        fontWeight: 800,
+        color: u.isAdmin ? "#991B1B" : C.text
+      }
+    }, u.name, u.isAdmin && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: "#991B1B",
+        marginLeft: 8,
+        border: "1px solid #FCA5A5",
+        background: "#FEE2E2",
+        padding: "1px 6px",
+        borderRadius: 4
+      }
+    }, "ADMIN")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.dim,
+        marginTop: 3
+      }
+    }, "Joined ", u.joined)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 22,
+        fontWeight: 900,
+        color: C.text
+      }
+    }, u.score != null ? u.score : 0), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: C.dim
+      }
+    }, "pts")));
+  })))),
+  tab === "testclock" && React.createElement("div", { style: { maxWidth: 600 } },
+    React.createElement("h3", {
+      style: { fontFamily: "'Barlow Condensed',sans-serif", color: C.red, marginTop: 0, fontSize: 18, marginBottom: 8 }
+    }, "Test Clock - Fixture Lock Simulation"),
+    React.createElement("p", {
+      style: { color: C.muted, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }
+    }, "Override the current time to test whether fixtures lock correctly at kickoff. Set a time just BEFORE a match to confirm it is open, then just AFTER to confirm it locks. Clear to restore real time."),
+    React.createElement("div", {
+      style: Object.assign({}, S.card, { padding: "20px 24px", borderColor: C.red, background: "#FFF8F8" })
+    },
+      React.createElement("label", {
+        style: { display: "block", fontFamily: "'Barlow Condensed',sans-serif", fontSize: 12,
+          fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: C.red, marginBottom: 8 }
+      }, "Simulated Current Time (CDT)"),
+      React.createElement("input", {
+        type: "datetime-local",
+        id: "test-clock-input",
+        onChange: function(e) {
+          TEST_TIME_OVERRIDE = e.target.value ? new Date(e.target.value) : null;
+        },
+        style: { padding: "10px 14px", borderRadius: 6, border: "2px solid " + C.red,
+          fontSize: 15, width: "100%", boxSizing: "border-box", marginBottom: 16, background: "#fff" }
+      }),
+      React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
+        React.createElement("button", {
+          onClick: function() {
+            TEST_TIME_OVERRIDE = null;
+            var inp = document.getElementById("test-clock-input");
+            if (inp) inp.value = "";
+            alert("Test clock cleared - now using real time.");
+          },
+          style: Object.assign({}, S.goldBtn, { background: C.muted, fontSize: 13 })
+        }, "Clear - Use Real Time"),
+        React.createElement("button", {
+          onClick: function() {
+            var iso = "2026-06-11T09:59:00";
+            TEST_TIME_OVERRIDE = new Date(iso);
+            var inp = document.getElementById("test-clock-input");
+            if (inp) inp.value = iso;
+          },
+          style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" })
+        }, "BEFORE Match 1 (9:59 AM)"),
+        React.createElement("button", {
+          onClick: function() {
+            var iso = "2026-06-11T10:01:00";
+            TEST_TIME_OVERRIDE = new Date(iso);
+            var inp = document.getElementById("test-clock-input");
+            if (inp) inp.value = iso;
+          },
+          style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" })
+        }, "AFTER Match 1 (10:01 AM)")
+      )
+    ),
+    React.createElement("div", {
+      style: { marginTop: 16, padding: "12px 16px", borderRadius: 8,
+        background: C.blueBg, border: "1px solid " + C.blue, fontSize: 13, color: C.navy, lineHeight: 1.7 }
+    },
+      React.createElement("p", null,
+        React.createElement("strong", null, "First match: "),
+        "Mexico vs South Africa - Thu Jun 11, 2026 at 10:00 AM CDT"
+      ),
+      React.createElement("p", { style: { marginTop: 8 } },
+        React.createElement("strong", null, "Steps: "),
+        "1) Click BEFORE Match 1, go to All Fixtures - match should be Open. ",
+        "2) Click AFTER Match 1 - match should show Locked with inputs disabled. ",
+        "3) Click Clear to restore real time."
+      )
+    )
+  ),
+  /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      bottom: 0,
+      left: 0,
+
+      right: 0,
+      background: C.panel,
+      backdropFilter: "none",
+      borderTop: "1px solid ".concat(C.border),
+      boxShadow: "0 -2px 12px rgba(0,0,0,0.08)",
+      padding: "13px 22px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      gap: 14,
+      zIndex: 50
+    }
+  }, msg.text && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: msg.type === "err" ? C.red : C.green,
+      fontSize: 13,
+      fontWeight: 600
+    }
+  }, msg.text), /*#__PURE__*/React.createElement("button", {
+    onClick: handleSave,
+    disabled: saving,
+    style: _objectSpread(_objectSpread({}, S.goldBtn), {}, {
+      background: "#7B1D1D",
+      boxShadow: "0 2px 8px rgba(123,29,29,0.3)",
+      color: "#fff"
+    })
+  }, saving ? "Saving & Recalculating…" : "Save & Recalculate All Scores")));
+}
+
+    var container = document.getElementById('root');
+    var root = ReactDOM.createRoot(container);
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>

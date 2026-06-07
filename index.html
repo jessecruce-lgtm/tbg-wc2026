@@ -34,7 +34,7 @@
   <script>
 "use strict";
 
-// TEST MODE - set TEST_TIME_OVERRIDE to simulate a specific time for lock testing
+// TEST MODE - override current time to test fixture locking
 var TEST_TIME_OVERRIDE = null;
 function getNow() { return TEST_TIME_OVERRIDE ? new Date(TEST_TIME_OVERRIDE) : new Date(); }
 
@@ -510,91 +510,151 @@ var GROUP_SCHEDULE = {
     venue: "Philadelphia"
   }]
 };
-var R32_FIXED_SLOTS = [{
-  id: "r32-1",
-  label: "R32 Match 1",
-  s1: "1A",
-  s2: "2B"
-}, {
-  id: "r32-2",
-  label: "R32 Match 2",
-  s1: "1C",
-  s2: "2D"
-}, {
-  id: "r32-3",
-  label: "R32 Match 3",
+
+// ── Official FIFA 2026 Round of 32 fixtures (Matches 73–88) ─────────────────
+// Slots: 1X = Group X winner, 2X = Group X runner-up, 3P-N = Nth-best 3rd place.
+// 3rd-place slots are context keys — resolved at runtime by resolveThirdPlaceSlot().
+var R32_FIXED_SLOTS = [
+// Sun Jun 28
+{
+  id: "r32-73",
+  label: "Match 73",
+  s1: "2A",
+  s2: "2B",
+  venue: "Los Angeles"
+},
+// Mon Jun 29
+{
+  id: "r32-74",
+  label: "Match 74",
   s1: "1E",
-  s2: "2F"
+  s2: "3rd-ABCDF",
+  venue: "Boston",
+  thirdPlace: true,
+  thirdGroups: "ABCDF"
 }, {
-  id: "r32-4",
-  label: "R32 Match 4",
-  s1: "1G",
-  s2: "2H"
-}, {
-  id: "r32-5",
-  label: "R32 Match 5",
-  s1: "1I",
-  s2: "2J"
-}, {
-  id: "r32-6",
-  label: "R32 Match 6",
-  s1: "1K",
-  s2: "2L"
-}, {
-  id: "r32-7",
-  label: "R32 Match 7",
-  s1: "1B",
-  s2: "2A"
-}, {
-  id: "r32-8",
-  label: "R32 Match 8",
-  s1: "1D",
-  s2: "2C"
-}, {
-  id: "r32-9",
-  label: "R32 Match 9",
+  id: "r32-75",
+  label: "Match 75",
   s1: "1F",
-  s2: "2E"
+  s2: "2C",
+  venue: "Monterrey"
 }, {
-  id: "r32-10",
-  label: "R32 Match 10",
-  s1: "1H",
-  s2: "2G"
+  id: "r32-76",
+  label: "Match 76",
+  s1: "1C",
+  s2: "2F",
+  venue: "Houston"
+},
+// Tue Jun 30
+{
+  id: "r32-77",
+  label: "Match 77",
+  s1: "1I",
+  s2: "3rd-CDFGH",
+  venue: "New York/NJ",
+  thirdPlace: true,
+  thirdGroups: "CDFGH"
 }, {
-  id: "r32-11",
-  label: "R32 Match 11",
-  s1: "1J",
-  s2: "2I"
+  id: "r32-78",
+  label: "Match 78",
+  s1: "2E",
+  s2: "2I",
+  venue: "Dallas"
 }, {
-  id: "r32-12",
-  label: "R32 Match 12",
+  id: "r32-79",
+  label: "Match 79",
+  s1: "1A",
+  s2: "3rd-CEFHI",
+  venue: "Mexico City",
+  thirdPlace: true,
+  thirdGroups: "CEFHI"
+},
+// Wed Jul 1
+{
+  id: "r32-80",
+  label: "Match 80",
   s1: "1L",
-  s2: "2K"
+  s2: "3rd-EHIJK",
+  venue: "Atlanta",
+  thirdPlace: true,
+  thirdGroups: "EHIJK"
 }, {
-  id: "r32-13",
-  label: "R32 Match 13",
-  s1: "3rd-TBD",
-  s2: "3rd-TBD",
-  thirdPlace: true
+  id: "r32-81",
+  label: "Match 81",
+  s1: "1D",
+  s2: "3rd-BEFIJ",
+  venue: "San Francisco",
+  thirdPlace: true,
+  thirdGroups: "BEFIJ"
 }, {
-  id: "r32-14",
-  label: "R32 Match 14",
-  s1: "3rd-TBD",
-  s2: "3rd-TBD",
-  thirdPlace: true
+  id: "r32-82",
+  label: "Match 82",
+  s1: "1G",
+  s2: "3rd-AEHIJ",
+  venue: "Seattle",
+  thirdPlace: true,
+  thirdGroups: "AEHIJ"
+},
+// Thu Jul 2
+{
+  id: "r32-83",
+  label: "Match 83",
+  s1: "2K",
+  s2: "2L",
+  venue: "Toronto"
 }, {
-  id: "r32-15",
-  label: "R32 Match 15",
-  s1: "3rd-TBD",
-  s2: "3rd-TBD",
-  thirdPlace: true
+  id: "r32-84",
+  label: "Match 84",
+  s1: "1H",
+  s2: "2J",
+  venue: "Los Angeles"
 }, {
-  id: "r32-16",
-  label: "R32 Match 16",
-  s1: "3rd-TBD",
-  s2: "3rd-TBD",
-  thirdPlace: true
+  id: "r32-85",
+  label: "Match 85",
+  s1: "1B",
+  s2: "3rd-EFGIJ",
+  venue: "Vancouver",
+  thirdPlace: true,
+  thirdGroups: "EFGIJ"
+},
+// Fri Jul 3
+{
+  id: "r32-86",
+  label: "Match 86",
+  s1: "1J",
+  s2: "2H",
+  venue: "Miami"
+}, {
+  id: "r32-87",
+  label: "Match 87",
+  s1: "1K",
+  s2: "3rd-DEIJL",
+  venue: "Kansas City",
+  thirdPlace: true,
+  thirdGroups: "DEIJL"
+}, {
+  id: "r32-88",
+  label: "Match 88",
+  s1: "2D",
+  s2: "2G",
+  venue: "Dallas"
 }];
+
+// ── 3rd-place slot resolution ────────────────────────────────────────────────
+// Each 3rd-place match slot lists the set of groups from which the qualifying
+// 3rd-place team could come (e.g. "ABCDF" = one of 3rd-place A, B, C, D, or F).
+// We pick the best-ranked 3rd-place team that came from one of those groups.
+// The ranked list of 3rd-place teams (all 12, sorted by pts/GD/GF) is passed in.
+function resolveThirdPlaceSlot(thirdGroups, rankedThirds, usedThirds) {
+  for (var i = 0; i < rankedThirds.length; i++) {
+    var t = rankedThirds[i];
+    if (thirdGroups.includes(t.grp) && !usedThirds.has(t.team)) {
+      usedThirds.add(t.team);
+      return t.team;
+    }
+  }
+  return null;
+}
 
 // ─── SCORING ──────────────────────────────────────────────────────────────────
 var POINTS = {
@@ -2638,24 +2698,45 @@ function BracketTab(_ref19) {
   var phase = (league === null || league === void 0 ? void 0 : league.phase) || "group";
   var preview = phase === "group";
 
-  // All qualifiers are auto-calculated — no manual input needed.
-  // 1st/2nd: from group standings with full FIFA 2026 tie-breaker criteria.
-  // 3rd-place (slots 3P-1 through 3P-8): from the best-8 third-place ranking.
+  // All qualifiers are auto-calculated from standings.
+  // 1st/2nd: group standings with FIFA 2026 tie-breakers.
+  // 3rd-place: resolved per-match from the ranked 3rd-place list using
+  //            the group-filter specified in each R32 slot (thirdGroups).
   var ogr = (league === null || league === void 0 ? void 0 : league.officialGroupResults) || {};
   var autoStandings = calcGroupStandings(ogr);
-  var thirds = calcThirdPlaceRanking(ogr); // sorted best→worst, top 8 qualify
+  var allThirds = calcThirdPlaceRanking(ogr); // all 12, best first, top 8 qualify
   var q = {};
   Object.keys(GROUPS).forEach(function (grp) {
     var st = autoStandings[grp] || [];
     if (st[0] && st[0].played > 0) q["1" + grp] = st[0].team;
     if (st[1] && st[1].played > 0) q["2" + grp] = st[1].team;
   });
-  // Map top-8 3rd-place teams to R32 slots 3P-1 through 3P-8
-  thirds.slice(0, 8).forEach(function (t, i) {
-    q["3P-".concat(i + 1)] = t.team;
+
+  // Resolve 3rd-place slots in match order so each qualifying 3rd-place team
+  // is assigned to exactly one match (no duplicates).
+  var usedThirds = new Set();
+  var thirdSlotCache = {};
+  R32_FIXED_SLOTS.forEach(function (slot) {
+    if (slot.thirdPlace && slot.thirdGroups) {
+      var team = resolveThirdPlaceSlot(slot.thirdGroups, allThirds, usedThirds);
+      thirdSlotCache[slot.id] = team;
+    }
   });
+
+  // Resolve any manually overridden qualifiers from league.qualifiers
+  var manualQ = (league === null || league === void 0 ? void 0 : league.qualifiers) || {};
   function resolveSlot(slot) {
-    return q[slot] || null;
+    // Check for manual override first (admin can override any slot)
+    if (manualQ[slot]) return manualQ[slot];
+    // Standard 1st/2nd slots
+    if (q[slot]) return q[slot];
+    return null;
+  }
+  function resolveR32Slot(matchSlot) {
+    // Manual override for this specific match id
+    if (manualQ[matchSlot.id]) return manualQ[matchSlot.id];
+    if (matchSlot.thirdPlace) return thirdSlotCache[matchSlot.id] || null;
+    return resolveSlot(matchSlot.s1); // called per-team below
   }
   function pickR32(i, team) {
     setKnockoutPicks(function (prev) {
@@ -2795,12 +2876,13 @@ function BracketTab(_ref19) {
     pts: 3
   }, R32_FIXED_SLOTS.slice(0, 8).map(function (slot, i) {
     var _knockoutPicks$r, _knockoutPicks$r$i;
-    var t1 = resolveSlot(slot.s1);
-    var t2 = resolveSlot(slot.s2);
+    var t1 = slot.thirdPlace ? resolveSlot(slot.s1) : resolveSlot(slot.s1);
+    var t2 = slot.thirdPlace ? thirdSlotCache[slot.id] || null : resolveSlot(slot.s2);
+    var sublabel = slot.thirdPlace ? "".concat(slot.s1, " v 3rd (").concat(slot.thirdGroups, ")") : slot.s1 + " v " + slot.s2;
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
-      label: slot.label,
-      sublabel: slot.thirdPlace ? "3rd-place" : slot.s1 + " v " + slot.s2,
+      label: "".concat(slot.label, " \xB7 ").concat(slot.venue || ""),
+      sublabel: sublabel,
       team1: t1,
       team2: t2,
       preview: preview,
@@ -3077,11 +3159,12 @@ function BracketTab(_ref19) {
     var _knockoutPicks$r4, _knockoutPicks$r4$i;
     var i = rawI + 8;
     var t1 = resolveSlot(slot.s1);
-    var t2 = resolveSlot(slot.s2);
+    var t2 = slot.thirdPlace ? thirdSlotCache[slot.id] || null : resolveSlot(slot.s2);
+    var sublabel = slot.thirdPlace ? "".concat(slot.s1, " v 3rd (").concat(slot.thirdGroups, ")") : slot.s1 + " v " + slot.s2;
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
-      label: slot.label,
-      sublabel: slot.thirdPlace ? "3rd-place" : slot.s1 + " v " + slot.s2,
+      label: "".concat(slot.label, " \xB7 ").concat(slot.venue || ""),
+      sublabel: sublabel,
       team1: t1,
       team2: t2,
       preview: preview,
@@ -4051,7 +4134,6 @@ function calcGroupStandings(officialGroupResults) {
   });
   return standings;
 }
-
 function AdminStandingsTab(_ref27) {
   var local = _ref27.local,
     setLocal = _ref27.setLocal,
@@ -5303,108 +5385,86 @@ function AdminPanel(_ref29) {
       phase: local.phase === "group" ? "group" : "knockout",
       qualifiers: local.qualifiers || {}
     }
-  })), tab === "qualifiers" && React.createElement("div", null,
-  React.createElement("div", {
-    style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 16 }
-  },
-    React.createElement("div", null,
-      React.createElement("h3", {
-        style: { fontFamily: "'Barlow Condensed',sans-serif", color: C.red, marginTop: 0, fontSize: 18, marginBottom: 4 }
-      }, "Confirm Qualifiers"),
-      React.createElement("p", {
-        style: { color: C.muted, fontSize: 13 }
-      }, "All 32 qualified teams are auto-calculated from standings and the best-8 third-place ranking. Review before advancing.")
-    )
-  ),
-  React.createElement("div", {
-    style: { background: C.blueBg, border: "1px solid " + C.blue, borderRadius: 8, padding: "10px 14px", marginBottom: 20, fontSize: 13, color: C.navy }
-  },
-    React.createElement("strong", null, "Ranking: "),
-    "1st & 2nd from group standings (H2H tiebreakers). 3rd-place: overall pts → GD → GF across all groups. Top 8 of 12 third-place teams advance."
-  ),
-  React.createElement("div", {
-    style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 8, marginBottom: 24 }
-  },
-    (function(){
-      var ogr = local.officialGroupResults || {};
-      var autoS = calcGroupStandings(ogr);
-      var thirds = calcThirdPlaceRanking(ogr);
-      var rows = [];
-      Object.keys(GROUPS).forEach(function(g) {
-        var st = autoS[g] || [];
-        ["1","2"].forEach(function(pos, pi) {
-          var team = st[pi] && st[pi].played > 0 ? st[pi].team : null;
-          var isFirst = pos==="1";
-          rows.push(React.createElement("div", {
-            key: pos+g,
-            style: Object.assign({}, S.card, { display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
-              borderLeft: "4px solid " + (isFirst?C.green:C.blue),
-              background: isFirst?"#F0FDF4":"#EFF6FF", marginBottom: 0 })
-          },
-            React.createElement("span", {
-              style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 10, fontWeight: 800,
-                color: isFirst?C.green:C.blue, width: 28, flexShrink: 0 }
-            }, isFirst?"1st":"2nd"),
-            React.createElement("span", {
-              style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 11, fontWeight: 700,
-                color: C.navy, width: 40, flexShrink: 0 }
-            }, "Grp "+g),
-            team
-              ? React.createElement("div", { style: { display:"flex", alignItems:"center", gap:8, flex:1 } },
-                  React.createElement(Flag, { team: team, size: 18 }),
-                  React.createElement("span", { style: { fontSize:13, fontWeight:700, color:C.text } }, team)
-                )
-              : React.createElement("span", { style: { fontSize:12, color:C.dim, fontStyle:"italic" } }, "No results yet")
-          ));
-        });
-      });
-      thirds.slice(0,8).forEach(function(t,i) {
-        rows.push(React.createElement("div", {
-          key: "3P-"+(i+1),
-          style: Object.assign({}, S.card, { display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
-            borderLeft: "4px solid #9333EA", background: "#FAF5FF", marginBottom: 0 })
-        },
-          React.createElement("span", {
-            style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 10, fontWeight: 800,
-              color: "#9333EA", width: 28, flexShrink: 0 }
-          }, "3rd"),
-          React.createElement("span", {
-            style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 11, fontWeight: 700,
-              color: "#9333EA", width: 40, flexShrink: 0 }
-          }, "Grp "+t.grp),
-          React.createElement("div", { style: { display:"flex", alignItems:"center", gap:8, flex:1 } },
-            React.createElement(Flag, { team: t.team, size: 18 }),
-            React.createElement("span", { style: { fontSize:13, fontWeight:700, color:C.text } }, t.team)
-          ),
-          React.createElement("span", {
-            style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 10, fontWeight: 700,
-              color: "#9333EA", background: "#EDE9FE", padding: "1px 6px", borderRadius: 4 }
-          }, "#"+(i+1)+" 3rd")
-        ));
-      });
-      return rows;
-    })()
-  ),
-  React.createElement("div", {
-    style: Object.assign({}, S.card, { background: "linear-gradient(135deg,#F0FDF4,#EFF6FF)", borderColor: C.green,
-      padding: "20px 24px", textAlign: "center", marginTop: 8 })
-  },
-    React.createElement("p", {
-      style: { color: C.textSub, fontSize: 14, marginBottom: 16 }
-    }, "All 32 teams confirmed? Switch the phase below to open the knockout bracket for users."),
-    React.createElement("div", { style: { display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" } },
-      React.createElement("button", {
-        onClick: function() { setLocal(function(prev){ return Object.assign({}, prev, { phase:"knockout" }); }); },
-        style: Object.assign({}, S.goldBtn, { background: C.navy, fontSize: 14, padding: "12px 28px" })
-      }, "🏆 Confirm & Advance to Knockout Phase"),
-      React.createElement("button", {
-        onClick: function() { setTab("standings"); },
-        style: Object.assign({}, S.goldBtn, { background: "rgba(26,58,92,0.1)", color: C.navy,
-          boxShadow: "none", border: "1px solid " + C.navy, fontSize: 14, padding: "12px 24px" })
-      }, "View Standings")
-    )
-  )
-), tab === "users" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+  })), tab === "qualifiers" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      color: C.red,
+      marginTop: 0,
+      fontSize: 18
+    }
+  }, "Set Knockout Qualifiers"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.muted,
+      fontSize: 13,
+      marginBottom: 6
+    }
+  }, "1st and 2nd place qualify automatically from Group Standings. Set the 8 best 3rd-place teams manually below."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.blueBg,
+      border: "1px solid ".concat(C.blue),
+      borderRadius: 8,
+      padding: "10px 14px",
+      marginBottom: 16,
+      fontSize: 13,
+      color: C.navy
+    }
+  }, "\uD83D\uDCA1 Switch to ", /*#__PURE__*/React.createElement("strong", null, "Group Standings"), " to see current standings and auto-populate 1st & 2nd place qualifiers."), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 13,
+      color: C.red,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      margin: "0 0 10px"
+    }
+  }, "3rd-Place Qualifiers (manual)"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill,minmax(290px,1fr))",
+      gap: 8
+    }
+  }, qSlots.filter(function (s) {
+    return s.slot.startsWith("3P");
+  }).map(function (_ref33) {
+    var _local$qualifiers5;
+    var slot = _ref33.slot,
+      label = _ref33.label;
+    var val = ((_local$qualifiers5 = local.qualifiers) === null || _local$qualifiers5 === void 0 ? void 0 : _local$qualifiers5[slot]) || "";
+    return /*#__PURE__*/React.createElement("div", {
+      key: slot,
+      style: _objectSpread(_objectSpread({}, S.card), {}, {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "9px 14px",
+        borderColor: C.gold
+      })
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Barlow Condensed',sans-serif",
+        fontSize: 12,
+        color: C.gold,
+        width: 160,
+        flexShrink: 0
+      }
+    }, label), /*#__PURE__*/React.createElement("select", {
+      value: val,
+      onChange: function onChange(e) {
+        return setQ(slot, e.target.value);
+      },
+      style: _objectSpread(_objectSpread({}, aS.sel), {}, {
+        flex: 1,
+        color: val ? C.navy : C.muted
+      })
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "\u2014 TBD \u2014"), allTeams.map(function (t) {
+      return /*#__PURE__*/React.createElement("option", {
+        key: t,
+        value: t
+      }, FLAGS[t] || "", " ", t);
+    })));
+  }))), tab === "users" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {
       fontFamily: "'Barlow Condensed',sans-serif",
       color: C.red,
@@ -5502,11 +5562,8 @@ function AdminPanel(_ref29) {
           fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: C.red, marginBottom: 8 }
       }, "Simulated Current Time (CDT)"),
       React.createElement("input", {
-        type: "datetime-local",
-        id: "test-clock-input",
-        onChange: function(e) {
-          TEST_TIME_OVERRIDE = e.target.value ? new Date(e.target.value) : null;
-        },
+        type: "datetime-local", id: "test-clock-input",
+        onChange: function(e) { TEST_TIME_OVERRIDE = e.target.value ? new Date(e.target.value) : null; },
         style: { padding: "10px 14px", borderRadius: 6, border: "2px solid " + C.red,
           fontSize: 15, width: "100%", boxSizing: "border-box", marginBottom: 16, background: "#fff" }
       }),
@@ -5528,7 +5585,7 @@ function AdminPanel(_ref29) {
             if (inp) inp.value = iso;
           },
           style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" })
-        }, "BEFORE Match 1 (9:59 AM)"),
+        }, "BEFORE Match 1 (9:59 AM CDT)"),
         React.createElement("button", {
           onClick: function() {
             var iso = "2026-06-11T10:01:00";
@@ -5537,7 +5594,7 @@ function AdminPanel(_ref29) {
             if (inp) inp.value = iso;
           },
           style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" })
-        }, "AFTER Match 1 (10:01 AM)")
+        }, "AFTER Match 1 (10:01 AM CDT)")
       )
     ),
     React.createElement("div", {
@@ -5550,9 +5607,9 @@ function AdminPanel(_ref29) {
       ),
       React.createElement("p", { style: { marginTop: 8 } },
         React.createElement("strong", null, "Steps: "),
-        "1) Click BEFORE Match 1, go to All Fixtures - match should be Open. ",
-        "2) Click AFTER Match 1 - match should show Locked with inputs disabled. ",
-        "3) Click Clear to restore real time."
+        "1) Click BEFORE Match 1, go to All Fixtures - match should be Open. "
+        + "2) Click AFTER Match 1 - match should show Locked with inputs disabled. "
+        + "3) Click Clear to restore real time."
       )
     )
   ),

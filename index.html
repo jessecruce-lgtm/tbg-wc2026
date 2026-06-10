@@ -34,7 +34,6 @@
   <script>
 "use strict";
 
-// TEST MODE - override current time to test fixture locking
 var TEST_TIME_OVERRIDE = null;
 function getNow() { return TEST_TIME_OVERRIDE ? new Date(TEST_TIME_OVERRIDE) : new Date(); }
 
@@ -68,7 +67,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 // ─── CONFIGURATION ────────────────────────────────────────────────────────────
 // Paste your deployed Apps Script URL here after setup
-var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLLoKGKaIy60uZvQ8cV6O9XgfkaZLEQ6QTibbxQCQhgrvGMrrypJ2QFNRfY0yqCIY2pw/exec";
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBFIdpB-_KiVyo8LeXwZQJB6iRznLuxg4OBgb3KdU0giaXGCFijnRudn94Gdcn3dvBNg/exec";
 
 // ─── 2026 FIFA WORLD CUP DATA ────────────────────────────────────────────────
 var GROUPS = {
@@ -1223,11 +1222,11 @@ function App() {
       });
     }, 3500);
   }
-  function handleLogin(_x2, _x3) {
+  function handleLogin(_x2, _x3, _x4) {
     return _handleLogin.apply(this, arguments);
   }
   function _handleLogin() {
-    _handleLogin = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(name, pin) {
+    _handleLogin = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(name, pin, isNew) {
       var data, u, _yield$Promise$all, _yield$Promise$all2, leagueData, picksData, l, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
@@ -1238,7 +1237,8 @@ function App() {
             return api({
               action: "login",
               name: name,
-              pin: pin
+              pin: pin,
+              isNew: isNew
             });
           case 2:
             data = _context.v;
@@ -1604,7 +1604,7 @@ function LoginScreen(_ref0) {
     return true;
   }
   function submit() {
-    if (validate()) onLogin(name.trim().toLowerCase(), pin);
+    if (validate()) onLogin(name.trim().toLowerCase(), pin, isNew);
   }
   return /*#__PURE__*/React.createElement(Shell, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5608,7 +5608,7 @@ function AdminPanel(_ref29) {
       React.createElement("p", { style: { marginTop: 8 } },
         React.createElement("strong", null, "Steps: "),
         "1) Click BEFORE Match 1, go to All Fixtures - match should be Open. "
-        + "2) Click AFTER Match 1 - match should show Locked with inputs disabled. "
+        + "2) Click AFTER Match 1 - match should show Locked. "
         + "3) Click Clear to restore real time."
       )
     )

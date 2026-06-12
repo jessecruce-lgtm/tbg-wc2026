@@ -67,7 +67,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 // ─── CONFIGURATION ────────────────────────────────────────────────────────────
 // Paste your deployed Apps Script URL here after setup
-var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz19PcAoSQaqQeY7bwMnrUH6FOx9BrFdLdsgqrIahjz0eOUWPQJpeMUIdnTMtCgItlUrw/exec";
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt319T7hm9qsXMY9DSDwAd2G22rKjC0a6PDDEruB0FxW3EPf_-IaZb7bHlLK6aZi0lXQ/exec";
 
 // ─── 2026 FIFA WORLD CUP DATA ────────────────────────────────────────────────
 var GROUPS = {
@@ -1615,8 +1615,12 @@ function LoginScreen(_ref0) {
       setErr("PIN must be exactly 4 digits");
       return false;
     }
+    if (pin[0] === "0") {
+      setErr("PIN cannot start with 0 \u2014 please choose a different PIN");
+      return false;
+    }
     if (isNew && pin !== pinConfirm) {
-      setErr("PINs don't match");
+      setErr("PINs don\u2019t match");
       return false;
     }
     setErr("");

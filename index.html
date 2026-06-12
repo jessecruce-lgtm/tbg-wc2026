@@ -67,7 +67,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 // ─── CONFIGURATION ────────────────────────────────────────────────────────────
 // Paste your deployed Apps Script URL here after setup
-var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBFIdpB-_KiVyo8LeXwZQJB6iRznLuxg4OBgb3KdU0giaXGCFijnRudn94Gdcn3dvBNg/exec";
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBZDdDyQAGEFhAeOfWDyA3ggyTeDKWzYAhEYat44-sXMF4rBKhPWVxMLAp0LCEk3KawA/exec";
 
 // ─── 2026 FIFA WORLD CUP DATA ────────────────────────────────────────────────
 var GROUPS = {
@@ -808,6 +808,21 @@ function calcScore(groupPicks, knockoutPicks, league) {
     });
   });
   if (!knockoutPicks) return score;
+  // Penalty-shootout bonus adjustment:
+  // If official homeScore===awayScore the match went to penalties.
+  // The winner's score is treated as +1 for bonus-point comparisons.
+  // res.penaltyWinnerHome (boolean) tells us which side won on pens.
+  function effKOScores(res) {
+    var hs = Number(res.homeScore),
+      as = Number(res.awayScore);
+    if (res.homeScore == null || res.awayScore == null || !res.winner) return [res.homeScore, res.awayScore];
+    if (hs === as) {
+      if (res.penaltyWinnerHome === true) return [hs + 1, as];
+      if (res.penaltyWinnerHome === false) return [hs, as + 1];
+      return [hs + 1, as]; // default fallback if flag not set
+    }
+    return [hs, as];
+  }
   var koP = {
     r32: POINTS.r32Result,
     r16: POINTS.r16Result,
@@ -826,8 +841,12 @@ function calcScore(groupPicks, knockoutPicks, league) {
       var up = (_knockoutPicks$round = knockoutPicks[round]) === null || _knockoutPicks$round === void 0 ? void 0 : _knockoutPicks$round[i];
       if (!up) return;
       if (up.pick === res.winner) score += pts;
-      if (res.homeScore != null && up.homeScore != null && Number(up.homeScore) === Number(res.homeScore)) score += POINTS.knockoutScore;
-      if (res.awayScore != null && up.awayScore != null && Number(up.awayScore) === Number(res.awayScore)) score += POINTS.knockoutScore;
+      var _effKOScores = effKOScores(res),
+        _effKOScores2 = _slicedToArray(_effKOScores, 2),
+        effHS = _effKOScores2[0],
+        effAS = _effKOScores2[1];
+      if (effHS != null && up.homeScore != null && effHS === Number(up.homeScore)) score += POINTS.knockoutScore;
+      if (effAS != null && up.awayScore != null && effAS === Number(up.awayScore)) score += POINTS.knockoutScore;
     });
   });
   if ((_league$officialKnock2 = league.officialKnockoutResults) !== null && _league$officialKnock2 !== void 0 && _league$officialKnock2.champion && knockoutPicks.champion === league.officialKnockoutResults.champion) score += POINTS.champion;
@@ -2518,6 +2537,8 @@ function BracketMatchCard(_ref16) {
     homeScore = _ref16.homeScore,
     awayScore = _ref16.awayScore,
     onScore = _ref16.onScore;
+  var bothFilled = homeScore !== null && homeScore !== undefined && homeScore !== "" && awayScore !== null && awayScore !== undefined && awayScore !== "";
+  var scoresEqual = bothFilled && Number(homeScore) === Number(awayScore);
   var si = {
     width: 34,
     padding: "4px 0",
@@ -2539,7 +2560,7 @@ function BracketMatchCard(_ref16) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.panel,
-      border: pick ? "1px solid rgba(240,180,41,0.35)" : preview ? "1px solid rgba(255,255,255,0.04)" : C.border,
+      border: scoresEqual ? "2px solid ".concat(C.red) : pick ? "2px solid ".concat(C.navy) : preview ? "1px solid ".concat(C.border) : C.border,
       borderRadius: 10,
       padding: "10px 12px",
       width: "100%",
@@ -2639,11 +2660,25 @@ function BracketMatchCard(_ref16) {
         return onScore(side, e.target.value, team1, team2);
       },
       style: _objectSpread(_objectSpread({}, si), {}, {
-        borderColor: sc != null ? C.navy : C.borderMid,
-        color: sc != null ? C.navy : C.muted
+        borderColor: sc != null ? scoresEqual ? C.red : C.navy : C.borderMid,
+        color: sc != null ? scoresEqual ? C.red : C.navy : C.muted
       })
     }));
-  }));
+  }), scoresEqual && !preview && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      fontSize: 10,
+      color: C.red,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      background: C.redBg,
+      padding: "3px 8px",
+      borderRadius: 4,
+      textAlign: "center"
+    }
+  }, "Knockout scores must have a winner \u2014 adjust one score"));
 }
 function RoundCol(_ref18) {
   var label = _ref18.label,
@@ -2765,12 +2800,12 @@ function BracketTab(_ref19) {
       var updated = prev[round].map(function (m, mi) {
         if (mi !== i) return m;
         var next = _objectSpread(_objectSpread({}, m), {}, _defineProperty({}, field, val));
-        // Auto-derive winner from scores when both are filled
         var hs = side === "home" ? val : m.homeScore;
         var as = side === "away" ? val : m.awayScore;
+        // Auto-derive winner — equal scores are blocked in the UI,
+        // so this should always resolve to a winner when both scores are filled.
         if (hs !== null && as !== null && team1 && team2) {
-          if (hs > as) next.pick = team1;else if (as > hs) next.pick = team2;
-          // Equal score in KO = no auto-pick (extra time/penalties decide)
+          if (hs > as) next.pick = team1;else if (as > hs) next.pick = team2;else next.pick = null; // equal — UI will show error, pick stays blank
         }
         return next;
       });
@@ -5548,68 +5583,14 @@ function AdminPanel(_ref29) {
     }, "pts")));
   })))),
   tab === "testclock" && React.createElement("div", { style: { maxWidth: 600 } },
-    React.createElement("h3", {
-      style: { fontFamily: "'Barlow Condensed',sans-serif", color: C.red, marginTop: 0, fontSize: 18, marginBottom: 8 }
-    }, "Test Clock - Fixture Lock Simulation"),
-    React.createElement("p", {
-      style: { color: C.muted, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }
-    }, "Override the current time to test whether fixtures lock correctly at kickoff."),
-    React.createElement("div", {
-      style: Object.assign({}, S.card, { padding: "20px 24px", borderColor: C.red, background: "#FFF8F8" })
-    },
-      React.createElement("label", {
-        style: { display: "block", fontFamily: "'Barlow Condensed',sans-serif", fontSize: 12,
-          fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: C.red, marginBottom: 8 }
-      }, "Simulated Current Time (CDT)"),
-      React.createElement("input", {
-        type: "datetime-local", id: "test-clock-input",
-        onChange: function(e) { TEST_TIME_OVERRIDE = e.target.value ? new Date(e.target.value) : null; },
-        style: { padding: "10px 14px", borderRadius: 6, border: "2px solid " + C.red,
-          fontSize: 15, width: "100%", boxSizing: "border-box", marginBottom: 16, background: "#fff" }
-      }),
+    React.createElement("h3", { style: { fontFamily: "'Barlow Condensed',sans-serif", color: C.red, marginTop: 0, fontSize: 18, marginBottom: 8 } }, "Test Clock - Fixture Lock Simulation"),
+    React.createElement("div", { style: Object.assign({}, S.card, { padding: "20px 24px", borderColor: C.red, background: "#FFF8F8" }) },
+      React.createElement("label", { style: { display: "block", fontFamily: "'Barlow Condensed',sans-serif", fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: C.red, marginBottom: 8 } }, "Simulated Current Time (CDT)"),
+      React.createElement("input", { type: "datetime-local", id: "test-clock-input", onChange: function(e) { TEST_TIME_OVERRIDE = e.target.value ? new Date(e.target.value) : null; }, style: { padding: "10px 14px", borderRadius: 6, border: "2px solid " + C.red, fontSize: 15, width: "100%", boxSizing: "border-box", marginBottom: 16, background: "#fff" } }),
       React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
-        React.createElement("button", {
-          onClick: function() {
-            TEST_TIME_OVERRIDE = null;
-            var inp = document.getElementById("test-clock-input");
-            if (inp) inp.value = "";
-            alert("Test clock cleared - now using real time.");
-          },
-          style: Object.assign({}, S.goldBtn, { background: C.muted, fontSize: 13 })
-        }, "Clear - Use Real Time"),
-        React.createElement("button", {
-          onClick: function() {
-            var iso = "2026-06-11T09:59:00";
-            TEST_TIME_OVERRIDE = new Date(iso);
-            var inp = document.getElementById("test-clock-input");
-            if (inp) inp.value = iso;
-          },
-          style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" })
-        }, "BEFORE Match 1 (9:59 AM CDT)"),
-        React.createElement("button", {
-          onClick: function() {
-            var iso = "2026-06-11T10:01:00";
-            TEST_TIME_OVERRIDE = new Date(iso);
-            var inp = document.getElementById("test-clock-input");
-            if (inp) inp.value = iso;
-          },
-          style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" })
-        }, "AFTER Match 1 (10:01 AM CDT)")
-      )
-    ),
-    React.createElement("div", {
-      style: { marginTop: 16, padding: "12px 16px", borderRadius: 8,
-        background: C.blueBg, border: "1px solid " + C.blue, fontSize: 13, color: C.navy, lineHeight: 1.7 }
-    },
-      React.createElement("p", null,
-        React.createElement("strong", null, "First match: "),
-        "Mexico vs South Africa - Thu Jun 11 at 10:00 AM CDT"
-      ),
-      React.createElement("p", { style: { marginTop: 8 } },
-        React.createElement("strong", null, "Steps: "),
-        "1) Click BEFORE Match 1, go to All Fixtures - match should be Open. "
-        + "2) Click AFTER Match 1 - match should show Locked. "
-        + "3) Click Clear to restore real time."
+        React.createElement("button", { onClick: function() { TEST_TIME_OVERRIDE = null; var inp = document.getElementById("test-clock-input"); if (inp) inp.value = ""; alert("Cleared."); }, style: Object.assign({}, S.goldBtn, { background: C.muted, fontSize: 13 }) }, "Clear - Use Real Time"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-11T09:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Match 1 (9:59 AM CDT)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-11T10:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Match 1 (10:01 AM CDT)")
       )
     )
   ),

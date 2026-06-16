@@ -1525,11 +1525,13 @@ function App() {
   }, "\u2699 Admin")), tab === "fixtures" && groupPicks && /*#__PURE__*/React.createElement(FixturesTab, {
     groupPicks: groupPicks,
     setGroupPicks: setGroupPicks,
-    adminLocked: groupsLocked
+    adminLocked: groupsLocked,
+    league: league
   }), tab === "groups" && groupPicks && /*#__PURE__*/React.createElement(GroupTab, {
     groupPicks: groupPicks,
     setGroupPicks: setGroupPicks,
-    adminLocked: groupsLocked
+    adminLocked: groupsLocked,
+    league: league
   }), tab === "standings" && /*#__PURE__*/React.createElement(UserStandingsTab, {
     league: league
   }), tab === "bracket" && /*#__PURE__*/React.createElement(BracketTab, {
@@ -1840,6 +1842,16 @@ function makePickSetters(setGroupPicks, adminLocked, nowRef) {
 }
 
 // ─── SHARED MATCH PICK CARD ───────────────────────────────────────────────────
+// Looks up the official result for a specific group match, if one has been entered.
+// Returns {result, homeScore, awayScore} or null if not yet set.
+function getOfficialResult(officialGroupResults, grp, idx) {
+  var arr = officialGroupResults[grp];
+  if (!arr || !arr[idx]) return null;
+  var r = arr[idx];
+  if (r.result == null && r.homeScore == null && r.awayScore == null) return null;
+  return r;
+}
+
 function MatchPickCard(_ref1) {
   var match = _ref1.match,
     grp = _ref1.grp,
@@ -1850,8 +1862,25 @@ function MatchPickCard(_ref1) {
     onPick = _ref1.onPick,
     onScore = _ref1.onScore,
     onReset = _ref1.onReset,
+    officialResult = _ref1.officialResult,
     _ref1$showGroup = _ref1.showGroup,
     showGroup = _ref1$showGroup === void 0 ? false : _ref1$showGroup;
+
+  // Has the admin finalized a result for this match?
+  var hasOfficial = !!officialResult && officialResult.result != null
+    && officialResult.homeScore != null && officialResult.awayScore != null;
+  var offHome = hasOfficial ? Number(officialResult.homeScore) : null;
+  var offAway = hasOfficial ? Number(officialResult.awayScore) : null;
+  var offResult = hasOfficial ? officialResult.result : null; // "home" | "away" | "draw"
+
+  // Did the user's picked RESULT match the official result?
+  var resultCorrect = hasOfficial && mp && mp.pick != null ? (mp.pick === offResult) : null;
+  // Did the user's HOME score guess match the official home score?
+  var homeScoreCorrect = hasOfficial && mp && mp.homeScore != null
+    ? Number(mp.homeScore) === offHome : null;
+  // Did the user's AWAY score guess match the official away score?
+  var awayScoreCorrect = hasOfficial && mp && mp.awayScore != null
+    ? Number(mp.awayScore) === offAway : null;
   var _fmtKickoff = fmtKickoff(match.kickoff),
     date = _fmtKickoff.date,
     time = _fmtKickoff.time;
@@ -2041,6 +2070,13 @@ function MatchPickCard(_ref1) {
       gap: 6,
       flexShrink: 0
     }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 2
+    }
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     min: "0",
@@ -2051,11 +2087,19 @@ function MatchPickCard(_ref1) {
       return onScore(grp, idx, "homeScore", e.target.value, match.kickoff);
     },
     style: _objectSpread(_objectSpread({}, si), {}, {
-      borderColor: (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? C.navy : C.borderMid,
-      color: (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? C.navy : C.dim,
+      borderColor: homeScoreCorrect === true ? C.green : homeScoreCorrect === false ? C.red : (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? C.navy : C.borderMid,
+      color: homeScoreCorrect === true ? C.green : homeScoreCorrect === false ? C.red : (mp === null || mp === void 0 ? void 0 : mp.homeScore) != null ? C.navy : C.dim,
+      background: homeScoreCorrect === true ? C.greenBg : homeScoreCorrect === false ? C.redBg : C.panel,
       opacity: matchLocked ? 0.6 : 1
     })
-  }), /*#__PURE__*/React.createElement("span", {
+  }), hasOfficial && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      color: C.dim
+    }
+  }, "Actual: ", offHome)), /*#__PURE__*/React.createElement("span", {
     style: {
       color: C.borderDark,
       fontSize: 20,
@@ -2063,7 +2107,14 @@ function MatchPickCard(_ref1) {
       fontFamily: "'Barlow',sans-serif",
       lineHeight: 1
     }
-  }, "\u2013"), /*#__PURE__*/React.createElement("input", {
+  }, "\u2013"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 2
+    }
+  }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     min: "0",
     max: "20",
@@ -2073,11 +2124,19 @@ function MatchPickCard(_ref1) {
       return onScore(grp, idx, "awayScore", e.target.value, match.kickoff);
     },
     style: _objectSpread(_objectSpread({}, si), {}, {
-      borderColor: (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? C.navy : C.borderMid,
-      color: (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? C.navy : C.dim,
+      borderColor: awayScoreCorrect === true ? C.green : awayScoreCorrect === false ? C.red : (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? C.navy : C.borderMid,
+      color: awayScoreCorrect === true ? C.green : awayScoreCorrect === false ? C.red : (mp === null || mp === void 0 ? void 0 : mp.awayScore) != null ? C.navy : C.dim,
+      background: awayScoreCorrect === true ? C.greenBg : awayScoreCorrect === false ? C.redBg : C.panel,
       opacity: matchLocked ? 0.6 : 1
     })
-  })), /*#__PURE__*/React.createElement("div", {
+  }), hasOfficial && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontWeight: 700,
+      color: C.dim
+    }
+  }, "Actual: ", offAway))), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
       display: "flex",
@@ -2120,7 +2179,10 @@ function MatchPickCard(_ref1) {
       fontWeight: 700
     }
   }, "Result"), pick ? function () {
-    var col = pick === "home" ? C.green : pick === "draw" ? C.yellow : C.blue;
+    var col;
+    if (resultCorrect === true) col = C.green;
+    else if (resultCorrect === false) col = C.red;
+    else col = pick === "home" ? C.green : pick === "draw" ? C.yellow : C.blue;
     var lbl = pick === "home" ? "".concat(match.home, " wins") : pick === "away" ? "".concat(match.away, " wins") : "Draw";
     return /*#__PURE__*/React.createElement("span", {
       style: {
@@ -2134,7 +2196,7 @@ function MatchPickCard(_ref1) {
         borderRadius: 6,
         border: "2px solid ".concat(col)
       }
-    }, lbl);
+    }, lbl, resultCorrect === true ? " \u2713" : resultCorrect === false ? " \u2717" : "");
   }() : /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 11,
@@ -2172,7 +2234,9 @@ function MatchPickCard(_ref1) {
 function FixturesTab(_ref10) {
   var groupPicks = _ref10.groupPicks,
     setGroupPicks = _ref10.setGroupPicks,
-    adminLocked = _ref10.adminLocked;
+    adminLocked = _ref10.adminLocked,
+    league = _ref10.league;
+  var officialGroupResults = (league && league.officialGroupResults) || {};
   var _useState29 = useState(function () {
       return getNow();
     }),
@@ -2321,7 +2385,8 @@ function FixturesTab(_ref10) {
         onPick: setPick,
         onScore: setScore,
         onReset: resetPick,
-        showGroup: true
+        showGroup: true,
+        officialResult: getOfficialResult(officialGroupResults, m.grp, m.idx)
       });
     }));
   }));
@@ -2331,7 +2396,9 @@ function FixturesTab(_ref10) {
 function GroupTab(_ref14) {
   var groupPicks = _ref14.groupPicks,
     setGroupPicks = _ref14.setGroupPicks,
-    adminLocked = _ref14.adminLocked;
+    adminLocked = _ref14.adminLocked,
+    league = _ref14.league;
+  var officialGroupResults = (league && league.officialGroupResults) || {};
   var _useState31 = useState("A"),
     _useState32 = _slicedToArray(_useState31, 2),
     open = _useState32[0],
@@ -2523,6 +2590,7 @@ function GroupTab(_ref14) {
       onPick: setPick,
       onScore: setScore,
       onReset: resetPick,
+      officialResult: getOfficialResult(officialGroupResults, open, i),
       showGroup: false
     });
   })));

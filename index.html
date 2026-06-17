@@ -2273,6 +2273,10 @@ function FixturesTab(_ref10) {
     _useState30 = _slicedToArray(_useState29, 2),
     now = _useState30[0],
     setNow = _useState30[1];
+  var _useStateHide = useState(false),
+    _useStateHide2 = _slicedToArray(_useStateHide, 2),
+    hideCompleted = _useStateHide2[0],
+    setHideCompleted = _useStateHide2[1];
   useEffect(function () {
     var id = setInterval(function () {
       return setNow(getNow());
@@ -2299,8 +2303,16 @@ function FixturesTab(_ref10) {
   var lockedCount = allMatches.filter(function (m) {
     return matchIsLocked(m.kickoff);
   }).length;
+  var completedCount = allMatches.filter(function (m) {
+    return !!getOfficialResult(officialGroupResults, m.grp, m.idx);
+  }).length;
+  var visibleMatches = hideCompleted
+    ? allMatches.filter(function (m) {
+        return !getOfficialResult(officialGroupResults, m.grp, m.idx);
+      })
+    : allMatches;
   var byDate = {};
-  allMatches.forEach(function (m) {
+  visibleMatches.forEach(function (m) {
     var _fmtKickoff2 = fmtKickoff(m.kickoff),
       date = _fmtKickoff2.date;
     if (!byDate[date]) byDate[date] = {
@@ -2363,7 +2375,42 @@ function FixturesTab(_ref10) {
       color: C.muted,
       flexShrink: 0
     }
-  }, donePicks, "/", openMatches.length, " picks \xB7 ", lockedCount, " locked"))), Object.values(byDate).map(function (_ref12) {
+  }, donePicks, "/", openMatches.length, " picks \xB7 ", lockedCount, " locked"), completedCount > 0 && /*#__PURE__*/React.createElement("label", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      cursor: "pointer",
+      flexShrink: 0,
+      marginLeft: "auto",
+      paddingLeft: 12,
+      borderLeft: "1px solid ".concat(C.border),
+      fontFamily: "'Barlow Condensed',sans-serif",
+      fontSize: 12,
+      color: C.muted,
+      userSelect: "none"
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    checked: hideCompleted,
+    onChange: function onChange(e) {
+      return setHideCompleted(e.target.checked);
+    },
+    style: {
+      cursor: "pointer"
+    }
+  }), "Hide completed (", completedCount, ")"))), completedCount > 0 && hideCompleted && visibleMatches.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      padding: "16px 18px",
+      textAlign: "center",
+      color: C.muted,
+      fontSize: 13,
+      fontStyle: "italic",
+      border: "1px dashed ".concat(C.border),
+      borderRadius: 8
+    }
+  }, "All matches are complete \u2014 uncheck \"Hide completed\" above to review your results"), Object.values(byDate).map(function (_ref12) {
     var date = _ref12.date,
       ms = _ref12.ms;
     return /*#__PURE__*/React.createElement("div", {

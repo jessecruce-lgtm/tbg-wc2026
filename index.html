@@ -67,7 +67,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 // ─── CONFIGURATION ────────────────────────────────────────────────────────────
 // Paste your deployed Apps Script URL here after setup
-var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt319T7hm9qsXMY9DSDwAd2G22rKjC0a6PDDEruB0FxW3EPf_-IaZb7bHlLK6aZi0lXQ/exec";
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUQFIpbom4V7VhkIiigch9y81zLD4GJ1aa6BHTzPaw77QT2RaXavODAKLq04qiUmft1Q/exec";
 
 // ─── 2026 FIFA WORLD CUP DATA ────────────────────────────────────────────────
 var GROUPS = {
@@ -665,7 +665,6 @@ var POINTS = {
   sfResult: 24,
   finalResult: 48,
   knockoutScore: 1,
-  champion: 96
 };
 function getGroupMatches(grp) {
   return (GROUP_SCHEDULE[grp] || []).slice().sort(function (a, b) {
@@ -744,7 +743,6 @@ function emptyKnockoutPicks() {
       homeScore: null,
       awayScore: null
     }],
-    champion: null
   };
 }
 function emptyLeagueState() {
@@ -786,8 +784,7 @@ function emptyLeagueState() {
         homeScore: null,
         awayScore: null
       }],
-      champion: null
-    },
+      },
     leaderboard: []
   };
 }
@@ -849,7 +846,6 @@ function calcScore(groupPicks, knockoutPicks, league) {
       if (effAS != null && up.awayScore != null && effAS === Number(up.awayScore)) score += POINTS.knockoutScore;
     });
   });
-  if ((_league$officialKnock2 = league.officialKnockoutResults) !== null && _league$officialKnock2 !== void 0 && _league$officialKnock2.champion && knockoutPicks.champion === league.officialKnockoutResults.champion) score += POINTS.champion;
   return score;
 }
 
@@ -2880,7 +2876,42 @@ function BracketTab(_ref19) {
     setKnockoutPicks = _ref19.setKnockoutPicks,
     league = _ref19.league;
   var phase = (league === null || league === void 0 ? void 0 : league.phase) || "group";
-  var preview = phase === "group";
+
+  // Bracket locking — combination of time-based and data-based.
+  // Match 73 (R32 slot 0, 2A vs 2B) locks at 2:00 PM CDT Sun Jun 28.
+  // All other bracket picks:
+  //   - Unlock as soon as ALL 72 group stage results have been entered, OR
+  //   - Lock deadline of 12:00 PM CDT Mon Jun 29 (whichever comes first).
+  var LOCK_MATCH73 = new Date("2026-06-28T14:00:00-05:00");
+  var LOCK_BRACKET = new Date("2026-06-29T12:00:00-05:00");
+  var nowBracket   = getNow();
+
+  // Count total group stage matches that have an official result entered.
+  // 12 groups × 6 matches each = 72 total.
+  var TOTAL_GROUP_MATCHES = 72;
+  var enteredGroupResults = 0;
+  var ogrBracket = (league && league.officialGroupResults) || {};
+  Object.keys(GROUPS).forEach(function(grp) {
+    var arr = ogrBracket[grp] || [];
+    arr.forEach(function(r) {
+      if (r && r.result != null && r.homeScore != null && r.awayScore != null) {
+        enteredGroupResults++;
+      }
+    });
+  });
+  var allGroupsDone = enteredGroupResults >= TOTAL_GROUP_MATCHES;
+
+  // Match 73 locks at its kickoff time.
+  var match73Locked = nowBracket >= LOCK_MATCH73;
+
+  // All other bracket picks: open once all group results are in, hard lock at deadline.
+  var bracketLocked = nowBracket >= LOCK_BRACKET;
+  var bracketOpen   = allGroupsDone || bracketLocked; // true = picks allowed
+
+  // preview per scope:
+  // - Match 73:       locked by time (match73Locked)
+  // - Other matches:  locked until allGroupsDone or past hard deadline
+  var preview = !bracketOpen; // used for non-Match-73 cards
 
   // All qualifiers are auto-calculated from standings.
   // 1st/2nd: group standings with FIFA 2026 tie-breakers.
@@ -2961,13 +2992,7 @@ function BracketTab(_ref19) {
       return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, round, updated));
     });
   }
-  function setChampion(t) {
-    setKnockoutPicks(function (prev) {
-      return _objectSpread(_objectSpread({}, prev), {}, {
-        champion: t
-      });
-    });
-  }
+
   function adv(round, i) {
     var _knockoutPicks$round2, _knockoutPicks$round3;
     return (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$round2 = knockoutPicks[round]) === null || _knockoutPicks$round2 === void 0 ? void 0 : (_knockoutPicks$round3 = _knockoutPicks$round2[i]) === null || _knockoutPicks$round3 === void 0 ? void 0 : _knockoutPicks$round3.pick) || null;
@@ -2978,7 +3003,6 @@ function BracketTab(_ref19) {
   }
   var allQ = Object.values(q).filter(Boolean);
   var allTeams = Object.values(GROUPS).flat();
-  var champOptions = preview ? allTeams : allQ;
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 20
@@ -3013,20 +3037,20 @@ function BracketTab(_ref19) {
       borderRadius: 6,
       padding: "3px 10px"
     }
-  }, "Preview \u2014 Group Stage In Progress")), /*#__PURE__*/React.createElement("p", {
+  }, "Preview \u2014 Awaiting Group Results (".concat(enteredGroupResults, " / ", TOTAL_GROUP_MATCHES, " entered)"))), /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.muted,
       fontSize: 13,
       margin: "6px 0 0"
     }
-  }, preview ? "Bracket structure shown below. Team slots fill once the group stage ends." : "Pick the winner of each match. Picks cascade through the bracket automatically."), !preview && /*#__PURE__*/React.createElement("div", {
+  }, preview ? "Match 73 is now available. All other picks unlock once all 72 group results have been entered." : "Pick the winner of each match. Picks cascade through the bracket automatically."), !preview && /*#__PURE__*/React.createElement("div", {
     style: _defineProperty({
       display: "flex",
       gap: 14,
       flexWrap: "wrap",
       marginTop: 8
     }, "flexWrap", "wrap")
-  }, [["R32", "3"], ["R16", "6"], ["QF", "12"], ["SF", "24"], ["Final", "48"], ["Champion", "96"]].map(function (_ref22) {
+  }, [["R32", "3"], ["R16", "6"], ["QF", "12"], ["SF", "24"], ["Final", "48"]].map(function (_ref22) {
     var _ref23 = _slicedToArray(_ref22, 2),
       r = _ref23[0],
       p = _ref23[1];
@@ -3069,7 +3093,7 @@ function BracketTab(_ref19) {
       sublabel: sublabel,
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: i === 0 ? match73Locked : bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r = knockoutPicks.r32) === null || _knockoutPicks$r === void 0 ? void 0 : (_knockoutPicks$r$i = _knockoutPicks$r[i]) === null || _knockoutPicks$r$i === void 0 ? void 0 : _knockoutPicks$r$i.pick,
       homeScore: sc("r32", i, "home"),
       awayScore: sc("r32", i, "away"),
@@ -3085,14 +3109,14 @@ function BracketTab(_ref19) {
     pts: 6
   }, [0, 1, 2, 3].map(function (i) {
     var _knockoutPicks$r2, _knockoutPicks$r2$i;
-    var t1 = preview ? null : adv("r32", i * 2);
-    var t2 = preview ? null : adv("r32", i * 2 + 1);
+    var t1 = bracketLocked ? null : adv("r32", i * 2);
+    var t2 = bracketLocked ? null : adv("r32", i * 2 + 1);
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
       label: "R16 Match ".concat(i + 1),
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r2 = knockoutPicks.r16) === null || _knockoutPicks$r2 === void 0 ? void 0 : (_knockoutPicks$r2$i = _knockoutPicks$r2[i]) === null || _knockoutPicks$r2$i === void 0 ? void 0 : _knockoutPicks$r2$i.pick,
       homeScore: sc("r16", i, "home"),
       awayScore: sc("r16", i, "away"),
@@ -3108,14 +3132,14 @@ function BracketTab(_ref19) {
     pts: 12
   }, [0, 1].map(function (i) {
     var _knockoutPicks$qf, _knockoutPicks$qf$i;
-    var t1 = preview ? null : adv("r16", i * 2);
-    var t2 = preview ? null : adv("r16", i * 2 + 1);
+    var t1 = bracketLocked ? null : adv("r16", i * 2);
+    var t2 = bracketLocked ? null : adv("r16", i * 2 + 1);
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
       label: "QF ".concat(i + 1),
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$qf = knockoutPicks.qf) === null || _knockoutPicks$qf === void 0 ? void 0 : (_knockoutPicks$qf$i = _knockoutPicks$qf[i]) === null || _knockoutPicks$qf$i === void 0 ? void 0 : _knockoutPicks$qf$i.pick,
       homeScore: sc("qf", i, "home"),
       awayScore: sc("qf", i, "away"),
@@ -3131,14 +3155,14 @@ function BracketTab(_ref19) {
     pts: 24
   }, [0].map(function (i) {
     var _knockoutPicks$sf, _knockoutPicks$sf$;
-    var t1 = preview ? null : adv("qf", 0);
-    var t2 = preview ? null : adv("qf", 1);
+    var t1 = bracketLocked ? null : adv("qf", 0);
+    var t2 = bracketLocked ? null : adv("qf", 1);
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
       label: "SF 1",
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$sf = knockoutPicks.sf) === null || _knockoutPicks$sf === void 0 ? void 0 : (_knockoutPicks$sf$ = _knockoutPicks$sf[0]) === null || _knockoutPicks$sf$ === void 0 ? void 0 : _knockoutPicks$sf$.pick,
       homeScore: sc("sf", 0, "home"),
       awayScore: sc("sf", 0, "away"),
@@ -3183,9 +3207,9 @@ function BracketTab(_ref19) {
   }, "48 pts / pick")), /*#__PURE__*/React.createElement(BracketMatchCard, {
     label: "\uD83C\uDFC6 The Final \xB7 Jul 19",
     sublabel: "MetLife Stadium, NJ",
-    team1: preview ? null : adv("sf", 0),
-    team2: preview ? null : adv("sf", 1),
-    preview: preview,
+    team1: bracketLocked ? null : adv("sf", 0),
+    team2: bracketLocked ? null : adv("sf", 1),
+    preview: bracketLocked,
     pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$final = knockoutPicks["final"]) === null || _knockoutPicks$final === void 0 ? void 0 : (_knockoutPicks$final$ = _knockoutPicks$final[0]) === null || _knockoutPicks$final$ === void 0 ? void 0 : _knockoutPicks$final$.pick,
     homeScore: sc("final", 0, "home"),
     awayScore: sc("final", 0, "away"),
@@ -3195,91 +3219,19 @@ function BracketTab(_ref19) {
     onScore: function onScore(side, v, t1, t2) {
       return scoreRound("final", 0, side, v, t1, t2);
     }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "rgba(240,180,41,0.06)",
-      border: "1px solid rgba(240,180,41,0.22)",
-      borderRadius: 10,
-      padding: "10px 12px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontSize: 9,
-      fontWeight: 800,
-      letterSpacing: "0.1em",
-      textTransform: "uppercase",
-      color: C.gold,
-      marginBottom: 6
-    }
-  }, "\uD83C\uDFC6 Champion \xB7 96 pts"), /*#__PURE__*/React.createElement("select", {
-    value: (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : knockoutPicks.champion) || "",
-    onChange: function onChange(e) {
-      return !preview && setChampion(e.target.value || null);
-    },
-    disabled: preview,
-    style: {
-      width: "100%",
-      padding: "7px 10px",
-      borderRadius: 8,
-      border: "1px solid rgba(240,180,41,0.3)",
-      background: "rgba(7,9,15,0.9)",
-      color: knockoutPicks !== null && knockoutPicks !== void 0 && knockoutPicks.champion ? C.navy : preview ? C.dim : C.muted,
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontWeight: 700,
-      fontSize: 13,
-      outline: "none",
-      cursor: preview ? "default" : "pointer",
-      boxSizing: "border-box",
-      opacity: preview ? 0.4 : 1
-    }
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, preview ? "(Available after group stage)" : "Select champion…"), champOptions.map(function (t) {
-    return /*#__PURE__*/React.createElement("option", {
-      key: t,
-      value: t
-    }, FLAGS[t] || "", " ", t);
-  })), (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : knockoutPicks.champion) && !preview && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 8,
-      display: "flex",
-      alignItems: "center",
-      gap: 8,
-      padding: "7px 10px",
-      background: C.blueBg,
-      borderRadius: 6,
-      border: "1px solid ".concat(C.navy)
-    }
-  }, /*#__PURE__*/React.createElement(Flag, {
-    team: knockoutPicks.champion,
-    size: 20
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontWeight: 800,
-      fontSize: 14,
-      color: C.navy
-    }
-  }, knockoutPicks.champion), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 10,
-      color: C.muted,
-      marginLeft: "auto"
-    }
-  }, "96 pts")))), /*#__PURE__*/React.createElement(RoundCol, {
+  }), /*#__PURE__*/React.createElement(RoundCol, {
     label: "Semi-Finals",
     pts: 24
   }, [0].map(function (i) {
     var _knockoutPicks$sf2, _knockoutPicks$sf2$;
-    var t1 = preview ? null : adv("qf", 2);
-    var t2 = preview ? null : adv("qf", 3);
+    var t1 = bracketLocked ? null : adv("qf", 2);
+    var t2 = bracketLocked ? null : adv("qf", 3);
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
       label: "SF 2",
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$sf2 = knockoutPicks.sf) === null || _knockoutPicks$sf2 === void 0 ? void 0 : (_knockoutPicks$sf2$ = _knockoutPicks$sf2[1]) === null || _knockoutPicks$sf2$ === void 0 ? void 0 : _knockoutPicks$sf2$.pick,
       homeScore: sc("sf", 1, "home"),
       awayScore: sc("sf", 1, "away"),
@@ -3295,14 +3247,14 @@ function BracketTab(_ref19) {
     pts: 12
   }, [2, 3].map(function (i) {
     var _knockoutPicks$qf2, _knockoutPicks$qf2$i;
-    var t1 = preview ? null : adv("r16", i * 2 - 4);
-    var t2 = preview ? null : adv("r16", i * 2 - 3);
+    var t1 = bracketLocked ? null : adv("r16", i * 2 - 4);
+    var t2 = bracketLocked ? null : adv("r16", i * 2 - 3);
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
       label: "QF ".concat(i + 1),
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$qf2 = knockoutPicks.qf) === null || _knockoutPicks$qf2 === void 0 ? void 0 : (_knockoutPicks$qf2$i = _knockoutPicks$qf2[i]) === null || _knockoutPicks$qf2$i === void 0 ? void 0 : _knockoutPicks$qf2$i.pick,
       homeScore: sc("qf", i, "home"),
       awayScore: sc("qf", i, "away"),
@@ -3318,14 +3270,14 @@ function BracketTab(_ref19) {
     pts: 6
   }, [4, 5, 6, 7].map(function (i) {
     var _knockoutPicks$r3, _knockoutPicks$r3$i;
-    var t1 = preview ? null : adv("r32", i * 2 - 8);
-    var t2 = preview ? null : adv("r32", i * 2 - 7);
+    var t1 = bracketLocked ? null : adv("r32", i * 2 - 8);
+    var t2 = bracketLocked ? null : adv("r32", i * 2 - 7);
     return /*#__PURE__*/React.createElement(BracketMatchCard, {
       key: i,
       label: "R16 Match ".concat(i + 1),
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r3 = knockoutPicks.r16) === null || _knockoutPicks$r3 === void 0 ? void 0 : (_knockoutPicks$r3$i = _knockoutPicks$r3[i]) === null || _knockoutPicks$r3$i === void 0 ? void 0 : _knockoutPicks$r3$i.pick,
       homeScore: sc("r16", i, "home"),
       awayScore: sc("r16", i, "away"),
@@ -3351,7 +3303,7 @@ function BracketTab(_ref19) {
       sublabel: sublabel,
       team1: t1,
       team2: t2,
-      preview: preview,
+      preview: bracketLocked,
       pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r4 = knockoutPicks.r32) === null || _knockoutPicks$r4 === void 0 ? void 0 : (_knockoutPicks$r4$i = _knockoutPicks$r4[i]) === null || _knockoutPicks$r4$i === void 0 ? void 0 : _knockoutPicks$r4$i.pick,
       homeScore: sc("r32", i, "home"),
       awayScore: sc("r32", i, "away"),
@@ -3669,7 +3621,7 @@ function ThirdPlaceTable(_ref24) {
       borderTop: "1px solid ".concat(C.border),
       background: C.panelAlt
     }
-  }, 12 - thirds.length, " group(s) have no results yet \u2014 remaining 3rd-place teams will appear as results are entered.")));
+  }, 12 - thirds.length, " group(s) have no results yet \u2014 remaining 3rd-place teams will appear as results are entered."))));
 }
 
 // ─── USER STANDINGS TAB ──────────────────────────────────────────────────────
@@ -4941,15 +4893,7 @@ function AdminPanel(_ref29) {
       });
     });
   }
-  function setChamp(t) {
-    setLocal(function (prev) {
-      return _objectSpread(_objectSpread({}, prev), {}, {
-        officialKnockoutResults: _objectSpread(_objectSpread({}, prev.officialKnockoutResults), {}, {
-          champion: t || null
-        })
-      });
-    });
-  }
+
   var qSlots = [];
   "ABCDEFGHIJKL".split("").forEach(function (g) {
     qSlots.push({
@@ -5499,7 +5443,6 @@ function AdminPanel(_ref29) {
           awayScore: m.awayScore
         };
       }),
-      champion: ((_local$officialKnocko6 = local.officialKnockoutResults) === null || _local$officialKnocko6 === void 0 ? void 0 : _local$officialKnocko6.champion) || null
     },
     setKnockoutPicks: function setKnockoutPicks(updaterOrObj) {
       // Translate bracket picks format back into officialKnockoutResults format
@@ -5541,7 +5484,6 @@ function AdminPanel(_ref29) {
               awayScore: m.awayScore
             };
           }),
-          champion: cur.champion || null
         }) : updaterOrObj;
         var toRes = function toRes(arr, orig) {
           return (arr || []).map(function (p, i) {
@@ -5560,7 +5502,6 @@ function AdminPanel(_ref29) {
             qf: toRes(picks.qf, cur.qf),
             sf: toRes(picks.sf, cur.sf),
             "final": toRes(picks["final"], cur["final"]),
-            champion: picks.champion || null
           }
         });
       });
@@ -5738,8 +5679,11 @@ function AdminPanel(_ref29) {
       React.createElement("input", { type: "datetime-local", id: "test-clock-input", onChange: function(e) { TEST_TIME_OVERRIDE = e.target.value ? new Date(e.target.value) : null; }, style: { padding: "10px 14px", borderRadius: 6, border: "2px solid " + C.red, fontSize: 15, width: "100%", boxSizing: "border-box", marginBottom: 16, background: "#fff" } }),
       React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
         React.createElement("button", { onClick: function() { TEST_TIME_OVERRIDE = null; var inp = document.getElementById("test-clock-input"); if (inp) inp.value = ""; alert("Cleared."); }, style: Object.assign({}, S.goldBtn, { background: C.muted, fontSize: 13 }) }, "Clear - Use Real Time"),
-        React.createElement("button", { onClick: function() { var iso = "2026-06-11T09:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Match 1 (9:59 AM CDT)"),
-        React.createElement("button", { onClick: function() { var iso = "2026-06-11T10:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Match 1 (10:01 AM CDT)")
+        React.createElement("button", { onClick: function() { var iso = "2026-06-11T09:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Group Match 1 (9:59 AM CDT)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-11T10:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Group Match 1 (10:01 AM CDT)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-28T13:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Match 73 (1:59 PM CDT Sun 6/28)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-28T14:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Match 73 (2:01 PM CDT Sun 6/28)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-29T12:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#7C3AED", fontSize: 12, padding: "8px 16px" }) }, "AFTER Full Bracket Lock (12:01 PM CDT Mon 6/29)")
       )
     )
   ),

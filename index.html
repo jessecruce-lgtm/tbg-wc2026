@@ -3070,251 +3070,431 @@ function BracketTab(_ref19) {
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
       overflowX: "auto",
-      paddingBottom: 16
+      paddingBottom: 20,
+      paddingTop: 4
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 10,
-      minWidth: 1100,
-      alignItems: "stretch"
+      alignItems: "stretch",
+      minWidth: 1400,
+      gap: 0
     }
-  }, /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Round of 32",
-    pts: 3
-  }, R32_FIXED_SLOTS.slice(0, 8).map(function (slot, i) {
-    var _knockoutPicks$r, _knockoutPicks$r$i;
-    var t1 = slot.thirdPlace ? resolveSlot(slot.s1) : resolveSlot(slot.s1);
-    var t2 = slot.thirdPlace ? thirdSlotCache[slot.id] || null : resolveSlot(slot.s2);
-    var sublabel = slot.thirdPlace ? "".concat(slot.s1, " v 3rd (").concat(slot.thirdGroups, ")") : slot.s1 + " v " + slot.s2;
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "".concat(slot.label, " \xB7 ").concat(slot.venue || ""),
-      sublabel: sublabel,
-      team1: t1,
-      team2: t2,
-      preview: i === 0 ? match73Locked : bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r = knockoutPicks.r32) === null || _knockoutPicks$r === void 0 ? void 0 : (_knockoutPicks$r$i = _knockoutPicks$r[i]) === null || _knockoutPicks$r$i === void 0 ? void 0 : _knockoutPicks$r$i.pick,
-      homeScore: sc("r32", i, "home"),
-      awayScore: sc("r32", i, "away"),
-      onPick: function onPick(t) {
-        return pickR32(i, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("r32", i, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Round of 16",
-    pts: 6
-  }, [0, 1, 2, 3].map(function (i) {
-    var _knockoutPicks$r2, _knockoutPicks$r2$i;
-    var t1 = bracketLocked ? null : adv("r32", i * 2);
-    var t2 = bracketLocked ? null : adv("r32", i * 2 + 1);
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "R16 Match ".concat(i + 1),
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r2 = knockoutPicks.r16) === null || _knockoutPicks$r2 === void 0 ? void 0 : (_knockoutPicks$r2$i = _knockoutPicks$r2[i]) === null || _knockoutPicks$r2$i === void 0 ? void 0 : _knockoutPicks$r2$i.pick,
-      homeScore: sc("r16", i, "home"),
-      awayScore: sc("r16", i, "away"),
-      onPick: function onPick(t) {
-        return pickRound("r16", i, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("r16", i, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Quarter-Finals",
-    pts: 12
-  }, [0, 1].map(function (i) {
-    var _knockoutPicks$qf, _knockoutPicks$qf$i;
-    var t1 = bracketLocked ? null : adv("r16", i * 2);
-    var t2 = bracketLocked ? null : adv("r16", i * 2 + 1);
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "QF ".concat(i + 1),
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$qf = knockoutPicks.qf) === null || _knockoutPicks$qf === void 0 ? void 0 : (_knockoutPicks$qf$i = _knockoutPicks$qf[i]) === null || _knockoutPicks$qf$i === void 0 ? void 0 : _knockoutPicks$qf$i.pick,
-      homeScore: sc("qf", i, "home"),
-      awayScore: sc("qf", i, "away"),
-      onPick: function onPick(t) {
-        return pickRound("qf", i, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("qf", i, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Semi-Finals",
-    pts: 24
-  }, [0].map(function (i) {
-    var _knockoutPicks$sf, _knockoutPicks$sf$;
-    var t1 = bracketLocked ? null : adv("qf", 0);
-    var t2 = bracketLocked ? null : adv("qf", 1);
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "SF 1",
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$sf = knockoutPicks.sf) === null || _knockoutPicks$sf === void 0 ? void 0 : (_knockoutPicks$sf$ = _knockoutPicks$sf[0]) === null || _knockoutPicks$sf$ === void 0 ? void 0 : _knockoutPicks$sf$.pick,
-      homeScore: sc("sf", 0, "home"),
-      awayScore: sc("sf", 0, "away"),
-      onPick: function onPick(t) {
-        return pickRound("sf", 0, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("sf", 0, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      minWidth: 190,
-      flex: 1.1,
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      padding: "6px 4px",
-      borderRadius: 6,
-      background: "rgba(240,180,41,0.08)",
-      border: "1px solid rgba(240,180,41,0.2)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontSize: 11,
-      fontWeight: 800,
-      letterSpacing: "0.1em",
-      textTransform: "uppercase",
-      color: C.gold
-    }
-  }, "Final"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontSize: 10,
-      color: "rgba(255,255,255,0.7)"
-    }
-  }, "48 pts / pick")), /*#__PURE__*/React.createElement(BracketMatchCard, {
-    label: "\uD83C\uDFC6 The Final \xB7 Jul 19",
-    sublabel: "MetLife Stadium, NJ",
-    team1: bracketLocked ? null : adv("sf", 0),
-    team2: bracketLocked ? null : adv("sf", 1),
-    preview: bracketLocked,
-    pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$final = knockoutPicks["final"]) === null || _knockoutPicks$final === void 0 ? void 0 : (_knockoutPicks$final$ = _knockoutPicks$final[0]) === null || _knockoutPicks$final$ === void 0 ? void 0 : _knockoutPicks$final$.pick,
-    homeScore: sc("final", 0, "home"),
-    awayScore: sc("final", 0, "away"),
-    onPick: function onPick(t) {
-      return pickRound("final", 0, t);
+  },
+
+  // ── LEFT HALF: R32(0-7) → R16(0-3) → QF(0-1) → SF(0) ──────────────────
+
+  // R32 Left (8 matches)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:180,width:180,flexShrink:0}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Round of 32"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "3 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
+      
+            React.createElement(BracketMatchCard, {
+              key: 0,
+              label: "".concat(R32_FIXED_SLOTS[0].label, " \xB7 ").concat(R32_FIXED_SLOTS[0].venue || ""),
+              sublabel: R32_FIXED_SLOTS[0].thirdPlace ? "".concat(R32_FIXED_SLOTS[0].s1, " v 3rd (").concat(R32_FIXED_SLOTS[0].thirdGroups, ")") : R32_FIXED_SLOTS[0].s1 + " v " + R32_FIXED_SLOTS[0].s2,
+              team1: R32_FIXED_SLOTS[0].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[0].s1) : resolveSlot(R32_FIXED_SLOTS[0].s1),
+              team2: R32_FIXED_SLOTS[0].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[0].id] || null : resolveSlot(R32_FIXED_SLOTS[0].s2),
+              preview: 0 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[0] ? knockoutPicks.r32[0].pick : null,
+              homeScore: sc("r32", 0, "home"),
+              awayScore: sc("r32", 0, "away"),
+              onPick: function(t) { return pickR32(0, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 0, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 1,
+              label: "".concat(R32_FIXED_SLOTS[1].label, " \xB7 ").concat(R32_FIXED_SLOTS[1].venue || ""),
+              sublabel: R32_FIXED_SLOTS[1].thirdPlace ? "".concat(R32_FIXED_SLOTS[1].s1, " v 3rd (").concat(R32_FIXED_SLOTS[1].thirdGroups, ")") : R32_FIXED_SLOTS[1].s1 + " v " + R32_FIXED_SLOTS[1].s2,
+              team1: R32_FIXED_SLOTS[1].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[1].s1) : resolveSlot(R32_FIXED_SLOTS[1].s1),
+              team2: R32_FIXED_SLOTS[1].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[1].id] || null : resolveSlot(R32_FIXED_SLOTS[1].s2),
+              preview: 1 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[1] ? knockoutPicks.r32[1].pick : null,
+              homeScore: sc("r32", 1, "home"),
+              awayScore: sc("r32", 1, "away"),
+              onPick: function(t) { return pickR32(1, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 1, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 2,
+              label: "".concat(R32_FIXED_SLOTS[2].label, " \xB7 ").concat(R32_FIXED_SLOTS[2].venue || ""),
+              sublabel: R32_FIXED_SLOTS[2].thirdPlace ? "".concat(R32_FIXED_SLOTS[2].s1, " v 3rd (").concat(R32_FIXED_SLOTS[2].thirdGroups, ")") : R32_FIXED_SLOTS[2].s1 + " v " + R32_FIXED_SLOTS[2].s2,
+              team1: R32_FIXED_SLOTS[2].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[2].s1) : resolveSlot(R32_FIXED_SLOTS[2].s1),
+              team2: R32_FIXED_SLOTS[2].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[2].id] || null : resolveSlot(R32_FIXED_SLOTS[2].s2),
+              preview: 2 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[2] ? knockoutPicks.r32[2].pick : null,
+              homeScore: sc("r32", 2, "home"),
+              awayScore: sc("r32", 2, "away"),
+              onPick: function(t) { return pickR32(2, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 2, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 3,
+              label: "".concat(R32_FIXED_SLOTS[3].label, " \xB7 ").concat(R32_FIXED_SLOTS[3].venue || ""),
+              sublabel: R32_FIXED_SLOTS[3].thirdPlace ? "".concat(R32_FIXED_SLOTS[3].s1, " v 3rd (").concat(R32_FIXED_SLOTS[3].thirdGroups, ")") : R32_FIXED_SLOTS[3].s1 + " v " + R32_FIXED_SLOTS[3].s2,
+              team1: R32_FIXED_SLOTS[3].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[3].s1) : resolveSlot(R32_FIXED_SLOTS[3].s1),
+              team2: R32_FIXED_SLOTS[3].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[3].id] || null : resolveSlot(R32_FIXED_SLOTS[3].s2),
+              preview: 3 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[3] ? knockoutPicks.r32[3].pick : null,
+              homeScore: sc("r32", 3, "home"),
+              awayScore: sc("r32", 3, "away"),
+              onPick: function(t) { return pickR32(3, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 3, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 4,
+              label: "".concat(R32_FIXED_SLOTS[4].label, " \xB7 ").concat(R32_FIXED_SLOTS[4].venue || ""),
+              sublabel: R32_FIXED_SLOTS[4].thirdPlace ? "".concat(R32_FIXED_SLOTS[4].s1, " v 3rd (").concat(R32_FIXED_SLOTS[4].thirdGroups, ")") : R32_FIXED_SLOTS[4].s1 + " v " + R32_FIXED_SLOTS[4].s2,
+              team1: R32_FIXED_SLOTS[4].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[4].s1) : resolveSlot(R32_FIXED_SLOTS[4].s1),
+              team2: R32_FIXED_SLOTS[4].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[4].id] || null : resolveSlot(R32_FIXED_SLOTS[4].s2),
+              preview: 4 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[4] ? knockoutPicks.r32[4].pick : null,
+              homeScore: sc("r32", 4, "home"),
+              awayScore: sc("r32", 4, "away"),
+              onPick: function(t) { return pickR32(4, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 4, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 5,
+              label: "".concat(R32_FIXED_SLOTS[5].label, " \xB7 ").concat(R32_FIXED_SLOTS[5].venue || ""),
+              sublabel: R32_FIXED_SLOTS[5].thirdPlace ? "".concat(R32_FIXED_SLOTS[5].s1, " v 3rd (").concat(R32_FIXED_SLOTS[5].thirdGroups, ")") : R32_FIXED_SLOTS[5].s1 + " v " + R32_FIXED_SLOTS[5].s2,
+              team1: R32_FIXED_SLOTS[5].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[5].s1) : resolveSlot(R32_FIXED_SLOTS[5].s1),
+              team2: R32_FIXED_SLOTS[5].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[5].id] || null : resolveSlot(R32_FIXED_SLOTS[5].s2),
+              preview: 5 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[5] ? knockoutPicks.r32[5].pick : null,
+              homeScore: sc("r32", 5, "home"),
+              awayScore: sc("r32", 5, "away"),
+              onPick: function(t) { return pickR32(5, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 5, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 6,
+              label: "".concat(R32_FIXED_SLOTS[6].label, " \xB7 ").concat(R32_FIXED_SLOTS[6].venue || ""),
+              sublabel: R32_FIXED_SLOTS[6].thirdPlace ? "".concat(R32_FIXED_SLOTS[6].s1, " v 3rd (").concat(R32_FIXED_SLOTS[6].thirdGroups, ")") : R32_FIXED_SLOTS[6].s1 + " v " + R32_FIXED_SLOTS[6].s2,
+              team1: R32_FIXED_SLOTS[6].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[6].s1) : resolveSlot(R32_FIXED_SLOTS[6].s1),
+              team2: R32_FIXED_SLOTS[6].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[6].id] || null : resolveSlot(R32_FIXED_SLOTS[6].s2),
+              preview: 6 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[6] ? knockoutPicks.r32[6].pick : null,
+              homeScore: sc("r32", 6, "home"),
+              awayScore: sc("r32", 6, "away"),
+              onPick: function(t) { return pickR32(6, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 6, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 7,
+              label: "".concat(R32_FIXED_SLOTS[7].label, " \xB7 ").concat(R32_FIXED_SLOTS[7].venue || ""),
+              sublabel: R32_FIXED_SLOTS[7].thirdPlace ? "".concat(R32_FIXED_SLOTS[7].s1, " v 3rd (").concat(R32_FIXED_SLOTS[7].thirdGroups, ")") : R32_FIXED_SLOTS[7].s1 + " v " + R32_FIXED_SLOTS[7].s2,
+              team1: R32_FIXED_SLOTS[7].thirdPlace ? resolveSlot(R32_FIXED_SLOTS[7].s1) : resolveSlot(R32_FIXED_SLOTS[7].s1),
+              team2: R32_FIXED_SLOTS[7].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[7].id] || null : resolveSlot(R32_FIXED_SLOTS[7].s2),
+              preview: 7 === 0 ? match73Locked : bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[7] ? knockoutPicks.r32[7].pick : null,
+              homeScore: sc("r32", 7, "home"),
+              awayScore: sc("r32", 7, "away"),
+              onPick: function(t) { return pickR32(7, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 7, side, v, t1, t2); }
+            })
+    )
+  ),
+
+  // R16 Left (4 matches)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:175,width:175,flexShrink:0,marginLeft:6}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Round of 16"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "6 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
+      [0,1,2,3].map(function(i) {
+        var _r16_t1 = bracketLocked ? null : adv("r32", i*2);
+        var _r16_t2 = bracketLocked ? null : adv("r32", i*2+1);
+        return React.createElement(BracketMatchCard, {
+          key: i,
+          label: "R16 Match " + (i+1),
+          team1: _r16_t1, team2: _r16_t2,
+          preview: bracketLocked,
+          pick: knockoutPicks && knockoutPicks.r16 && knockoutPicks.r16[i] ? knockoutPicks.r16[i].pick : null,
+          homeScore: sc("r16",i,"home"), awayScore: sc("r16",i,"away"),
+          onPick: function(t) { return pickRound("r16",i,t); },
+          onScore: function(side,v,t1,t2) { return scoreRound("r16",i,side,v,t1,t2); }
+        });
+      })
+    )
+  ),
+
+  // QF Left (2 matches)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:175,width:175,flexShrink:0,marginLeft:6}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Quarter-Finals"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "12 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
+      [0,1].map(function(i) {
+        var _qf_t1 = bracketLocked ? null : adv("r16",i*2);
+        var _qf_t2 = bracketLocked ? null : adv("r16",i*2+1);
+        return React.createElement(BracketMatchCard, {
+          key: i,
+          label: "QF " + (i+1),
+          team1: _qf_t1, team2: _qf_t2,
+          preview: bracketLocked,
+          pick: knockoutPicks && knockoutPicks.qf && knockoutPicks.qf[i] ? knockoutPicks.qf[i].pick : null,
+          homeScore: sc("qf",i,"home"), awayScore: sc("qf",i,"away"),
+          onPick: function(t) { return pickRound("qf",i,t); },
+          onScore: function(side,v,t1,t2) { return scoreRound("qf",i,side,v,t1,t2); }
+        });
+      })
+    )
+  ),
+
+  // SF Left (1 match)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:175,width:175,flexShrink:0,marginLeft:6}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Semi-Final"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "24 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"center",gap:4}},
+      React.createElement(BracketMatchCard, {
+        label: "SF 1",
+        team1: bracketLocked ? null : adv("qf",0),
+        team2: bracketLocked ? null : adv("qf",1),
+        preview: bracketLocked,
+        pick: knockoutPicks && knockoutPicks.sf && knockoutPicks.sf[0] ? knockoutPicks.sf[0].pick : null,
+        homeScore: sc("sf",0,"home"), awayScore: sc("sf",0,"away"),
+        onPick: function(t) { return pickRound("sf",0,t); },
+        onScore: function(side,v,t1,t2) { return scoreRound("sf",0,side,v,t1,t2); }
+      })
+    )
+  ),
+
+  // ── CENTER: FINAL ────────────────────────────────────────────────────────
+
+  React.createElement("div", {
+    style: {display:"flex",flexDirection:"column",minWidth:200,width:200,flexShrink:0,marginLeft:6,marginRight:6}
+  },
+    React.createElement("div", {
+      style: {textAlign:"center",padding:"4px 2px",marginBottom:6,borderRadius:4,
+              background:"rgba(240,180,41,0.08)",border:"1px solid rgba(240,180,41,0.25)"}
     },
-    onScore: function onScore(side, v, t1, t2) {
-      return scoreRound("final", 0, side, v, t1, t2);
-    }
-  }), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Semi-Finals",
-    pts: 24
-  }, [0].map(function (i) {
-    var _knockoutPicks$sf2, _knockoutPicks$sf2$;
-    var t1 = bracketLocked ? null : adv("qf", 2);
-    var t2 = bracketLocked ? null : adv("qf", 3);
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "SF 2",
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$sf2 = knockoutPicks.sf) === null || _knockoutPicks$sf2 === void 0 ? void 0 : (_knockoutPicks$sf2$ = _knockoutPicks$sf2[1]) === null || _knockoutPicks$sf2$ === void 0 ? void 0 : _knockoutPicks$sf2$.pick,
-      homeScore: sc("sf", 1, "home"),
-      awayScore: sc("sf", 1, "away"),
-      onPick: function onPick(t) {
-        return pickRound("sf", 1, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("sf", 1, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Quarter-Finals",
-    pts: 12
-  }, [2, 3].map(function (i) {
-    var _knockoutPicks$qf2, _knockoutPicks$qf2$i;
-    var t1 = bracketLocked ? null : adv("r16", i * 2 - 4);
-    var t2 = bracketLocked ? null : adv("r16", i * 2 - 3);
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "QF ".concat(i + 1),
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$qf2 = knockoutPicks.qf) === null || _knockoutPicks$qf2 === void 0 ? void 0 : (_knockoutPicks$qf2$i = _knockoutPicks$qf2[i]) === null || _knockoutPicks$qf2$i === void 0 ? void 0 : _knockoutPicks$qf2$i.pick,
-      homeScore: sc("qf", i, "home"),
-      awayScore: sc("qf", i, "away"),
-      onPick: function onPick(t) {
-        return pickRound("qf", i, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("qf", i, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Round of 16",
-    pts: 6
-  }, [4, 5, 6, 7].map(function (i) {
-    var _knockoutPicks$r3, _knockoutPicks$r3$i;
-    var t1 = bracketLocked ? null : adv("r32", i * 2 - 8);
-    var t2 = bracketLocked ? null : adv("r32", i * 2 - 7);
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "R16 Match ".concat(i + 1),
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r3 = knockoutPicks.r16) === null || _knockoutPicks$r3 === void 0 ? void 0 : (_knockoutPicks$r3$i = _knockoutPicks$r3[i]) === null || _knockoutPicks$r3$i === void 0 ? void 0 : _knockoutPicks$r3$i.pick,
-      homeScore: sc("r16", i, "home"),
-      awayScore: sc("r16", i, "away"),
-      onPick: function onPick(t) {
-        return pickRound("r16", i, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("r16", i, side, v, t1, t2);
-      }
-    });
-  })), /*#__PURE__*/React.createElement(RoundCol, {
-    label: "Round of 32",
-    pts: 3
-  }, R32_FIXED_SLOTS.slice(8, 16).map(function (slot, rawI) {
-    var _knockoutPicks$r4, _knockoutPicks$r4$i;
-    var i = rawI + 8;
-    var t1 = resolveSlot(slot.s1);
-    var t2 = slot.thirdPlace ? thirdSlotCache[slot.id] || null : resolveSlot(slot.s2);
-    var sublabel = slot.thirdPlace ? "".concat(slot.s1, " v 3rd (").concat(slot.thirdGroups, ")") : slot.s1 + " v " + slot.s2;
-    return /*#__PURE__*/React.createElement(BracketMatchCard, {
-      key: i,
-      label: "".concat(slot.label, " \xB7 ").concat(slot.venue || ""),
-      sublabel: sublabel,
-      team1: t1,
-      team2: t2,
-      preview: bracketLocked,
-      pick: knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$r4 = knockoutPicks.r32) === null || _knockoutPicks$r4 === void 0 ? void 0 : (_knockoutPicks$r4$i = _knockoutPicks$r4[i]) === null || _knockoutPicks$r4$i === void 0 ? void 0 : _knockoutPicks$r4$i.pick,
-      homeScore: sc("r32", i, "home"),
-      awayScore: sc("r32", i, "away"),
-      onPick: function onPick(t) {
-        return pickR32(i, t);
-      },
-      onScore: function onScore(side, v, t1, t2) {
-        return scoreRound("r32", i, side, v, t1, t2);
-      }
-    });
-  })))), preview && /*#__PURE__*/React.createElement("div", {
+      React.createElement("div", {style:{fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,
+        fontWeight:800,letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold}}, "The Final"),
+      React.createElement("div", {style:{fontFamily:"'Barlow Condensed',sans-serif",fontSize:9,color:C.dim}}, "48 pts / pick")
+    ),
+    React.createElement("div", {style:{display:"flex",flexDirection:"column",flex:1,justifyContent:"center"}},
+      React.createElement(BracketMatchCard, {
+        label: "\uD83C\uDFC6 The Final \xB7 Jul 19",
+        sublabel: "MetLife Stadium, NJ",
+        team1: bracketLocked ? null : adv("sf",0),
+        team2: bracketLocked ? null : adv("sf",1),
+        preview: bracketLocked,
+        pick: knockoutPicks && knockoutPicks["final"] && knockoutPicks["final"][0] ? knockoutPicks["final"][0].pick : null,
+        homeScore: sc("final",0,"home"), awayScore: sc("final",0,"away"),
+        onPick: function(t) { return pickRound("final",0,t); },
+        onScore: function(side,v,t1,t2) { return scoreRound("final",0,side,v,t1,t2); }
+      })
+    )
+  ),
+
+  // ── RIGHT HALF: SF(1) → QF(2-3) → R16(4-7) → R32(8-15) ────────────────
+
+  // SF Right (1 match)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:175,width:175,flexShrink:0,marginRight:6}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Semi-Final"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "24 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"center",gap:4}},
+      React.createElement(BracketMatchCard, {
+        label: "SF 2",
+        team1: bracketLocked ? null : adv("qf",2),
+        team2: bracketLocked ? null : adv("qf",3),
+        preview: bracketLocked,
+        pick: knockoutPicks && knockoutPicks.sf && knockoutPicks.sf[1] ? knockoutPicks.sf[1].pick : null,
+        homeScore: sc("sf",1,"home"), awayScore: sc("sf",1,"away"),
+        onPick: function(t) { return pickRound("sf",1,t); },
+        onScore: function(side,v,t1,t2) { return scoreRound("sf",1,side,v,t1,t2); }
+      })
+    )
+  ),
+
+  // QF Right (2 matches)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:175,width:175,flexShrink:0,marginRight:6}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Quarter-Finals"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "12 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
+      [2,3].map(function(i) {
+        var _qf2_t1 = bracketLocked ? null : adv("r16",i*2-4);
+        var _qf2_t2 = bracketLocked ? null : adv("r16",i*2-3);
+        return React.createElement(BracketMatchCard, {
+          key: i,
+          label: "QF " + (i+1),
+          team1: _qf2_t1, team2: _qf2_t2,
+          preview: bracketLocked,
+          pick: knockoutPicks && knockoutPicks.qf && knockoutPicks.qf[i] ? knockoutPicks.qf[i].pick : null,
+          homeScore: sc("qf",i,"home"), awayScore: sc("qf",i,"away"),
+          onPick: function(t) { return pickRound("qf",i,t); },
+          onScore: function(side,v,t1,t2) { return scoreRound("qf",i,side,v,t1,t2); }
+        });
+      })
+    )
+  ),
+
+  // R16 Right (4 matches)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:175,width:175,flexShrink:0,marginRight:6}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Round of 16"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "6 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
+      [4,5,6,7].map(function(i) {
+        var _r16r_t1 = bracketLocked ? null : adv("r32",i*2-8);
+        var _r16r_t2 = bracketLocked ? null : adv("r32",i*2-7);
+        return React.createElement(BracketMatchCard, {
+          key: i,
+          label: "R16 Match " + (i+1),
+          team1: _r16r_t1, team2: _r16r_t2,
+          preview: bracketLocked,
+          pick: knockoutPicks && knockoutPicks.r16 && knockoutPicks.r16[i] ? knockoutPicks.r16[i].pick : null,
+          homeScore: sc("r16",i,"home"), awayScore: sc("r16",i,"away"),
+          onPick: function(t) { return pickRound("r16",i,t); },
+          onScore: function(side,v,t1,t2) { return scoreRound("r16",i,side,v,t1,t2); }
+        });
+      })
+    )
+  ),
+
+  // R32 Right (8 matches)
+  React.createElement("div", {style: {display:"flex",flexDirection:"column",minWidth:180,width:180,flexShrink:0}},
+    React.createElement("div", {style:{"textAlign":"center","padding":"4px 2px","marginBottom":6,"borderRadius":4,"background":"rgba(255,255,255,0.03)","border":"1px solid " + C.border}},
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":10,"fontWeight":800,"letterSpacing":"0.1em","textTransform":"uppercase","color":C.muted}}, "Round of 32"),
+  React.createElement("div", {style:{"fontFamily":"'Barlow Condensed',sans-serif","fontSize":9,"color":C.dim}}, "3 pts / pick")
+),
+    React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
+      
+            React.createElement(BracketMatchCard, {
+              key: 8,
+              label: "".concat(R32_FIXED_SLOTS[8].label, " \xB7 ").concat(R32_FIXED_SLOTS[8].venue || ""),
+              sublabel: R32_FIXED_SLOTS[8].thirdPlace ? "".concat(R32_FIXED_SLOTS[8].s1, " v 3rd (").concat(R32_FIXED_SLOTS[8].thirdGroups, ")") : R32_FIXED_SLOTS[8].s1 + " v " + R32_FIXED_SLOTS[8].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[8].s1),
+              team2: R32_FIXED_SLOTS[8].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[8].id] || null : resolveSlot(R32_FIXED_SLOTS[8].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[8] ? knockoutPicks.r32[8].pick : null,
+              homeScore: sc("r32", 8, "home"),
+              awayScore: sc("r32", 8, "away"),
+              onPick: function(t) { return pickR32(8, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 8, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 9,
+              label: "".concat(R32_FIXED_SLOTS[9].label, " \xB7 ").concat(R32_FIXED_SLOTS[9].venue || ""),
+              sublabel: R32_FIXED_SLOTS[9].thirdPlace ? "".concat(R32_FIXED_SLOTS[9].s1, " v 3rd (").concat(R32_FIXED_SLOTS[9].thirdGroups, ")") : R32_FIXED_SLOTS[9].s1 + " v " + R32_FIXED_SLOTS[9].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[9].s1),
+              team2: R32_FIXED_SLOTS[9].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[9].id] || null : resolveSlot(R32_FIXED_SLOTS[9].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[9] ? knockoutPicks.r32[9].pick : null,
+              homeScore: sc("r32", 9, "home"),
+              awayScore: sc("r32", 9, "away"),
+              onPick: function(t) { return pickR32(9, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 9, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 10,
+              label: "".concat(R32_FIXED_SLOTS[10].label, " \xB7 ").concat(R32_FIXED_SLOTS[10].venue || ""),
+              sublabel: R32_FIXED_SLOTS[10].thirdPlace ? "".concat(R32_FIXED_SLOTS[10].s1, " v 3rd (").concat(R32_FIXED_SLOTS[10].thirdGroups, ")") : R32_FIXED_SLOTS[10].s1 + " v " + R32_FIXED_SLOTS[10].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[10].s1),
+              team2: R32_FIXED_SLOTS[10].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[10].id] || null : resolveSlot(R32_FIXED_SLOTS[10].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[10] ? knockoutPicks.r32[10].pick : null,
+              homeScore: sc("r32", 10, "home"),
+              awayScore: sc("r32", 10, "away"),
+              onPick: function(t) { return pickR32(10, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 10, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 11,
+              label: "".concat(R32_FIXED_SLOTS[11].label, " \xB7 ").concat(R32_FIXED_SLOTS[11].venue || ""),
+              sublabel: R32_FIXED_SLOTS[11].thirdPlace ? "".concat(R32_FIXED_SLOTS[11].s1, " v 3rd (").concat(R32_FIXED_SLOTS[11].thirdGroups, ")") : R32_FIXED_SLOTS[11].s1 + " v " + R32_FIXED_SLOTS[11].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[11].s1),
+              team2: R32_FIXED_SLOTS[11].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[11].id] || null : resolveSlot(R32_FIXED_SLOTS[11].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[11] ? knockoutPicks.r32[11].pick : null,
+              homeScore: sc("r32", 11, "home"),
+              awayScore: sc("r32", 11, "away"),
+              onPick: function(t) { return pickR32(11, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 11, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 12,
+              label: "".concat(R32_FIXED_SLOTS[12].label, " \xB7 ").concat(R32_FIXED_SLOTS[12].venue || ""),
+              sublabel: R32_FIXED_SLOTS[12].thirdPlace ? "".concat(R32_FIXED_SLOTS[12].s1, " v 3rd (").concat(R32_FIXED_SLOTS[12].thirdGroups, ")") : R32_FIXED_SLOTS[12].s1 + " v " + R32_FIXED_SLOTS[12].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[12].s1),
+              team2: R32_FIXED_SLOTS[12].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[12].id] || null : resolveSlot(R32_FIXED_SLOTS[12].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[12] ? knockoutPicks.r32[12].pick : null,
+              homeScore: sc("r32", 12, "home"),
+              awayScore: sc("r32", 12, "away"),
+              onPick: function(t) { return pickR32(12, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 12, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 13,
+              label: "".concat(R32_FIXED_SLOTS[13].label, " \xB7 ").concat(R32_FIXED_SLOTS[13].venue || ""),
+              sublabel: R32_FIXED_SLOTS[13].thirdPlace ? "".concat(R32_FIXED_SLOTS[13].s1, " v 3rd (").concat(R32_FIXED_SLOTS[13].thirdGroups, ")") : R32_FIXED_SLOTS[13].s1 + " v " + R32_FIXED_SLOTS[13].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[13].s1),
+              team2: R32_FIXED_SLOTS[13].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[13].id] || null : resolveSlot(R32_FIXED_SLOTS[13].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[13] ? knockoutPicks.r32[13].pick : null,
+              homeScore: sc("r32", 13, "home"),
+              awayScore: sc("r32", 13, "away"),
+              onPick: function(t) { return pickR32(13, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 13, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 14,
+              label: "".concat(R32_FIXED_SLOTS[14].label, " \xB7 ").concat(R32_FIXED_SLOTS[14].venue || ""),
+              sublabel: R32_FIXED_SLOTS[14].thirdPlace ? "".concat(R32_FIXED_SLOTS[14].s1, " v 3rd (").concat(R32_FIXED_SLOTS[14].thirdGroups, ")") : R32_FIXED_SLOTS[14].s1 + " v " + R32_FIXED_SLOTS[14].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[14].s1),
+              team2: R32_FIXED_SLOTS[14].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[14].id] || null : resolveSlot(R32_FIXED_SLOTS[14].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[14] ? knockoutPicks.r32[14].pick : null,
+              homeScore: sc("r32", 14, "home"),
+              awayScore: sc("r32", 14, "away"),
+              onPick: function(t) { return pickR32(14, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 14, side, v, t1, t2); }
+            }),
+      
+            React.createElement(BracketMatchCard, {
+              key: 15,
+              label: "".concat(R32_FIXED_SLOTS[15].label, " \xB7 ").concat(R32_FIXED_SLOTS[15].venue || ""),
+              sublabel: R32_FIXED_SLOTS[15].thirdPlace ? "".concat(R32_FIXED_SLOTS[15].s1, " v 3rd (").concat(R32_FIXED_SLOTS[15].thirdGroups, ")") : R32_FIXED_SLOTS[15].s1 + " v " + R32_FIXED_SLOTS[15].s2,
+              team1: resolveSlot(R32_FIXED_SLOTS[15].s1),
+              team2: R32_FIXED_SLOTS[15].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[15].id] || null : resolveSlot(R32_FIXED_SLOTS[15].s2),
+              preview: bracketLocked,
+              pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[15] ? knockoutPicks.r32[15].pick : null,
+              homeScore: sc("r32", 15, "home"),
+              awayScore: sc("r32", 15, "away"),
+              onPick: function(t) { return pickR32(15, t); },
+              onScore: function(side, v, t1, t2) { return scoreRound("r32", 15, side, v, t1, t2); }
+            })
+    )
+  )
+
+  )), preview && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
       padding: "12px 16px",
@@ -3333,7 +3513,7 @@ function BracketTab(_ref19) {
     style: {
       color: C.blue
     }
-  }, "How it works:"), " Once the group stage ends, the admin enters which teams qualified. The bracket slots fill automatically and you pick winners round by round."))));
+  }, "How it works:"), " Once the group stage ends, the admin enters which teams qualified. The bracket slots fill automatically and you pick winners round by round.")));
 }
 
 // ─── THIRD-PLACE RANKING ─────────────────────────────────────────────────────

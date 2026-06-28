@@ -2892,17 +2892,18 @@ function BracketTab(_ref19) {
   });
   var allGroupsDone = enteredGroupResults >= TOTAL_GROUP_MATCHES;
 
-  // Match 73 locks at its kickoff time.
-  var match73Locked = nowBracket >= LOCK_MATCH73;
+  // Admin view is always fully unlocked — no time or data gates apply.
+  var isAdminView = !!(league && league.isAdminView);
+
+  // Match 73 locks at its kickoff time (user view only).
+  var match73Locked = !isAdminView && nowBracket >= LOCK_MATCH73;
 
   // All other bracket picks: open once all group results are in, hard lock at deadline.
-  var bracketLocked = nowBracket >= LOCK_BRACKET;
-  var bracketOpen   = allGroupsDone || bracketLocked; // true = picks allowed
+  var bracketLocked = !isAdminView && nowBracket >= LOCK_BRACKET;
+  var bracketOpen   = isAdminView || allGroupsDone || bracketLocked;
 
-  // preview per scope:
-  // - Match 73:       locked by time (match73Locked)
-  // - Other matches:  locked until allGroupsDone or past hard deadline
-  var preview = !bracketOpen; // used for non-Match-73 cards
+  // preview = inputs disabled. Admin is never in preview.
+  var preview = !bracketOpen;
 
   // All qualifiers are auto-calculated from standings.
   // 1st/2nd: group standings with FIFA 2026 tie-breakers.
@@ -5733,7 +5734,9 @@ function AdminPanel(_ref29) {
     },
     league: {
       phase: local.phase === "group" ? "group" : "knockout",
-      qualifiers: local.qualifiers || {}
+      qualifiers: local.qualifiers || {},
+      officialGroupResults: local.officialGroupResults || {},
+      isAdminView: true
     }
   })), tab === "qualifiers" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {

@@ -511,117 +511,93 @@ var GROUP_SCHEDULE = {
   }]
 };
 
-// ── Official FIFA 2026 Round of 32 fixtures ──────────────────────────────────
-// Teams and kickoff times sourced from ESPN. Times stored in CDT (UTC-5).
-// s1/s2 group slot keys retained for bracket resolution.
+// ── FIFA 2026 Round of 32 — from official bracket image ─────────────────────
+// Slots 0-7 = LEFT side (feed R16 left→center)
+// Slots 8-15 = RIGHT side (feed R16 right→center)
+// Adjacent pairs feed the same R16: [0,1]→R16[0], [2,3]→R16[1], etc.
+// Kickoff times in CDT (UTC-5).
 var R32_FIXED_SLOTS = [
-// Sun Jun 28
+// ── LEFT SIDE ────────────────────────────────────────────────────────────
+// Slots 0+1 → R16 Match 89
 {
-  id: "r32-73",  label: "Match 73",
-  s1: "2A", s2: "2B",
-  home: "Canada", away: "South Africa",
-  kickoff: "2026-06-28T14:00:00-05:00",
-  venue: "TBD"
-},
-// Mon Jun 29
-{
-  id: "r32-74",  label: "Match 74",
-  s1: "1A", s2: "1B",
+  id: "r32-74", label: "Match 74",
   home: "Germany", away: "Paraguay",
-  kickoff: "2026-06-29T15:30:00-05:00",
-  venue: "TBD"
+  kickoff: "2026-06-29T15:30:00-05:00", venue: "TBD"
 }, {
-  id: "r32-75",  label: "Match 75",
-  s1: "1C", s2: "1D",
-  home: "Brazil", away: "Japan",
-  kickoff: "2026-06-29T12:00:00-05:00",
-  venue: "TBD"
-}, {
-  id: "r32-76",  label: "Match 76",
-  s1: "1E", s2: "1F",
-  home: "Netherlands", away: "Morocco",
-  kickoff: "2026-06-29T20:00:00-05:00",
-  venue: "TBD"
-},
-// Tue Jun 30
-{
-  id: "r32-77",  label: "Match 77",
-  s1: "1G", s2: "1H",
+  id: "r32-77", label: "Match 77",
   home: "France", away: "Sweden",
-  kickoff: "2026-06-30T16:00:00-05:00",
-  venue: "TBD"
-}, {
-  id: "r32-78",  label: "Match 78",
-  s1: "1I", s2: "1J",
-  home: "Ivory Coast", away: "Norway",
-  kickoff: "2026-06-30T12:00:00-05:00",
-  venue: "TBD"
-}, {
-  id: "r32-79",  label: "Match 79",
-  s1: "1K", s2: "1L",
-  home: "Mexico", away: "Ecuador",
-  kickoff: "2026-06-30T20:00:00-05:00",
-  venue: "TBD"
+  kickoff: "2026-06-30T16:00:00-05:00", venue: "TBD"
 },
-// Wed Jul 1
+// Slots 2+3 → R16 Match 90
 {
-  id: "r32-80",  label: "Match 80",
-  s1: "2C", s2: "2D",
-  home: "USA", away: "Bosnia-Herz.",
-  kickoff: "2026-07-01T19:00:00-05:00",
-  venue: "TBD"
+  id: "r32-73", label: "Match 73",
+  home: "South Africa", away: "Canada",
+  kickoff: "2026-06-28T14:00:00-05:00", venue: "TBD"
 }, {
-  id: "r32-81",  label: "Match 81",
-  s1: "2E", s2: "2F",
-  home: "England", away: "Congo DR",
-  kickoff: "2026-07-01T11:00:00-05:00",
-  venue: "TBD"
-}, {
-  id: "r32-82",  label: "Match 82",
-  s1: "2G", s2: "2H",
-  home: "Belgium", away: "Senegal",
-  kickoff: "2026-07-01T15:00:00-05:00",
-  venue: "TBD"
+  id: "r32-75", label: "Match 75",
+  home: "Netherlands", away: "Morocco",
+  kickoff: "2026-06-29T20:00:00-05:00", venue: "TBD"
 },
-// Thu Jul 2
+// Slots 4+5 → R16 Match 93
 {
-  id: "r32-83",  label: "Match 83",
-  s1: "2I", s2: "2J",
+  id: "r32-83", label: "Match 83",
   home: "Portugal", away: "Croatia",
-  kickoff: "2026-07-02T18:00:00-05:00",
-  venue: "TBD"
+  kickoff: "2026-07-02T18:00:00-05:00", venue: "TBD"
 }, {
-  id: "r32-84",  label: "Match 84",
-  s1: "2K", s2: "2L",
+  id: "r32-84", label: "Match 84",
   home: "Spain", away: "Austria",
-  kickoff: "2026-07-02T14:00:00-05:00",
-  venue: "TBD"
-}, {
-  id: "r32-85",  label: "Match 85",
-  s1: "3rd-1", s2: "3rd-2",
-  home: "Switzerland", away: "Algeria",
-  kickoff: "2026-07-02T22:00:00-05:00",
-  venue: "TBD"
+  kickoff: "2026-07-02T14:00:00-05:00", venue: "TBD"
 },
-// Fri Jul 3
+// Slots 6+7 → R16 Match 94
 {
-  id: "r32-86",  label: "Match 86",
-  s1: "3rd-3", s2: "3rd-4",
+  id: "r32-81", label: "Match 81",
+  home: "USA", away: "Bosnia-Herz.",
+  kickoff: "2026-07-01T19:00:00-05:00", venue: "TBD"
+}, {
+  id: "r32-82", label: "Match 82",
+  home: "Belgium", away: "Senegal",
+  kickoff: "2026-07-01T15:00:00-05:00", venue: "TBD"
+},
+// ── RIGHT SIDE ───────────────────────────────────────────────────────────
+// Slots 8+9 → R16 Match 91
+{
+  id: "r32-76", label: "Match 76",
+  home: "Brazil", away: "Japan",
+  kickoff: "2026-06-29T12:00:00-05:00", venue: "TBD"
+}, {
+  id: "r32-78", label: "Match 78",
+  home: "Ivory Coast", away: "Norway",
+  kickoff: "2026-06-30T12:00:00-05:00", venue: "TBD"
+},
+// Slots 10+11 → R16 Match 92
+{
+  id: "r32-79", label: "Match 79",
+  home: "Mexico", away: "Ecuador",
+  kickoff: "2026-06-30T20:00:00-05:00", venue: "TBD"
+}, {
+  id: "r32-80", label: "Match 80",
+  home: "England", away: "Congo DR",
+  kickoff: "2026-07-01T11:00:00-05:00", venue: "TBD"
+},
+// Slots 12+13 → R16 Match 95
+{
+  id: "r32-86", label: "Match 86",
   home: "Argentina", away: "Cape Verde",
-  kickoff: "2026-07-03T17:00:00-05:00",
-  venue: "TBD"
+  kickoff: "2026-07-03T17:00:00-05:00", venue: "TBD"
 }, {
-  id: "r32-87",  label: "Match 87",
-  s1: "3rd-5", s2: "3rd-6",
-  home: "Egypt", away: "Australia",
-  kickoff: "2026-07-03T13:00:00-05:00",
-  venue: "TBD"
+  id: "r32-88", label: "Match 88",
+  home: "Australia", away: "Egypt",
+  kickoff: "2026-07-03T13:00:00-05:00", venue: "TBD"
+},
+// Slots 14+15 → R16 Match 96
+{
+  id: "r32-85", label: "Match 85",
+  home: "Switzerland", away: "Algeria",
+  kickoff: "2026-07-02T22:00:00-05:00", venue: "TBD"
 }, {
-  id: "r32-88",  label: "Match 88",
-  s1: "3rd-7", s2: "3rd-8",
+  id: "r32-87", label: "Match 87",
   home: "Colombia", away: "Ghana",
-  kickoff: "2026-07-03T20:30:00-05:00",
-  venue: "TBD"
+  kickoff: "2026-07-03T20:30:00-05:00", venue: "TBD"
 }];
 
 // ── 3rd-place slot resolution ────────────────────────────────────────────────
@@ -2863,7 +2839,7 @@ function BracketTab(_ref19) {
   var phase = (league === null || league === void 0 ? void 0 : league.phase) || "group";
 
   // Bracket locking — combination of time-based and data-based.
-  // Match 73 (R32 slot 0, 2A vs 2B) locks at 2:00 PM CDT Sun Jun 28.
+  // Match 73 (R32 slot 2, South Africa vs Canada) locks at 2:00 PM CDT Sun Jun 28.
   // All other bracket picks:
   //   - Unlock as soon as ALL 72 group stage results have been entered, OR
   //   - Lock deadline of 12:00 PM CDT Mon Jun 29 (whichever comes first).
@@ -3083,7 +3059,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[0].thirdPlace ? "".concat(R32_FIXED_SLOTS[0].s1, " v 3rd (").concat(R32_FIXED_SLOTS[0].thirdGroups, ")") : R32_FIXED_SLOTS[0].s1 + " v " + R32_FIXED_SLOTS[0].s2,
               team1: R32_FIXED_SLOTS[0].home || resolveSlot(R32_FIXED_SLOTS[0].s1),
               team2: R32_FIXED_SLOTS[0].away || (R32_FIXED_SLOTS[0].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[0].id] || null : resolveSlot(R32_FIXED_SLOTS[0].s2)),
-              preview: match73Locked,
+              preview: bracketLocked,
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[0] ? knockoutPicks.r32[0].pick : null,
               homeScore: sc("r32", 0, "home"),
               awayScore: sc("r32", 0, "away"),
@@ -3111,7 +3087,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[2].thirdPlace ? "".concat(R32_FIXED_SLOTS[2].s1, " v 3rd (").concat(R32_FIXED_SLOTS[2].thirdGroups, ")") : R32_FIXED_SLOTS[2].s1 + " v " + R32_FIXED_SLOTS[2].s2,
               team1: R32_FIXED_SLOTS[2].home || resolveSlot(R32_FIXED_SLOTS[2].s1),
               team2: R32_FIXED_SLOTS[2].away || (R32_FIXED_SLOTS[2].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[2].id] || null : resolveSlot(R32_FIXED_SLOTS[2].s2)),
-              preview: preview,
+              preview: match73Locked,
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[2] ? knockoutPicks.r32[2].pick : null,
               homeScore: sc("r32", 2, "home"),
               awayScore: sc("r32", 2, "away"),
@@ -5852,8 +5828,8 @@ function AdminPanel(_ref29) {
         React.createElement("button", { onClick: function() { TEST_TIME_OVERRIDE = null; var inp = document.getElementById("test-clock-input"); if (inp) inp.value = ""; alert("Cleared."); }, style: Object.assign({}, S.goldBtn, { background: C.muted, fontSize: 13 }) }, "Clear - Use Real Time"),
         React.createElement("button", { onClick: function() { var iso = "2026-06-11T09:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Group Match 1 (9:59 AM CDT)"),
         React.createElement("button", { onClick: function() { var iso = "2026-06-11T10:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Group Match 1 (10:01 AM CDT)"),
-        React.createElement("button", { onClick: function() { var iso = "2026-06-28T13:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Match 73 (1:59 PM CDT Sun 6/28)"),
-        React.createElement("button", { onClick: function() { var iso = "2026-06-28T14:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Match 73 (2:01 PM CDT Sun 6/28)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-28T13:59:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#059669", fontSize: 12, padding: "8px 16px" }) }, "BEFORE Match 73 - SA v Canada (1:59 PM CDT Sun 6/28)"),
+        React.createElement("button", { onClick: function() { var iso = "2026-06-28T14:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: C.red, fontSize: 12, padding: "8px 16px" }) }, "AFTER Match 73 - SA v Canada (2:01 PM CDT Sun 6/28)"),
         React.createElement("button", { onClick: function() { var iso = "2026-06-29T12:01:00"; TEST_TIME_OVERRIDE = new Date(iso); var inp = document.getElementById("test-clock-input"); if (inp) inp.value = iso; }, style: Object.assign({}, S.goldBtn, { background: "#7C3AED", fontSize: 12, padding: "8px 16px" }) }, "AFTER Full Bracket Lock (12:01 PM CDT Mon 6/29)")
       )
     )

@@ -1446,11 +1446,6 @@ function App() {
     onClick: function onClick() {
       return setTab("standings");
     }
-  }, "Standings"), /*#__PURE__*/React.createElement("button", {
-    style: S.tabBtn(tab === "bracket"),
-    onClick: function onClick() {
-      return setTab("bracket");
-    }
   }, "Knockout", phase === "group" && /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 9,
@@ -1464,7 +1459,12 @@ function App() {
       refreshLeague();
       setTab("leaderboard");
     }
-  }, "Leaderboard"), phase !== "group" && /*#__PURE__*/React.createElement("button", {
+  }, "Leaderboard"), /*#__PURE__*/React.createElement("button", {
+    style: S.tabBtn(tab === "standings"),
+    onClick: function onClick() {
+      return setTab("standings");
+    }
+  }, "Group Standings"), phase !== "group" && /*#__PURE__*/React.createElement("button", {
     style: S.tabBtn(tab === "groups"),
     onClick: function onClick() {
       return setTab("groups");
@@ -1521,7 +1521,7 @@ function App() {
       fontFamily: "'Barlow Condensed',sans-serif",
       letterSpacing: "0.04em"
     }
-  }, groupsLocked && (tab === "groups" || tab === "fixtures") ? "Group picks are locked — view only" : tab === "standings" ? "Live standings from official results" : "Saves to Google Sheets · visible on leaderboard immediately"), /*#__PURE__*/React.createElement("div", {
+  }, groupsLocked && (tab === "groups" || tab === "fixtures") ? "Group picks are locked — view only" : tab === "standings" ? "Live group standings from official results" : "Saves to Google Sheets · visible on leaderboard immediately"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 12,

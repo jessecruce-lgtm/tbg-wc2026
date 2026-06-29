@@ -3084,34 +3084,6 @@ function BracketTab(_ref19) {
   }
   var allQ = Object.values(q).filter(Boolean);
 
-  // Build set of officially eliminated teams across all rounds.
-  // For R32: we have both team names from R32_FIXED_SLOTS — the loser is 
-  // whichever team played but wasn't the official winner.
-  // For R16+: infer from user picks — if a team was picked in a match slot
-  // and official result shows a different winner, that team is eliminated.
-  var eliminatedTeams = new Set();
-  // R32: use slot data to find both teams
-  (okr.r32 || []).forEach(function(res, i) {
-    if (!res || !res.winner) return;
-    var slot = R32_FIXED_SLOTS[i];
-    if (!slot) return;
-    var t1 = slot.home, t2 = slot.away;
-    if (t1 && t1 !== res.winner) eliminatedTeams.add(t1);
-    if (t2 && t2 !== res.winner) eliminatedTeams.add(t2);
-  });
-  // R16/QF/SF: infer both teams from user knockoutPicks
-  ["r16","qf","sf"].forEach(function(rd) {
-    (okr[rd] || []).forEach(function(res, i) {
-      if (!res || !res.winner) return;
-      var picks = (knockoutPicks && knockoutPicks[rd]) || [];
-      var m = picks[i];
-      // The two teams that played are the winners of the two feeder matches.
-      // We can get them from the user's picks in the prior round via adv().
-      // Simpler: just add any team found in okr[rd] matches that isn't the winner.
-      // We'll use user picks to identify the loser:
-      if (m && m.pick && m.pick !== res.winner) eliminatedTeams.add(m.pick);
-    });
-  });
   // Helper to get official KO result for a specific round/index, with round pts embedded
   var okr = (league && league.officialKnockoutResults) || {};
   var roundPtsMap = { r32: POINTS.r32Result, r16: POINTS.r16Result,
@@ -3121,6 +3093,27 @@ function BracketTab(_ref19) {
     if (!res || !res.winner) return null;
     return Object.assign({}, res, { _roundPts: roundPtsMap[round] || 0 });
   }
+
+  // Build set of officially eliminated teams (defined after okr is available)
+  var eliminatedTeams = new Set();
+  // R32: both team names known from R32_FIXED_SLOTS
+  (okr.r32 || []).forEach(function(res, i) {
+    if (!res || !res.winner) return;
+    var slot = R32_FIXED_SLOTS[i];
+    if (!slot) return;
+    var t1 = slot.home, t2 = slot.away;
+    if (t1 && t1 !== res.winner) eliminatedTeams.add(t1);
+    if (t2 && t2 !== res.winner) eliminatedTeams.add(t2);
+  });
+  // R16/QF/SF: infer loser from user picks vs official winner
+  ["r16","qf","sf"].forEach(function(rd) {
+    (okr[rd] || []).forEach(function(res, i) {
+      if (!res || !res.winner) return;
+      var picks = (knockoutPicks && knockoutPicks[rd]) || [];
+      var m = picks[i];
+      if (m && m.pick && m.pick !== res.winner) eliminatedTeams.add(m.pick);
+    });
+  });
   var allTeams = Object.values(GROUPS).flat();
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {

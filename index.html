@@ -2644,7 +2644,8 @@ function BracketMatchCard(_ref16) {
     onScore = _ref16.onScore,
     onReset = _ref16.onReset,
     kickoff = _ref16.kickoff,
-    officialResult = _ref16.officialResult;
+    officialResult = _ref16.officialResult,
+    eliminatedTeams = _ref16.eliminatedTeams;
   var hasAnyPick = pick != null || homeScore != null || awayScore != null;
   var bothFilled = homeScore !== null && homeScore !== undefined && homeScore !== "" && awayScore !== null && awayScore !== undefined && awayScore !== "";
   var scoresEqual = bothFilled && Number(homeScore) === Number(awayScore);
@@ -2773,9 +2774,9 @@ function BracketMatchCard(_ref16) {
         padding: "5px 8px",
         borderRadius: 7,
         textAlign: "left",
-        border: hasOfficial && !empty ? (team === offWinner ? "2px solid ".concat(C.green) : isPick ? "2px solid ".concat(C.red) : "1px solid ".concat(C.borderMid)) : isPick ? "2px solid ".concat(C.navy) : empty ? "1px solid ".concat(C.border) : "1px solid ".concat(C.borderMid),
-        background: hasOfficial && !empty ? (team === offWinner ? C.greenBg : isPick ? C.redBg : C.panel) : isPick ? C.blueBg : empty ? C.panelAlt : C.panel,
-        color: hasOfficial && !empty ? (team === offWinner ? C.green : isPick ? C.red : C.muted) : empty ? C.dim : isPick ? C.navy : preview ? C.muted : C.text,
+        border: hasOfficial && !empty ? (team === offWinner ? "2px solid ".concat(C.green) : isPick ? "2px solid ".concat(C.red) : "1px solid ".concat(C.borderMid)) : !hasOfficial && eliminatedTeams && eliminatedTeams.has(team) ? "2px solid ".concat(C.red) : isPick ? "2px solid ".concat(C.navy) : empty ? "1px solid ".concat(C.border) : "1px solid ".concat(C.borderMid),
+        background: hasOfficial && !empty ? (team === offWinner ? C.greenBg : isPick ? C.redBg : C.panel) : !hasOfficial && eliminatedTeams && eliminatedTeams.has(team) ? C.redBg : isPick ? C.blueBg : empty ? C.panelAlt : C.panel,
+        color: hasOfficial && !empty ? (team === offWinner ? C.green : isPick ? C.red : C.muted) : !hasOfficial && eliminatedTeams && eliminatedTeams.has(team) ? C.red : empty ? C.dim : isPick ? C.navy : preview ? C.muted : C.text,
         opacity: preview && !isPick && !hasOfficial ? 0.4 : 1,
         cursor: empty || preview ? "default" : "pointer",
         fontFamily: "'Barlow Condensed',sans-serif",
@@ -3082,6 +3083,35 @@ function BracketTab(_ref19) {
     return (_knockoutPicks$round$ = knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$round4 = knockoutPicks[round]) === null || _knockoutPicks$round4 === void 0 ? void 0 : (_knockoutPicks$round5 = _knockoutPicks$round4[i]) === null || _knockoutPicks$round5 === void 0 ? void 0 : _knockoutPicks$round5[side === "home" ? "homeScore" : "awayScore"]) !== null && _knockoutPicks$round$ !== void 0 ? _knockoutPicks$round$ : null;
   }
   var allQ = Object.values(q).filter(Boolean);
+
+  // Build set of officially eliminated teams across all rounds.
+  // For R32: we have both team names from R32_FIXED_SLOTS — the loser is 
+  // whichever team played but wasn't the official winner.
+  // For R16+: infer from user picks — if a team was picked in a match slot
+  // and official result shows a different winner, that team is eliminated.
+  var eliminatedTeams = new Set();
+  // R32: use slot data to find both teams
+  (okr.r32 || []).forEach(function(res, i) {
+    if (!res || !res.winner) return;
+    var slot = R32_FIXED_SLOTS[i];
+    if (!slot) return;
+    var t1 = slot.home, t2 = slot.away;
+    if (t1 && t1 !== res.winner) eliminatedTeams.add(t1);
+    if (t2 && t2 !== res.winner) eliminatedTeams.add(t2);
+  });
+  // R16/QF/SF: infer both teams from user knockoutPicks
+  ["r16","qf","sf"].forEach(function(rd) {
+    (okr[rd] || []).forEach(function(res, i) {
+      if (!res || !res.winner) return;
+      var picks = (knockoutPicks && knockoutPicks[rd]) || [];
+      var m = picks[i];
+      // The two teams that played are the winners of the two feeder matches.
+      // We can get them from the user's picks in the prior round via adv().
+      // Simpler: just add any team found in okr[rd] matches that isn't the winner.
+      // We'll use user picks to identify the loser:
+      if (m && m.pick && m.pick !== res.winner) eliminatedTeams.add(m.pick);
+    });
+  });
   // Helper to get official KO result for a specific round/index, with round pts embedded
   var okr = (league && league.officialKnockoutResults) || {};
   var roundPtsMap = { r32: POINTS.r32Result, r16: POINTS.r16Result,
@@ -3195,7 +3225,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 0, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[0].kickoff,
               onReset: function() { return resetRound("r32", 0); },
-              officialResult: getOfficialKOResult("r32", 0)
+              officialResult: getOfficialKOResult("r32", 0),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3212,7 +3243,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 1, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[1].kickoff,
               onReset: function() { return resetRound("r32", 1); },
-              officialResult: getOfficialKOResult("r32", 1)
+              officialResult: getOfficialKOResult("r32", 1),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3229,7 +3261,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 2, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[2].kickoff,
               onReset: function() { return resetRound("r32", 2); },
-              officialResult: getOfficialKOResult("r32", 2)
+              officialResult: getOfficialKOResult("r32", 2),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3246,7 +3279,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 3, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[3].kickoff,
               onReset: function() { return resetRound("r32", 3); },
-              officialResult: getOfficialKOResult("r32", 3)
+              officialResult: getOfficialKOResult("r32", 3),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3263,7 +3297,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 4, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[4].kickoff,
               onReset: function() { return resetRound("r32", 4); },
-              officialResult: getOfficialKOResult("r32", 4)
+              officialResult: getOfficialKOResult("r32", 4),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3280,7 +3315,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 5, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[5].kickoff,
               onReset: function() { return resetRound("r32", 5); },
-              officialResult: getOfficialKOResult("r32", 5)
+              officialResult: getOfficialKOResult("r32", 5),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3297,7 +3333,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 6, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[6].kickoff,
               onReset: function() { return resetRound("r32", 6); },
-              officialResult: getOfficialKOResult("r32", 6)
+              officialResult: getOfficialKOResult("r32", 6),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3314,7 +3351,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 7, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[7].kickoff,
               onReset: function() { return resetRound("r32", 7); },
-              officialResult: getOfficialKOResult("r32", 7)
+              officialResult: getOfficialKOResult("r32", 7),
+              eliminatedTeams: eliminatedTeams
             })
     )
   ),
@@ -3327,8 +3365,8 @@ function BracketTab(_ref19) {
 ),
     React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
       [0,1,2,3].map(function(i) {
-        var _r16_t1 = preview ? null : adv("r32", i*2);
-        var _r16_t2 = preview ? null : adv("r32", i*2+1);
+        var _r16_t1 = adv("r32", i*2);
+        var _r16_t2 = adv("r32", i*2+1);
         return React.createElement(BracketMatchCard, {
           key: i,
           label: "R16 Match " + (i+1),
@@ -3339,7 +3377,8 @@ function BracketTab(_ref19) {
           onPick: function(t) { return pickRound("r16",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("r16",i,side,v,t1,t2); },
           onReset: function() { return resetRound("r16", i); },
-          officialResult: getOfficialKOResult("r16", i)
+          officialResult: getOfficialKOResult("r16", i),
+              eliminatedTeams: eliminatedTeams
         });
       })
     )
@@ -3353,8 +3392,8 @@ function BracketTab(_ref19) {
 ),
     React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
       [0,1].map(function(i) {
-        var _qf_t1 = preview ? null : adv("r16",i*2);
-        var _qf_t2 = preview ? null : adv("r16",i*2+1);
+        var _qf_t1 = adv("r16",i*2);
+        var _qf_t2 = adv("r16",i*2+1);
         return React.createElement(BracketMatchCard, {
           key: i,
           label: "QF " + (i+1),
@@ -3365,7 +3404,8 @@ function BracketTab(_ref19) {
           onPick: function(t) { return pickRound("qf",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("qf",i,side,v,t1,t2); },
           onReset: function() { return resetRound("qf", i); },
-          officialResult: getOfficialKOResult("qf", i)
+          officialResult: getOfficialKOResult("qf", i),
+              eliminatedTeams: eliminatedTeams
         });
       })
     )
@@ -3380,15 +3420,16 @@ function BracketTab(_ref19) {
     React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"center",gap:4}},
       React.createElement(BracketMatchCard, {
         label: "SF 1",
-        team1: preview ? null : adv("qf",0),
-        team2: preview ? null : adv("qf",1),
+        team1: adv("qf",0),
+        team2: adv("qf",1),
         preview: preview,
         pick: knockoutPicks && knockoutPicks.sf && knockoutPicks.sf[0] ? knockoutPicks.sf[0].pick : null,
         homeScore: sc("sf",0,"home"), awayScore: sc("sf",0,"away"),
         onPick: function(t) { return pickRound("sf",0,t); },
         onScore: function(side,v,t1,t2) { return scoreRound("sf",0,side,v,t1,t2); },
         onReset: function() { return resetRound("sf", 0); },
-        officialResult: getOfficialKOResult("sf", 0)
+        officialResult: getOfficialKOResult("sf", 0),
+              eliminatedTeams: eliminatedTeams
       })
     )
   ),
@@ -3410,8 +3451,8 @@ function BracketTab(_ref19) {
       React.createElement(BracketMatchCard, {
         label: "\uD83C\uDFC6 The Final \xB7 Jul 19",
         sublabel: "MetLife Stadium, NJ",
-        team1: preview ? null : adv("sf",0),
-        team2: preview ? null : adv("sf",1),
+        team1: adv("sf",0),
+        team2: adv("sf",1),
         preview: preview,
         pick: knockoutPicks && knockoutPicks["final"] && knockoutPicks["final"][0] ? knockoutPicks["final"][0].pick : null,
         homeScore: sc("final",0,"home"), awayScore: sc("final",0,"away"),
@@ -3419,6 +3460,7 @@ function BracketTab(_ref19) {
         onScore: function(side,v,t1,t2) { return scoreRound("final",0,side,v,t1,t2); },
         onReset: function() { return resetRound("final", 0); },
         officialResult: getOfficialKOResult("final", 0),
+              eliminatedTeams: eliminatedTeams,
         kickoff: "2026-07-19T15:00:00-05:00"
       })
     )
@@ -3435,15 +3477,16 @@ function BracketTab(_ref19) {
     React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"center",gap:4}},
       React.createElement(BracketMatchCard, {
         label: "SF 2",
-        team1: preview ? null : adv("qf",2),
-        team2: preview ? null : adv("qf",3),
+        team1: adv("qf",2),
+        team2: adv("qf",3),
         preview: preview,
         pick: knockoutPicks && knockoutPicks.sf && knockoutPicks.sf[1] ? knockoutPicks.sf[1].pick : null,
         homeScore: sc("sf",1,"home"), awayScore: sc("sf",1,"away"),
         onPick: function(t) { return pickRound("sf",1,t); },
         onScore: function(side,v,t1,t2) { return scoreRound("sf",1,side,v,t1,t2); },
         onReset: function() { return resetRound("sf", 1); },
-        officialResult: getOfficialKOResult("sf", 1)
+        officialResult: getOfficialKOResult("sf", 1),
+              eliminatedTeams: eliminatedTeams
       })
     )
   ),
@@ -3456,8 +3499,8 @@ function BracketTab(_ref19) {
 ),
     React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
       [2,3].map(function(i) {
-        var _qf2_t1 = preview ? null : adv("r16",i*2);
-        var _qf2_t2 = preview ? null : adv("r16",i*2+1);
+        var _qf2_t1 = adv("r16",i*2);
+        var _qf2_t2 = adv("r16",i*2+1);
         return React.createElement(BracketMatchCard, {
           key: i,
           label: "QF " + (i+1),
@@ -3468,7 +3511,8 @@ function BracketTab(_ref19) {
           onPick: function(t) { return pickRound("qf",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("qf",i,side,v,t1,t2); },
           onReset: function() { return resetRound("qf", i); },
-          officialResult: getOfficialKOResult("qf", i)
+          officialResult: getOfficialKOResult("qf", i),
+              eliminatedTeams: eliminatedTeams
         });
       })
     )
@@ -3482,8 +3526,8 @@ function BracketTab(_ref19) {
 ),
     React.createElement("div", {style: {display:"flex",flexDirection:"column",flex:1,justifyContent:"space-around",gap:4}},
       [4,5,6,7].map(function(i) {
-        var _r16r_t1 = preview ? null : adv("r32",i*2);
-        var _r16r_t2 = preview ? null : adv("r32",i*2+1);
+        var _r16r_t1 = adv("r32",i*2);
+        var _r16r_t2 = adv("r32",i*2+1);
         return React.createElement(BracketMatchCard, {
           key: i,
           label: "R16 Match " + (i+1),
@@ -3494,7 +3538,8 @@ function BracketTab(_ref19) {
           onPick: function(t) { return pickRound("r16",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("r16",i,side,v,t1,t2); },
           onReset: function() { return resetRound("r16", i); },
-          officialResult: getOfficialKOResult("r16", i)
+          officialResult: getOfficialKOResult("r16", i),
+              eliminatedTeams: eliminatedTeams
         });
       })
     )
@@ -3522,7 +3567,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 8, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[8].kickoff,
               onReset: function() { return resetRound("r32", 8); },
-              officialResult: getOfficialKOResult("r32", 8)
+              officialResult: getOfficialKOResult("r32", 8),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3539,7 +3585,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 9, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[9].kickoff,
               onReset: function() { return resetRound("r32", 9); },
-              officialResult: getOfficialKOResult("r32", 9)
+              officialResult: getOfficialKOResult("r32", 9),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3556,7 +3603,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 10, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[10].kickoff,
               onReset: function() { return resetRound("r32", 10); },
-              officialResult: getOfficialKOResult("r32", 10)
+              officialResult: getOfficialKOResult("r32", 10),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3573,7 +3621,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 11, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[11].kickoff,
               onReset: function() { return resetRound("r32", 11); },
-              officialResult: getOfficialKOResult("r32", 11)
+              officialResult: getOfficialKOResult("r32", 11),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3590,7 +3639,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 12, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[12].kickoff,
               onReset: function() { return resetRound("r32", 12); },
-              officialResult: getOfficialKOResult("r32", 12)
+              officialResult: getOfficialKOResult("r32", 12),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3607,7 +3657,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 13, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[13].kickoff,
               onReset: function() { return resetRound("r32", 13); },
-              officialResult: getOfficialKOResult("r32", 13)
+              officialResult: getOfficialKOResult("r32", 13),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3624,7 +3675,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 14, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[14].kickoff,
               onReset: function() { return resetRound("r32", 14); },
-              officialResult: getOfficialKOResult("r32", 14)
+              officialResult: getOfficialKOResult("r32", 14),
+              eliminatedTeams: eliminatedTeams
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3641,7 +3693,8 @@ function BracketTab(_ref19) {
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 15, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[15].kickoff,
               onReset: function() { return resetRound("r32", 15); },
-              officialResult: getOfficialKOResult("r32", 15)
+              officialResult: getOfficialKOResult("r32", 15),
+              eliminatedTeams: eliminatedTeams
             })
     )
   )

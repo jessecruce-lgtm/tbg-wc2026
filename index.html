@@ -2873,12 +2873,29 @@ function BracketTab(_ref19) {
   // All other bracket picks:
   //   - Unlock as soon as ALL 72 group stage results have been entered, OR
   //   - Lock deadline of 12:00 PM CDT Mon Jun 29 (whichever comes first).
-  var LOCK_MATCH73 = new Date("2026-06-28T14:00:00-05:00");
+  var nowBracket = getNow();
+
+  // Admin view is always fully unlocked.
+  var isAdminView = !!(league && league.isAdminView);
+
+  // Per-slot R32 lock: each match locks at its own kickoff time.
+  // Returns true if the slot's kickoff has passed (or no kickoff stored).
+  function r32SlotLocked(slotIndex) {
+    if (isAdminView) return false;
+    // Lock if the hard bracket deadline has passed (covers all R32 slots)
+    if (nowBracket >= LOCK_BRACKET) return true;
+    // Otherwise lock individually at each match's kickoff time
+    var slot = R32_FIXED_SLOTS[slotIndex];
+    if (!slot || !slot.kickoff) return false;
+    return nowBracket >= new Date(slot.kickoff);
+  }
+
+  // R16+ lock: locks at the hard deadline (Mon Jun 29 12PM CDT).
+  // This ensures R16/QF/SF/Final are also locked once group stage is done.
   var LOCK_BRACKET = new Date("2026-06-29T12:00:00-05:00");
-  var nowBracket   = getNow();
+  var bracketLocked = !isAdminView && nowBracket >= LOCK_BRACKET;
 
   // Count total group stage matches that have an official result entered.
-  // 12 groups × 6 matches each = 72 total.
   var TOTAL_GROUP_MATCHES = 72;
   var enteredGroupResults = 0;
   var ogrBracket = (league && league.officialGroupResults) || {};
@@ -2891,19 +2908,13 @@ function BracketTab(_ref19) {
     });
   });
   var allGroupsDone = enteredGroupResults >= TOTAL_GROUP_MATCHES;
-
-  // Admin view is always fully unlocked — no time or data gates apply.
-  var isAdminView = !!(league && league.isAdminView);
-
-  // Match 73 locks at its kickoff time (user view only).
-  var match73Locked = !isAdminView && nowBracket >= LOCK_MATCH73;
-
-  // All other bracket picks: open once all group results are in, hard lock at deadline.
-  var bracketLocked = !isAdminView && nowBracket >= LOCK_BRACKET;
   var bracketOpen   = isAdminView || allGroupsDone || bracketLocked;
 
-  // preview = inputs disabled. Admin is never in preview.
+  // preview used for R16+ cards (not R32 — those use r32SlotLocked per card).
   var preview = !bracketOpen;
+
+  // match73Locked kept for the Match 73 test clock button reference.
+  var match73Locked = r32SlotLocked(2);
 
   // All qualifiers are auto-calculated from standings.
   // 1st/2nd: group standings with FIFA 2026 tie-breakers.
@@ -3107,7 +3118,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[0].thirdPlace ? "".concat(R32_FIXED_SLOTS[0].s1, " v 3rd (").concat(R32_FIXED_SLOTS[0].thirdGroups, ")") : R32_FIXED_SLOTS[0].s1 + " v " + R32_FIXED_SLOTS[0].s2,
               team1: R32_FIXED_SLOTS[0].home || resolveSlot(R32_FIXED_SLOTS[0].s1),
               team2: R32_FIXED_SLOTS[0].away || (R32_FIXED_SLOTS[0].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[0].id] || null : resolveSlot(R32_FIXED_SLOTS[0].s2)),
-              preview: bracketLocked,
+              preview: r32SlotLocked(0),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[0] ? knockoutPicks.r32[0].pick : null,
               homeScore: sc("r32", 0, "home"),
               awayScore: sc("r32", 0, "away"),
@@ -3123,7 +3134,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[1].thirdPlace ? "".concat(R32_FIXED_SLOTS[1].s1, " v 3rd (").concat(R32_FIXED_SLOTS[1].thirdGroups, ")") : R32_FIXED_SLOTS[1].s1 + " v " + R32_FIXED_SLOTS[1].s2,
               team1: R32_FIXED_SLOTS[1].home || resolveSlot(R32_FIXED_SLOTS[1].s1),
               team2: R32_FIXED_SLOTS[1].away || (R32_FIXED_SLOTS[1].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[1].id] || null : resolveSlot(R32_FIXED_SLOTS[1].s2)),
-              preview: preview,
+              preview: r32SlotLocked(1),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[1] ? knockoutPicks.r32[1].pick : null,
               homeScore: sc("r32", 1, "home"),
               awayScore: sc("r32", 1, "away"),
@@ -3139,7 +3150,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[2].thirdPlace ? "".concat(R32_FIXED_SLOTS[2].s1, " v 3rd (").concat(R32_FIXED_SLOTS[2].thirdGroups, ")") : R32_FIXED_SLOTS[2].s1 + " v " + R32_FIXED_SLOTS[2].s2,
               team1: R32_FIXED_SLOTS[2].home || resolveSlot(R32_FIXED_SLOTS[2].s1),
               team2: R32_FIXED_SLOTS[2].away || (R32_FIXED_SLOTS[2].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[2].id] || null : resolveSlot(R32_FIXED_SLOTS[2].s2)),
-              preview: match73Locked,
+              preview: r32SlotLocked(2),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[2] ? knockoutPicks.r32[2].pick : null,
               homeScore: sc("r32", 2, "home"),
               awayScore: sc("r32", 2, "away"),
@@ -3155,7 +3166,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[3].thirdPlace ? "".concat(R32_FIXED_SLOTS[3].s1, " v 3rd (").concat(R32_FIXED_SLOTS[3].thirdGroups, ")") : R32_FIXED_SLOTS[3].s1 + " v " + R32_FIXED_SLOTS[3].s2,
               team1: R32_FIXED_SLOTS[3].home || resolveSlot(R32_FIXED_SLOTS[3].s1),
               team2: R32_FIXED_SLOTS[3].away || (R32_FIXED_SLOTS[3].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[3].id] || null : resolveSlot(R32_FIXED_SLOTS[3].s2)),
-              preview: preview,
+              preview: r32SlotLocked(3),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[3] ? knockoutPicks.r32[3].pick : null,
               homeScore: sc("r32", 3, "home"),
               awayScore: sc("r32", 3, "away"),
@@ -3171,7 +3182,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[4].thirdPlace ? "".concat(R32_FIXED_SLOTS[4].s1, " v 3rd (").concat(R32_FIXED_SLOTS[4].thirdGroups, ")") : R32_FIXED_SLOTS[4].s1 + " v " + R32_FIXED_SLOTS[4].s2,
               team1: R32_FIXED_SLOTS[4].home || resolveSlot(R32_FIXED_SLOTS[4].s1),
               team2: R32_FIXED_SLOTS[4].away || (R32_FIXED_SLOTS[4].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[4].id] || null : resolveSlot(R32_FIXED_SLOTS[4].s2)),
-              preview: preview,
+              preview: r32SlotLocked(4),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[4] ? knockoutPicks.r32[4].pick : null,
               homeScore: sc("r32", 4, "home"),
               awayScore: sc("r32", 4, "away"),
@@ -3187,7 +3198,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[5].thirdPlace ? "".concat(R32_FIXED_SLOTS[5].s1, " v 3rd (").concat(R32_FIXED_SLOTS[5].thirdGroups, ")") : R32_FIXED_SLOTS[5].s1 + " v " + R32_FIXED_SLOTS[5].s2,
               team1: R32_FIXED_SLOTS[5].home || resolveSlot(R32_FIXED_SLOTS[5].s1),
               team2: R32_FIXED_SLOTS[5].away || (R32_FIXED_SLOTS[5].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[5].id] || null : resolveSlot(R32_FIXED_SLOTS[5].s2)),
-              preview: preview,
+              preview: r32SlotLocked(5),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[5] ? knockoutPicks.r32[5].pick : null,
               homeScore: sc("r32", 5, "home"),
               awayScore: sc("r32", 5, "away"),
@@ -3203,7 +3214,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[6].thirdPlace ? "".concat(R32_FIXED_SLOTS[6].s1, " v 3rd (").concat(R32_FIXED_SLOTS[6].thirdGroups, ")") : R32_FIXED_SLOTS[6].s1 + " v " + R32_FIXED_SLOTS[6].s2,
               team1: R32_FIXED_SLOTS[6].home || resolveSlot(R32_FIXED_SLOTS[6].s1),
               team2: R32_FIXED_SLOTS[6].away || (R32_FIXED_SLOTS[6].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[6].id] || null : resolveSlot(R32_FIXED_SLOTS[6].s2)),
-              preview: preview,
+              preview: r32SlotLocked(6),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[6] ? knockoutPicks.r32[6].pick : null,
               homeScore: sc("r32", 6, "home"),
               awayScore: sc("r32", 6, "away"),
@@ -3219,7 +3230,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[7].thirdPlace ? "".concat(R32_FIXED_SLOTS[7].s1, " v 3rd (").concat(R32_FIXED_SLOTS[7].thirdGroups, ")") : R32_FIXED_SLOTS[7].s1 + " v " + R32_FIXED_SLOTS[7].s2,
               team1: R32_FIXED_SLOTS[7].home || resolveSlot(R32_FIXED_SLOTS[7].s1),
               team2: R32_FIXED_SLOTS[7].away || (R32_FIXED_SLOTS[7].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[7].id] || null : resolveSlot(R32_FIXED_SLOTS[7].s2)),
-              preview: preview,
+              preview: r32SlotLocked(7),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[7] ? knockoutPicks.r32[7].pick : null,
               homeScore: sc("r32", 7, "home"),
               awayScore: sc("r32", 7, "away"),
@@ -3419,7 +3430,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[8].thirdPlace ? "".concat(R32_FIXED_SLOTS[8].s1, " v 3rd (").concat(R32_FIXED_SLOTS[8].thirdGroups, ")") : R32_FIXED_SLOTS[8].s1 + " v " + R32_FIXED_SLOTS[8].s2,
               team1: R32_FIXED_SLOTS[8].home || resolveSlot(R32_FIXED_SLOTS[8].s1),
               team2: R32_FIXED_SLOTS[8].away || (R32_FIXED_SLOTS[8].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[8].id] || null : resolveSlot(R32_FIXED_SLOTS[8].s2)),
-              preview: preview,
+              preview: r32SlotLocked(8),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[8] ? knockoutPicks.r32[8].pick : null,
               homeScore: sc("r32", 8, "home"),
               awayScore: sc("r32", 8, "away"),
@@ -3435,7 +3446,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[9].thirdPlace ? "".concat(R32_FIXED_SLOTS[9].s1, " v 3rd (").concat(R32_FIXED_SLOTS[9].thirdGroups, ")") : R32_FIXED_SLOTS[9].s1 + " v " + R32_FIXED_SLOTS[9].s2,
               team1: R32_FIXED_SLOTS[9].home || resolveSlot(R32_FIXED_SLOTS[9].s1),
               team2: R32_FIXED_SLOTS[9].away || (R32_FIXED_SLOTS[9].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[9].id] || null : resolveSlot(R32_FIXED_SLOTS[9].s2)),
-              preview: preview,
+              preview: r32SlotLocked(9),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[9] ? knockoutPicks.r32[9].pick : null,
               homeScore: sc("r32", 9, "home"),
               awayScore: sc("r32", 9, "away"),
@@ -3451,7 +3462,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[10].thirdPlace ? "".concat(R32_FIXED_SLOTS[10].s1, " v 3rd (").concat(R32_FIXED_SLOTS[10].thirdGroups, ")") : R32_FIXED_SLOTS[10].s1 + " v " + R32_FIXED_SLOTS[10].s2,
               team1: R32_FIXED_SLOTS[10].home || resolveSlot(R32_FIXED_SLOTS[10].s1),
               team2: R32_FIXED_SLOTS[10].away || (R32_FIXED_SLOTS[10].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[10].id] || null : resolveSlot(R32_FIXED_SLOTS[10].s2)),
-              preview: preview,
+              preview: r32SlotLocked(10),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[10] ? knockoutPicks.r32[10].pick : null,
               homeScore: sc("r32", 10, "home"),
               awayScore: sc("r32", 10, "away"),
@@ -3467,7 +3478,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[11].thirdPlace ? "".concat(R32_FIXED_SLOTS[11].s1, " v 3rd (").concat(R32_FIXED_SLOTS[11].thirdGroups, ")") : R32_FIXED_SLOTS[11].s1 + " v " + R32_FIXED_SLOTS[11].s2,
               team1: R32_FIXED_SLOTS[11].home || resolveSlot(R32_FIXED_SLOTS[11].s1),
               team2: R32_FIXED_SLOTS[11].away || (R32_FIXED_SLOTS[11].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[11].id] || null : resolveSlot(R32_FIXED_SLOTS[11].s2)),
-              preview: preview,
+              preview: r32SlotLocked(11),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[11] ? knockoutPicks.r32[11].pick : null,
               homeScore: sc("r32", 11, "home"),
               awayScore: sc("r32", 11, "away"),
@@ -3483,7 +3494,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[12].thirdPlace ? "".concat(R32_FIXED_SLOTS[12].s1, " v 3rd (").concat(R32_FIXED_SLOTS[12].thirdGroups, ")") : R32_FIXED_SLOTS[12].s1 + " v " + R32_FIXED_SLOTS[12].s2,
               team1: R32_FIXED_SLOTS[12].home || resolveSlot(R32_FIXED_SLOTS[12].s1),
               team2: R32_FIXED_SLOTS[12].away || (R32_FIXED_SLOTS[12].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[12].id] || null : resolveSlot(R32_FIXED_SLOTS[12].s2)),
-              preview: preview,
+              preview: r32SlotLocked(12),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[12] ? knockoutPicks.r32[12].pick : null,
               homeScore: sc("r32", 12, "home"),
               awayScore: sc("r32", 12, "away"),
@@ -3499,7 +3510,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[13].thirdPlace ? "".concat(R32_FIXED_SLOTS[13].s1, " v 3rd (").concat(R32_FIXED_SLOTS[13].thirdGroups, ")") : R32_FIXED_SLOTS[13].s1 + " v " + R32_FIXED_SLOTS[13].s2,
               team1: R32_FIXED_SLOTS[13].home || resolveSlot(R32_FIXED_SLOTS[13].s1),
               team2: R32_FIXED_SLOTS[13].away || (R32_FIXED_SLOTS[13].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[13].id] || null : resolveSlot(R32_FIXED_SLOTS[13].s2)),
-              preview: preview,
+              preview: r32SlotLocked(13),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[13] ? knockoutPicks.r32[13].pick : null,
               homeScore: sc("r32", 13, "home"),
               awayScore: sc("r32", 13, "away"),
@@ -3515,7 +3526,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[14].thirdPlace ? "".concat(R32_FIXED_SLOTS[14].s1, " v 3rd (").concat(R32_FIXED_SLOTS[14].thirdGroups, ")") : R32_FIXED_SLOTS[14].s1 + " v " + R32_FIXED_SLOTS[14].s2,
               team1: R32_FIXED_SLOTS[14].home || resolveSlot(R32_FIXED_SLOTS[14].s1),
               team2: R32_FIXED_SLOTS[14].away || (R32_FIXED_SLOTS[14].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[14].id] || null : resolveSlot(R32_FIXED_SLOTS[14].s2)),
-              preview: preview,
+              preview: r32SlotLocked(14),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[14] ? knockoutPicks.r32[14].pick : null,
               homeScore: sc("r32", 14, "home"),
               awayScore: sc("r32", 14, "away"),
@@ -3531,7 +3542,7 @@ function BracketTab(_ref19) {
               sublabel: R32_FIXED_SLOTS[15].thirdPlace ? "".concat(R32_FIXED_SLOTS[15].s1, " v 3rd (").concat(R32_FIXED_SLOTS[15].thirdGroups, ")") : R32_FIXED_SLOTS[15].s1 + " v " + R32_FIXED_SLOTS[15].s2,
               team1: R32_FIXED_SLOTS[15].home || resolveSlot(R32_FIXED_SLOTS[15].s1),
               team2: R32_FIXED_SLOTS[15].away || (R32_FIXED_SLOTS[15].thirdPlace ? thirdSlotCache[R32_FIXED_SLOTS[15].id] || null : resolveSlot(R32_FIXED_SLOTS[15].s2)),
-              preview: preview,
+              preview: r32SlotLocked(15),
               pick: knockoutPicks && knockoutPicks.r32 && knockoutPicks.r32[15] ? knockoutPicks.r32[15].pick : null,
               homeScore: sc("r32", 15, "home"),
               awayScore: sc("r32", 15, "away"),

@@ -2643,10 +2643,34 @@ function BracketMatchCard(_ref16) {
     awayScore = _ref16.awayScore,
     onScore = _ref16.onScore,
     onReset = _ref16.onReset,
-    kickoff = _ref16.kickoff;
+    kickoff = _ref16.kickoff,
+    officialResult = _ref16.officialResult;
   var hasAnyPick = pick != null || homeScore != null || awayScore != null;
   var bothFilled = homeScore !== null && homeScore !== undefined && homeScore !== "" && awayScore !== null && awayScore !== undefined && awayScore !== "";
   var scoresEqual = bothFilled && Number(homeScore) === Number(awayScore);
+
+  // Official result comparison (mirrors MatchPickCard logic with penalty adjustment)
+  var hasOfficial = !!officialResult && officialResult.winner != null
+    && officialResult.homeScore != null && officialResult.awayScore != null;
+  // Penalty +1 adjustment: if scores equal, winner's side gets +1 for bonus comparison
+  var offHS = hasOfficial ? Number(officialResult.homeScore) : null;
+  var offAS = hasOfficial ? Number(officialResult.awayScore) : null;
+  if (hasOfficial && offHS === offAS) {
+    if (officialResult.penaltyWinnerHome === true)  offHS += 1;
+    else if (officialResult.penaltyWinnerHome === false) offAS += 1;
+    else offHS += 1; // fallback
+  }
+  var offWinner = hasOfficial ? officialResult.winner : null;
+  // Did user pick the correct winner?
+  var resultCorrect = hasOfficial && pick != null ? pick === offWinner : null;
+  // Did user get each score right (against penalty-adjusted effective scores)?
+  var homeCorrect = hasOfficial && homeScore != null ? Number(homeScore) === offHS : null;
+  var awayCorrect = hasOfficial && awayScore != null ? Number(awayScore) === offAS : null;
+  // Points earned for this match
+  var roundPts = officialResult ? (officialResult._roundPts || 0) : 0;
+  var earnedPts = (resultCorrect === true ? roundPts : 0)
+    + (homeCorrect === true ? POINTS.knockoutScore : 0)
+    + (awayCorrect === true ? POINTS.knockoutScore : 0);
   // Format kickoff time for display
   var kickoffDisplay = null;
   if (kickoff) {
@@ -2678,7 +2702,7 @@ function BracketMatchCard(_ref16) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.panel,
-      border: scoresEqual ? "2px solid ".concat(C.red) : pick ? "2px solid ".concat(C.navy) : preview ? "1px solid ".concat(C.border) : C.border,
+      border: scoresEqual ? "2px solid ".concat(C.red) : resultCorrect === true ? "2px solid ".concat(C.green) : resultCorrect === false ? "2px solid ".concat(C.red) : pick ? "2px solid ".concat(C.navy) : preview ? "1px solid ".concat(C.border) : C.border,
       borderRadius: 10,
       padding: "10px 12px",
       width: "100%",
@@ -2749,9 +2773,9 @@ function BracketMatchCard(_ref16) {
         padding: "5px 8px",
         borderRadius: 7,
         textAlign: "left",
-        border: isPick ? "2px solid ".concat(C.navy) : empty ? "1px solid ".concat(C.border) : "1px solid ".concat(C.borderMid),
-        background: isPick ? C.blueBg : empty ? C.panelAlt : C.panel,
-        color: empty ? C.dim : isPick ? C.navy : preview ? C.muted : C.text,
+        border: hasOfficial && !empty ? (team === offWinner ? "2px solid ".concat(C.green) : isPick ? "2px solid ".concat(C.red) : "1px solid ".concat(C.borderMid)) : isPick ? "2px solid ".concat(C.navy) : empty ? "1px solid ".concat(C.border) : "1px solid ".concat(C.borderMid),
+        background: hasOfficial && !empty ? (team === offWinner ? C.greenBg : isPick ? C.redBg : C.panel) : isPick ? C.blueBg : empty ? C.panelAlt : C.panel,
+        color: hasOfficial && !empty ? (team === offWinner ? C.green : isPick ? C.red : C.muted) : empty ? C.dim : isPick ? C.navy : preview ? C.muted : C.text,
         cursor: empty || preview ? "default" : "pointer",
         fontFamily: "'Barlow Condensed',sans-serif",
         fontWeight: 700,
@@ -2786,20 +2810,36 @@ function BracketMatchCard(_ref16) {
         color: C.gold,
         fontSize: 10
       }
-    }, "\u2713")), !preview && !empty && onScore && /*#__PURE__*/React.createElement("input", {
-      type: "number",
-      min: "0",
-      max: "20",
-      value: sc !== null && sc !== void 0 ? sc : "",
-      disabled: preview,
-      onChange: function onChange(e) {
-        return onScore(side, e.target.value, team1, team2);
-      },
-      style: _objectSpread(_objectSpread({}, si), {}, {
-        borderColor: sc != null ? scoresEqual ? C.red : C.navy : C.borderMid,
-        color: sc != null ? scoresEqual ? C.red : C.navy : C.muted
-      })
-    }));
+    }, "\u2713")), /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }
+    },
+      (!preview && !empty && onScore) || (preview && sc != null) ? /*#__PURE__*/React.createElement("input", {
+        type: "number",
+        min: "0",
+        max: "20",
+        value: sc !== null && sc !== void 0 ? sc : "",
+        disabled: preview,
+        onChange: function onChange(e) {
+          return onScore(side, e.target.value, team1, team2);
+        },
+        style: _objectSpread(_objectSpread({}, si), {}, {
+          borderColor: hasOfficial && sc != null
+            ? (side === "home" ? (homeCorrect === true ? C.green : C.red) : (awayCorrect === true ? C.green : C.red))
+            : sc != null ? (scoresEqual ? C.red : C.navy) : C.borderMid,
+          color: hasOfficial && sc != null
+            ? (side === "home" ? (homeCorrect === true ? C.green : C.red) : (awayCorrect === true ? C.green : C.red))
+            : sc != null ? (scoresEqual ? C.red : C.navy) : C.muted,
+          background: hasOfficial && sc != null
+            ? (side === "home" ? (homeCorrect === true ? C.greenBg : C.redBg) : (awayCorrect === true ? C.greenBg : C.redBg))
+            : C.panel,
+          opacity: 1
+        })
+      }) : null,
+      hasOfficial && !empty && /*#__PURE__*/React.createElement("span", {
+        style: { fontSize: 10, fontFamily: "'Barlow Condensed',sans-serif",
+                 fontWeight: 700, color: C.dim }
+      }, "Actual: ", side === "home" ? offHS : offAS)
+    ));
   }), scoresEqual && !preview && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 6,
@@ -2814,7 +2854,24 @@ function BracketMatchCard(_ref16) {
       borderRadius: 4,
       textAlign: "center"
     }
-  }, "Knockout scores must have a winner \u2014 adjust one score"));
+  }, "Knockout scores must have a winner \u2014 adjust one score"),
+  hasOfficial && pick != null && /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", alignItems: "center", justifyContent: "space-between",
+             padding: "6px 0 2px", borderTop: "1px solid ".concat(C.border), marginTop: 6 }
+  },
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", gap: 8, fontSize: 10, color: C.dim,
+               fontFamily: "'Barlow Condensed',sans-serif" }
+    },
+      /*#__PURE__*/React.createElement("span", null, "Result: +", resultCorrect === true ? roundPts : 0),
+      /*#__PURE__*/React.createElement("span", null, "Home: +", homeCorrect === true ? POINTS.knockoutScore : 0),
+      /*#__PURE__*/React.createElement("span", null, "Away: +", awayCorrect === true ? POINTS.knockoutScore : 0)
+    ),
+    /*#__PURE__*/React.createElement("span", {
+      style: { fontFamily: "'Barlow Condensed',sans-serif", fontSize: 15,
+               fontWeight: 800, color: C.green }
+    }, "+", earnedPts, " pts")
+  ));
 }
 function RoundCol(_ref18) {
   var label = _ref18.label,
@@ -3024,6 +3081,15 @@ function BracketTab(_ref19) {
     return (_knockoutPicks$round$ = knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$round4 = knockoutPicks[round]) === null || _knockoutPicks$round4 === void 0 ? void 0 : (_knockoutPicks$round5 = _knockoutPicks$round4[i]) === null || _knockoutPicks$round5 === void 0 ? void 0 : _knockoutPicks$round5[side === "home" ? "homeScore" : "awayScore"]) !== null && _knockoutPicks$round$ !== void 0 ? _knockoutPicks$round$ : null;
   }
   var allQ = Object.values(q).filter(Boolean);
+  // Helper to get official KO result for a specific round/index, with round pts embedded
+  var okr = (league && league.officialKnockoutResults) || {};
+  var roundPtsMap = { r32: POINTS.r32Result, r16: POINTS.r16Result,
+                      qf: POINTS.qfResult, sf: POINTS.sfResult, "final": POINTS.finalResult };
+  function getOfficialKOResult(round, i) {
+    var res = (okr[round] || [])[i];
+    if (!res || !res.winner) return null;
+    return Object.assign({}, res, { _roundPts: roundPtsMap[round] || 0 });
+  }
   var allTeams = Object.values(GROUPS).flat();
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3127,7 +3193,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(0, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 0, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[0].kickoff,
-              onReset: function() { return resetRound("r32", 0); }
+              onReset: function() { return resetRound("r32", 0); },
+              officialResult: getOfficialKOResult("r32", 0)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3143,7 +3210,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(1, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 1, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[1].kickoff,
-              onReset: function() { return resetRound("r32", 1); }
+              onReset: function() { return resetRound("r32", 1); },
+              officialResult: getOfficialKOResult("r32", 1)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3159,7 +3227,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(2, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 2, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[2].kickoff,
-              onReset: function() { return resetRound("r32", 2); }
+              onReset: function() { return resetRound("r32", 2); },
+              officialResult: getOfficialKOResult("r32", 2)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3175,7 +3244,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(3, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 3, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[3].kickoff,
-              onReset: function() { return resetRound("r32", 3); }
+              onReset: function() { return resetRound("r32", 3); },
+              officialResult: getOfficialKOResult("r32", 3)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3191,7 +3261,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(4, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 4, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[4].kickoff,
-              onReset: function() { return resetRound("r32", 4); }
+              onReset: function() { return resetRound("r32", 4); },
+              officialResult: getOfficialKOResult("r32", 4)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3207,7 +3278,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(5, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 5, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[5].kickoff,
-              onReset: function() { return resetRound("r32", 5); }
+              onReset: function() { return resetRound("r32", 5); },
+              officialResult: getOfficialKOResult("r32", 5)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3223,7 +3295,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(6, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 6, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[6].kickoff,
-              onReset: function() { return resetRound("r32", 6); }
+              onReset: function() { return resetRound("r32", 6); },
+              officialResult: getOfficialKOResult("r32", 6)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3239,7 +3312,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(7, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 7, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[7].kickoff,
-              onReset: function() { return resetRound("r32", 7); }
+              onReset: function() { return resetRound("r32", 7); },
+              officialResult: getOfficialKOResult("r32", 7)
             })
     )
   ),
@@ -3263,7 +3337,8 @@ function BracketTab(_ref19) {
           homeScore: sc("r16",i,"home"), awayScore: sc("r16",i,"away"),
           onPick: function(t) { return pickRound("r16",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("r16",i,side,v,t1,t2); },
-          onReset: function() { return resetRound("r16", i); }
+          onReset: function() { return resetRound("r16", i); },
+          officialResult: getOfficialKOResult("r16", i)
         });
       })
     )
@@ -3288,7 +3363,8 @@ function BracketTab(_ref19) {
           homeScore: sc("qf",i,"home"), awayScore: sc("qf",i,"away"),
           onPick: function(t) { return pickRound("qf",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("qf",i,side,v,t1,t2); },
-          onReset: function() { return resetRound("qf", i); }
+          onReset: function() { return resetRound("qf", i); },
+          officialResult: getOfficialKOResult("qf", i)
         });
       })
     )
@@ -3310,7 +3386,8 @@ function BracketTab(_ref19) {
         homeScore: sc("sf",0,"home"), awayScore: sc("sf",0,"away"),
         onPick: function(t) { return pickRound("sf",0,t); },
         onScore: function(side,v,t1,t2) { return scoreRound("sf",0,side,v,t1,t2); },
-        onReset: function() { return resetRound("sf", 0); }
+        onReset: function() { return resetRound("sf", 0); },
+        officialResult: getOfficialKOResult("sf", 0)
       })
     )
   ),
@@ -3340,6 +3417,7 @@ function BracketTab(_ref19) {
         onPick: function(t) { return pickRound("final",0,t); },
         onScore: function(side,v,t1,t2) { return scoreRound("final",0,side,v,t1,t2); },
         onReset: function() { return resetRound("final", 0); },
+        officialResult: getOfficialKOResult("final", 0),
         kickoff: "2026-07-19T15:00:00-05:00"
       })
     )
@@ -3363,7 +3441,8 @@ function BracketTab(_ref19) {
         homeScore: sc("sf",1,"home"), awayScore: sc("sf",1,"away"),
         onPick: function(t) { return pickRound("sf",1,t); },
         onScore: function(side,v,t1,t2) { return scoreRound("sf",1,side,v,t1,t2); },
-        onReset: function() { return resetRound("sf", 1); }
+        onReset: function() { return resetRound("sf", 1); },
+        officialResult: getOfficialKOResult("sf", 1)
       })
     )
   ),
@@ -3387,7 +3466,8 @@ function BracketTab(_ref19) {
           homeScore: sc("qf",i,"home"), awayScore: sc("qf",i,"away"),
           onPick: function(t) { return pickRound("qf",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("qf",i,side,v,t1,t2); },
-          onReset: function() { return resetRound("qf", i); }
+          onReset: function() { return resetRound("qf", i); },
+          officialResult: getOfficialKOResult("qf", i)
         });
       })
     )
@@ -3412,7 +3492,8 @@ function BracketTab(_ref19) {
           homeScore: sc("r16",i,"home"), awayScore: sc("r16",i,"away"),
           onPick: function(t) { return pickRound("r16",i,t); },
           onScore: function(side,v,t1,t2) { return scoreRound("r16",i,side,v,t1,t2); },
-          onReset: function() { return resetRound("r16", i); }
+          onReset: function() { return resetRound("r16", i); },
+          officialResult: getOfficialKOResult("r16", i)
         });
       })
     )
@@ -3439,7 +3520,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(8, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 8, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[8].kickoff,
-              onReset: function() { return resetRound("r32", 8); }
+              onReset: function() { return resetRound("r32", 8); },
+              officialResult: getOfficialKOResult("r32", 8)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3455,7 +3537,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(9, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 9, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[9].kickoff,
-              onReset: function() { return resetRound("r32", 9); }
+              onReset: function() { return resetRound("r32", 9); },
+              officialResult: getOfficialKOResult("r32", 9)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3471,7 +3554,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(10, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 10, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[10].kickoff,
-              onReset: function() { return resetRound("r32", 10); }
+              onReset: function() { return resetRound("r32", 10); },
+              officialResult: getOfficialKOResult("r32", 10)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3487,7 +3571,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(11, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 11, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[11].kickoff,
-              onReset: function() { return resetRound("r32", 11); }
+              onReset: function() { return resetRound("r32", 11); },
+              officialResult: getOfficialKOResult("r32", 11)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3503,7 +3588,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(12, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 12, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[12].kickoff,
-              onReset: function() { return resetRound("r32", 12); }
+              onReset: function() { return resetRound("r32", 12); },
+              officialResult: getOfficialKOResult("r32", 12)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3519,7 +3605,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(13, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 13, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[13].kickoff,
-              onReset: function() { return resetRound("r32", 13); }
+              onReset: function() { return resetRound("r32", 13); },
+              officialResult: getOfficialKOResult("r32", 13)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3535,7 +3622,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(14, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 14, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[14].kickoff,
-              onReset: function() { return resetRound("r32", 14); }
+              onReset: function() { return resetRound("r32", 14); },
+              officialResult: getOfficialKOResult("r32", 14)
             }),
       
             React.createElement(BracketMatchCard, {
@@ -3551,7 +3639,8 @@ function BracketTab(_ref19) {
               onPick: function(t) { return pickR32(15, t); },
               onScore: function(side, v, t1, t2) { return scoreRound("r32", 15, side, v, t1, t2); },
               kickoff: R32_FIXED_SLOTS[15].kickoff,
-              onReset: function() { return resetRound("r32", 15); }
+              onReset: function() { return resetRound("r32", 15); },
+              officialResult: getOfficialKOResult("r32", 15)
             })
     )
   )

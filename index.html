@@ -2880,9 +2880,10 @@ function BracketTab(_ref19) {
 
   // Per-slot R32 lock: each match locks at its own kickoff time.
   // Returns true if the slot's kickoff has passed (or no kickoff stored).
+  var LOCK_BRACKET = new Date("2026-06-29T12:00:00-05:00");
   function r32SlotLocked(slotIndex) {
     if (isAdminView) return false;
-    // Lock if the hard bracket deadline has passed (covers all R32 slots)
+    // Lock if the hard bracket deadline has passed
     if (nowBracket >= LOCK_BRACKET) return true;
     // Otherwise lock individually at each match's kickoff time
     var slot = R32_FIXED_SLOTS[slotIndex];
@@ -2890,10 +2891,8 @@ function BracketTab(_ref19) {
     return nowBracket >= new Date(slot.kickoff);
   }
 
-  // R16+ lock: locks at the hard deadline (Mon Jun 29 12PM CDT).
-  // This ensures R16/QF/SF/Final are also locked once group stage is done.
-  var LOCK_BRACKET = new Date("2026-06-29T12:00:00-05:00");
-  var bracketLocked = !isAdminView && nowBracket >= LOCK_BRACKET;
+  // Hard deadline: once LOCK_BRACKET passes, all picks (R16+) are locked.
+  var pastDeadline = !isAdminView && nowBracket >= LOCK_BRACKET;
 
   // Count total group stage matches that have an official result entered.
   var TOTAL_GROUP_MATCHES = 72;
@@ -2908,12 +2907,15 @@ function BracketTab(_ref19) {
     });
   });
   var allGroupsDone = enteredGroupResults >= TOTAL_GROUP_MATCHES;
-  var bracketOpen   = isAdminView || allGroupsDone || bracketLocked;
 
-  // preview used for R16+ cards (not R32 — those use r32SlotLocked per card).
+  // bracketOpen = R16+ picks are available.
+  // Opens when all group results are entered; hard closes at deadline.
+  var bracketOpen = isAdminView || (allGroupsDone && !pastDeadline);
+
+  // preview = R16+ cards are locked (read-only).
   var preview = !bracketOpen;
 
-  // match73Locked kept for the Match 73 test clock button reference.
+  // match73Locked for test clock reference.
   var match73Locked = r32SlotLocked(2);
 
   // All qualifiers are auto-calculated from standings.

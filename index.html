@@ -2939,7 +2939,7 @@ function BracketTab(_ref19) {
 
   // Per-slot R32 lock: each match locks at its own kickoff time.
   // Returns true if the slot's kickoff has passed (or no kickoff stored).
-  var LOCK_BRACKET = new Date("2026-07-04T12:00:00-05:00");
+  var LOCK_BRACKET = new Date("2026-06-30T00:00:00-05:00"); // hard lock — all bracket picks closed
   function r32SlotLocked(slotIndex) {
     if (isAdminView) return false;
     // Lock if the hard bracket deadline has passed

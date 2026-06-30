@@ -3069,13 +3069,13 @@ function BracketTab(_ref19) {
     var _knockoutPicks$round2, _knockoutPicks$round3;
     var userPick = (knockoutPicks === null || knockoutPicks === void 0 ? void 0 : (_knockoutPicks$round2 = knockoutPicks[round]) === null || _knockoutPicks$round2 === void 0 ? void 0 : (_knockoutPicks$round3 = _knockoutPicks$round2[i]) === null || _knockoutPicks$round3 === void 0 ? void 0 : _knockoutPicks$round3.pick) || null;
     if (userPick) return userPick;
-    // Match 73 fallback: if user made no pick for r32 slot 2 (South Africa v Canada),
-    // use the official winner so downstream bracket slots don't show TBD.
-    // No points are awarded — scoring still requires an actual user pick.
-    if (round === "r32" && i === 2) {
-      var _okr = (league && league.officialKnockoutResults && league.officialKnockoutResults.r32 && league.officialKnockoutResults.r32[2]) || null;
-      if (_okr && _okr.winner) return _okr.winner;
-    }
+    // Fallback: if the user made no pick for this match, use the official
+    // winner (if known) so downstream bracket slots don't show TBD.
+    // This is display-only — no points are ever awarded without an actual
+    // user pick, since calcScore only compares knockoutPicks[round][i].pick.
+    var _okrRound = (league && league.officialKnockoutResults && league.officialKnockoutResults[round]) || null;
+    var _okrMatch = _okrRound && _okrRound[i] ? _okrRound[i] : null;
+    if (_okrMatch && _okrMatch.winner) return _okrMatch.winner;
     return null;
   }
   function sc(round, i, side) {
